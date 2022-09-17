@@ -3,10 +3,10 @@ SECRET_KEY = 'django-insecure-yyz73f9%k25qawajk_ao3veawp9x7x299)l(zfqv2%vy8r)z#d
 DATABASES = {
     'default': {
         'ENGINE': 'django.db.backends.mysql',
-        'NAME': 'books',
-        'USER' : 'root',
-        'PASSWORD' : '9941',
-        'HOST' : 'localhost',
+        'NAME': 'test',
+        'USER' : 'admin',
+        'PASSWORD' : 'qwer1234',
+        'HOST' : '220.86.100.9',
         'PORT' : '3306',
     }
 }
