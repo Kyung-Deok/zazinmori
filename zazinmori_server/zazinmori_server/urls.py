@@ -15,11 +15,11 @@ Including another URLconf
 """
 from django.contrib import admin
 from django.urls import include,path
-import auth_views, com_views, user_views, cvletter_views
+from . import auth_views, com_views, user_views, cvletter_views
 
 urlpatterns = [
     ###### 유저 가입, 로그인 , 인증 로직 ######
-    path('/', auth_views.index, name='mainpage'),
+    path('', auth_views.index, name='mainpage'),
     path('signup/', auth_views.register, name='register'),
     path('login/', auth_views.login, name='login'),
     path('logout/', auth_views.logout, name='logout'),
@@ -30,8 +30,6 @@ urlpatterns = [
     ###### 마이 페이지 로직 ######
     path('info/<int:member_id>/', user_views.user_info, name='userinfo'),
     path('update/<int:member_id>/', user_views.user_update, name='userupdate'),
-    path('delete/<int:member_id>/', user_views.user_delete, name='userdelete'),
-    path('scraping/<int:member_id>/', user_views.scrap_recruits, name='userscraps'),
     ###### 자소서 작성 로직 ######
     path('/api/cvletter/read/<int:member_id>', cvletter_views.cvletter_read, name='readcvl'), 
     path('/api/cvletter/write/<int:member_id>', cvletter_views.cvletter_write, name='writecvl'), 

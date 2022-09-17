@@ -95,7 +95,7 @@ class Job_posting(models.Model):
         managed=False
         db_table = 'job_postings'
 
-class passcvletter(models.Modle):
+class passcvletter(models.Model):
     cvletter_id = models.AutoField(db_column='cvletter_id',primary_key=True)
     # 외래키
     corp_id = models.IntegerField(db_column='corp_id')
@@ -134,8 +134,8 @@ class User_cvletter(models.Model) :
     # 외래키
     member_id = models.CharField(db_column='memeber_id', max_length=45)
     written_name = models.CharField(db_column='written_name', max_length=200)
-    written_date = models.DateField(db_column='written_date', auto_now_add=False)
-    update_date = models.DateField(db_column='written_date', auto_now_add=False)
+    written_date = models.DateField(db_column='written_date', auto_now_add=True)
+    update_date = models.DateField(db_column='update_date', auto_now_add=False)
     q1 = models.TextField(db_column='q1')
     a1 = models.TextField(db_column='a1')
     q2 = models.TextField(db_column='q2')

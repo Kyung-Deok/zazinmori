@@ -4,14 +4,15 @@ import django
 from django.shortcuts import render, redirect
 from django.views.decorators.csrf import csrf_exempt
 from datetime import datetime
-from django.http import JsonResponse
+from django.http import JsonResponse, HttpResponse
 
 from .models import User
-from env_settings import SALT 
+from .env_settings import SALT 
  
 def index(request):
     context = {}
     # m_id 세션변수 값이 없다면 '' 을 넣어라
+    context['hello'] = 'hello'
     context['user_email'] = request.session.get('user_email', '')
     context['user_age'] = request.session.get('user_age', '')
     # username = request.COOKIES.get('username')
@@ -20,12 +21,13 @@ def index(request):
     # if request.session is None :
     #     return redirect('/')
  
-    return JsonResponse(context, status=200)
+    return HttpResponse(context, status=200)
  
  
 def register(request):
     if request.method == "GET":
-        return render(request, '회원가입 템플릿.html')
+        return JsonResponse({'register' : 'register'}, status=200)
+        # return render(request, '회원가입 템플릿.html')
     elif request.method == "POST":
         context = {}
         try : 
