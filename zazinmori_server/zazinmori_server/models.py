@@ -1,36 +1,26 @@
-from gc import DEBUG_COLLECTABLE
-from unicodedata import category
 from django.db import models
-from django.contrib.auth.models import (BaseUserManager, AbstractBaseUser)
 
 # Create your models here.
 
-class User(models.Model):
+class Users_info(models.Model):
     # 프라이머리키
     member_id = models.AutoField(db_column='member_id', primary_key=True)
     name = models.CharField(db_column='name', max_length=50)
     email = models.CharField(db_column='email', max_length=50)
-    passwd = models.CharField(db_column='passwd', max_length=50)
+    passwd = models.CharField(db_column='passwd', max_length=1000)
     birth = models.DateField(db_column='birthday', auto_now_add=False)
     reg_date = models.DateTimeField(db_column='reg_date', auto_now_add=True)
     update_date = models.DateTimeField(db_column='update_date', auto_now_add=True)
- 
-    class Meta:
-        managed = False
-        db_table = 'users'
  
     def __str__(self):
         return '이름 : ' + self.name + ", 이메일 : " + self.email
     
 class User_scraps(models.Model):
     # 프라이머리키
-    scrap_id = models.AutoField(db_column='member_id', primary_key=True)
-    member_id = models.IntegerField(db_column='memeber_id', max_length=50)
+    scrap_id = models.AutoField(db_column='scrap_id', primary_key=True)
+    member_id = models.IntegerField(db_column='memeber_id')
     jobposting_id = models.CharField(db_column='jobposting_id', max_length=50)
  
-    class Meta:
-        managed = False
-        db_table = 'user_scraps'
     
 class Corporation(models.Model):
     # 프라이머리키
@@ -39,10 +29,7 @@ class Corporation(models.Model):
     category = models.CharField(db_column='email', max_length=45)
     president = models.CharField(db_column='passwd', max_length=45)
     stock = models.CharField(db_column='stock', max_length=45)
-    
-    class Meta:
-        managed=False
-        db_table = 'corporations'
+
 
 class Corp_finance(models.Model):
     # 프라이머리키
@@ -53,10 +40,7 @@ class Corp_finance(models.Model):
     stock = models.CharField(db_column='stock', max_length=45)
     total_sales = models.FloatField(db_column='total_sales', max_length=100)
     profit = models.FloatField(db_column='profit', max_length=100)
-    
-    class Meta:
-        managed=False
-        db_table = 'corp_finances'
+
         
 class Concept(models.Model):
     concept_id = models.AutoField(db_column='concept_id', primary_key=True)
@@ -64,10 +48,7 @@ class Concept(models.Model):
     corp_id = models.IntegerField(db_column='corp_id')
     date = models.DateField(db_column='date', auto_now_add=False)
     concept = models.CharField(db_column='concept', max_length=45)
-    
-    class Meta:
-        managed=False
-        db_table = 'concepts'
+
 
 class Topic(models.Model):
     topic_id = models.AutoField(db_column='topic_id', primary_key=True)
@@ -78,10 +59,7 @@ class Topic(models.Model):
     context = models.TextField(db_column='context')
     url = models.CharField(db_column='url', max_length=45)
     keyword = models.CharField(db_column='keyword', max_length=45)
-    
-    class Meta:
-        managed=False
-        db_table = 'topic'
+
 
 class Job_posting(models.Model):
     jobposting_id = models.AutoField(db_column='jobposting_id', primary_key=True)
@@ -90,10 +68,7 @@ class Job_posting(models.Model):
     start_date = models.DateField(db_column='start_date', auto_now_add=False)
     end_date = models.DateField(db_column='end_date', auto_now_add=False)
     posting_detail= models.TextField(db_column='posting_detail')
-    
-    class Meta:
-        managed=False
-        db_table = 'job_postings'
+
 
 class passcvletter(models.Model):
     cvletter_id = models.AutoField(db_column='cvletter_id',primary_key=True)
@@ -106,9 +81,6 @@ class passcvletter(models.Model):
     question = models.TextField(db_column='question')
     question_type = models.CharField(db_column='question_type', max_length=45)
     answer = models.TextField(db_column='answer')
-    class Meta:
-        managed=False
-        db_table = 'passcvletter'
 
 class Jobposting_job(models.Model):
     jobs_id = models.AutoField(db_column='jobs_id', primary_key=True)
@@ -116,9 +88,7 @@ class Jobposting_job(models.Model):
     jobposting_id = models.IntegerField(db_column='jobposting_id')
     job = models.CharField(db_column='job', max_length=45)
     new_or_exp = models.CharField(db_column='new_or_exp', max_length=45)
-    class Meta:
-        managed=False
-        db_table = 'jobpostiong_job'
+
 
 class Cvletter_items(models.Model):
     cvletter_items_id = models.AutoField(db_column='cvletter_items_id', primary_key=True)
