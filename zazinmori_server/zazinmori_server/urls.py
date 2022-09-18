@@ -19,20 +19,21 @@ from . import auth_views, com_views, user_views, cvletter_views
 
 urlpatterns = [
     ###### 유저 가입, 로그인 , 인증 로직 ######
+    # admin / qwer1234
     path('admin/', admin.site.urls), #
     path('', auth_views.index, name='mainpage'), # 
     path('signup', auth_views.register, name='register'), #
     path('login/', auth_views.login, name='login'), #
     path('logout/', auth_views.logout, name='logout'), # 
     ###### 기업 검색 로직 ######
-    path('companys/', com_views.search_company, name='searchcoms'),
-    path('recruits/<int:corp_id>/', com_views.recruit_company, name='recruitcoms'),
-    path('recruitpositions/<int:corp_id>/', com_views.recruit_positions, name='recruitposits'),
+    path('companys/', com_views.search_company, name='searchcoms'),#
+    path('companys/<int:jobposting_id>/recruits/', com_views.recruit_company, name='recruitcoms'),
+    path('companys/<int:jobposting_id>/recruits/detail', com_views.recruit_positions, name='recruitposits'),
     ###### 마이 페이지 로직 ######
     path('info/', user_views.user_info, name='userinfo'), #
     path('info/user/', user_views.user_update, name='userupdate'), #
-    path('info/cvl/', user_views.user_cvletter_update, name='cvlupdate'),
+    path('info/<int:cvl_id>/cvl/', user_views.user_cvletter_update, name='cvlwrite'), #
 
     ###### 자소서 작성 로직 ######
-    path('api/cvletter/write/<int:member_id>', cvletter_views.cvletter_write, name='writecvl'), 
+    # path('api/cvletter/write/<int:member_id>', cvletter_views.cvletter_write, name='writecvl'), 
 ]

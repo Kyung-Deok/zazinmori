@@ -73,15 +73,16 @@ def register(request):
 def login(request):
     context = {}
     if request.method == "GET":
+        context['message'] = "login"
         # return render(request, '로그인 템플릿.html')
-        return JsonResponse({"msg": "login"})
+        return JsonResponse(context, status=200)
     elif request.method == "POST":
         try :
             req_email = request.POST.get('email', False)
             req_passwd = request.POST.get('passwd', False)
             # 로그인 체크하기
-            user_email = Users_info.objects.filter(email=req_email).values()[0]
-            user_pw = user_email['passwd']
+            user_email = Users_info.objects.filter(email=req_email).first()
+            user_pw = user_email.passwd
             check_user_passwd = bcrypt.checkpw(req_passwd.encode('utf-8'), user_pw.encode('utf-8'))
             #if rs.exists():
             if not user_email : # 비밀번호 검증 추가해야 댐
@@ -90,13 +91,13 @@ def login(request):
                 return JsonResponse({"err" : "로그인 정보가 맞지 않습니다.pw"}, status=400)
             else :
                 # OK - 로그인
-                request.session['user_email'] = user_email['email']
-                request.session['user_age'] = user_email['birth']
+                request.session['user_email'] = user_email.email
+                request.session['user_age'] = user_email.birth
 
-                context['user_email'] = user_email['email']
-                context['user_name'] = [user_email['name'], request.session['user_age']]
+                context['user_email'] = user_email.email
+                context['user_name'] = [user_email.email, request.session['user_age']]
                 context['login_time'] = datetime.now().strftime('%Y-%m-%d %H:%M:%S')
-                context['message'] = user_email['name'] + "님이 로그인하셨습니다."
+                context['message'] = user_email.name + "님이 로그인하셨습니다."
                 return JsonResponse(context, status=200) # 메인 페이지로 이동
 
     

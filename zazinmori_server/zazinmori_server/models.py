@@ -11,7 +11,7 @@ class Users_info(models.Model):
     birth = models.CharField(db_column='birthday', max_length=200)
     reg_date = models.CharField(db_column='reg_date', max_length=200)
     update_date = models.CharField(db_column='update_date', max_length=200)
-
+ 
 class User_scraps(models.Model):
     # 프라이머리키
     scrap_id = models.AutoField(db_column='scrap_id', primary_key=True)
@@ -21,7 +21,7 @@ class User_scraps(models.Model):
     
 class Corporation(models.Model):
     # 프라이머리키
-    corp_id = models.AutoField(db_column='regi_code', primary_key=True)
+    regi_code = models.AutoField(db_column='regi_code', primary_key=True)
     corp_nm = models.CharField(db_column='corp_nm', max_length=45)
     category = models.CharField(db_column='email', max_length=45)
     president = models.CharField(db_column='passwd', max_length=45)
@@ -30,10 +30,10 @@ class Corporation(models.Model):
 
 class Corp_finance(models.Model):
     # 프라이머리키
-    finance_id = models.AutoField(db_column='regi_code', primary_key=True)
+    finance_id = models.AutoField(db_column='finance_id', primary_key=True)
     # 외래키
-    corp_id = models.IntegerField(db_column='corp_nm')
-    date = models.CharField(db_column='date',max_length=200)
+    regi_code = models.IntegerField(db_column='regi_code')
+    date = models.CharField(db_column='date', max_length=200)
     stock = models.CharField(db_column='stock', max_length=45)
     total_sales = models.FloatField(db_column='total_sales', max_length=100)
     profit = models.FloatField(db_column='profit', max_length=100)
@@ -42,14 +42,14 @@ class Corp_finance(models.Model):
 class Concept(models.Model):
     concept_id = models.AutoField(db_column='concept_id', primary_key=True)
     # 외래키
-    corp_id = models.IntegerField(db_column='corp_id')
+    regi_code = models.IntegerField(db_column='regi_code')
     date = models.CharField(db_column='date', max_length=200)
     concept = models.CharField(db_column='concept', max_length=45)
 
 
 class Topic(models.Model):
     topic_id = models.AutoField(db_column='topic_id', primary_key=True)
-    corp_id = models.IntegerField(db_column='corp_id')
+    regi_code = models.IntegerField(db_column='regi_code')
     corp_nm = models.CharField(db_column='corp_nm', max_length=45)
     date = models.CharField(db_column='date', max_length=200)
     title = models.CharField(db_column='title', max_length=45)
@@ -60,7 +60,7 @@ class Topic(models.Model):
 
 class Job_posting(models.Model):
     jobposting_id = models.AutoField(db_column='jobposting_id', primary_key=True)
-    corp_id = models.IntegerField(db_column='corp_id')
+    regi_code = models.IntegerField(db_column='regi_code')
     period = models.CharField(db_column='period', max_length=45)
     start_date = models.CharField(db_column='start_date', max_length=200)
     end_date = models.CharField(db_column='end_date', max_length=200)
@@ -70,7 +70,7 @@ class Job_posting(models.Model):
 class passcvletter(models.Model):
     cvletter_id = models.AutoField(db_column='cvletter_id',primary_key=True)
     # 외래키
-    corp_id = models.IntegerField(db_column='corp_id')
+    regi_code = models.IntegerField(db_column='regi_code')
     corp_nm = models.CharField(db_column='corp_nm', max_length=45)
     job = models.CharField(db_column='job', max_length=45)
     employment_date = models.CharField(db_column='employment_date', max_length=200)
@@ -101,7 +101,7 @@ class User_cvletter(models.Model) :
     # 외래키
     member_id = models.CharField(db_column='member_id', max_length=45)
     written_name = models.CharField(db_column='written_name', max_length=200)
-    written_date = models.CharField(db_column='written_date',max_length=200)
+    written_date = models.CharField(db_column='written_date', max_length=200)
     update_date = models.CharField(db_column='update_date', max_length=200)
     q1 = models.TextField(db_column='q1')
     a1 = models.TextField(db_column='a1')
