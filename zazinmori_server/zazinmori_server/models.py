@@ -11,14 +11,11 @@ class Users_info(models.Model):
     birth = models.CharField(db_column='birthday', max_length=200)
     reg_date = models.CharField(db_column='reg_date', max_length=200)
     update_date = models.CharField(db_column='update_date', max_length=200)
- 
-    def __str__(self):
-        return '이름 : ' + self.name + ", 이메일 : " + self.email
-    
+
 class User_scraps(models.Model):
     # 프라이머리키
     scrap_id = models.AutoField(db_column='scrap_id', primary_key=True)
-    member_id = models.IntegerField(db_column='memeber_id')
+    member_id = models.IntegerField(db_column='member_id')
     jobposting_id = models.CharField(db_column='jobposting_id', max_length=50)
  
     
@@ -36,7 +33,7 @@ class Corp_finance(models.Model):
     finance_id = models.AutoField(db_column='regi_code', primary_key=True)
     # 외래키
     corp_id = models.IntegerField(db_column='corp_nm')
-    date = models.DateField(db_column='date',auto_now_add=False)
+    date = models.CharField(db_column='date',max_length=200)
     stock = models.CharField(db_column='stock', max_length=45)
     total_sales = models.FloatField(db_column='total_sales', max_length=100)
     profit = models.FloatField(db_column='profit', max_length=100)
@@ -46,7 +43,7 @@ class Concept(models.Model):
     concept_id = models.AutoField(db_column='concept_id', primary_key=True)
     # 외래키
     corp_id = models.IntegerField(db_column='corp_id')
-    date = models.DateField(db_column='date', auto_now_add=False)
+    date = models.CharField(db_column='date', max_length=200)
     concept = models.CharField(db_column='concept', max_length=45)
 
 
@@ -54,7 +51,7 @@ class Topic(models.Model):
     topic_id = models.AutoField(db_column='topic_id', primary_key=True)
     corp_id = models.IntegerField(db_column='corp_id')
     corp_nm = models.CharField(db_column='corp_nm', max_length=45)
-    date = models.DateField(db_column='date', auto_now_add=False)
+    date = models.CharField(db_column='date', max_length=200)
     title = models.CharField(db_column='title', max_length=45)
     context = models.TextField(db_column='context')
     url = models.CharField(db_column='url', max_length=45)
@@ -65,8 +62,8 @@ class Job_posting(models.Model):
     jobposting_id = models.AutoField(db_column='jobposting_id', primary_key=True)
     corp_id = models.IntegerField(db_column='corp_id')
     period = models.CharField(db_column='period', max_length=45)
-    start_date = models.DateField(db_column='start_date', auto_now_add=False)
-    end_date = models.DateField(db_column='end_date', auto_now_add=False)
+    start_date = models.CharField(db_column='start_date', max_length=200)
+    end_date = models.CharField(db_column='end_date', max_length=200)
     posting_detail= models.TextField(db_column='posting_detail')
 
 
@@ -76,7 +73,7 @@ class passcvletter(models.Model):
     corp_id = models.IntegerField(db_column='corp_id')
     corp_nm = models.CharField(db_column='corp_nm', max_length=45)
     job = models.CharField(db_column='job', max_length=45)
-    employment_date = models.DateField(db_column='employment_date', auto_now_add=False)
+    employment_date = models.CharField(db_column='employment_date', max_length=200)
     new_or_exp = models.CharField(db_column='new_or_exp', max_length=45)
     question = models.TextField(db_column='question')
     question_type = models.CharField(db_column='question_type', max_length=45)
@@ -102,10 +99,10 @@ class User_cvletter(models.Model) :
     # 프라이머리키
     user_cvletter_id = models.AutoField(db_column='user_cvletter_id', primary_key = True)
     # 외래키
-    member_id = models.CharField(db_column='memeber_id', max_length=45)
+    member_id = models.CharField(db_column='member_id', max_length=45)
     written_name = models.CharField(db_column='written_name', max_length=200)
-    written_date = models.DateField(db_column='written_date', auto_now_add=True)
-    update_date = models.DateField(db_column='update_date', auto_now_add=False)
+    written_date = models.CharField(db_column='written_date',max_length=200)
+    update_date = models.CharField(db_column='update_date', max_length=200)
     q1 = models.TextField(db_column='q1')
     a1 = models.TextField(db_column='a1')
     q2 = models.TextField(db_column='q2')

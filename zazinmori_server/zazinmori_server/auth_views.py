@@ -27,17 +27,18 @@ def index(request):
  
  
 def register(request):
+    context = {}
     if request.method == "GET":
         return JsonResponse({'msg' : 'register'}, status=200)
         # return render(request, '회원가입 템플릿.html')
     elif request.method == "POST":
-        context = {}
         try :
             # postman 으로 테스트 시 : x-www-form-urlencoded 로 시행
             req_name = request.POST.get('name', False)
             req_email = request.POST.get("email", False)
             req_birth = request.POST.get('birth',False)
             req_passwd = request.POST.get("passwd", False)
+            req_passwd2 = request.POST.get("passwd", False)
             
             print(req_passwd, req_name, req_email, req_birth)
             # 값 전부 썼는지 확인
@@ -48,7 +49,8 @@ def register(request):
             user_exist_id = Users_info.objects.filter(email=req_email)
             if user_exist_id.exists():
                 return JsonResponse({"message" : "중복된 이메일 입니다."}, status=400)
-
+            elif req_passwd != req_passwd2 :
+                return JsonResponse({"message" : "비밀번호를 정확히 확인해 주세요"}, status=400)
             # 됐다면 유저 저장
             else:
                 Users_info.objects.create(

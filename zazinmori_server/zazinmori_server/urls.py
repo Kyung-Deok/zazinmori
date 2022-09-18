@@ -14,25 +14,25 @@ Including another URLconf
     2. Add a URL to urlpatterns:  path('blog/', include('blog.urls'))
 """
 from django.contrib import admin
-from django.urls import include,path
+from django.urls import path
 from . import auth_views, com_views, user_views, cvletter_views
 
 urlpatterns = [
     ###### 유저 가입, 로그인 , 인증 로직 ######
-    path('', auth_views.index, name='mainpage'),
-    path('signup', auth_views.register, name='register'),
-    path('login/', auth_views.login, name='login'),
-    path('logout/', auth_views.logout, name='logout'),
+    path('admin/', admin.site.urls), #
+    path('', auth_views.index, name='mainpage'), # 
+    path('signup', auth_views.register, name='register'), #
+    path('login/', auth_views.login, name='login'), #
+    path('logout/', auth_views.logout, name='logout'), # 
     ###### 기업 검색 로직 ######
-    path('api/companys/<int:corp_id>/', com_views.search_company, name='searchcoms'),
-    path('api/recruits/<int:corp_id>/', com_views.recruit_company, name='recruitcoms'),
-    path('api/recruitpotions/<int:corp_id>/', com_views.recruit_positions, name='recruitposits'),
+    path('companys/', com_views.search_company, name='searchcoms'),
+    path('recruits/<int:corp_id>/', com_views.recruit_company, name='recruitcoms'),
+    path('recruitpositions/<int:corp_id>/', com_views.recruit_positions, name='recruitposits'),
     ###### 마이 페이지 로직 ######
-    path('info/<int:member_id>/', user_views.user_info, name='userinfo'),
-    path('update/<int:member_id>/', user_views.user_update, name='userupdate'),
+    path('info/', user_views.user_info, name='userinfo'), #
+    path('info/user/', user_views.user_update, name='userupdate'), #
+    path('info/cvl/', user_views.user_cvletter_update, name='cvlupdate'),
+
     ###### 자소서 작성 로직 ######
-    path('api/cvletter/read/<int:member_id>', cvletter_views.cvletter_read, name='readcvl'), 
     path('api/cvletter/write/<int:member_id>', cvletter_views.cvletter_write, name='writecvl'), 
-    path('api/cvletter/update/<int:member_id>', cvletter_views.cvletter_updates, name='updatecvl'), 
-    path('api/cvletter/delete/<int:member_id>', cvletter_views.cvletter_delete, name='deletecvl'), 
 ]

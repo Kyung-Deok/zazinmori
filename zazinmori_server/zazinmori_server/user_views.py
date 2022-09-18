@@ -1,3 +1,4 @@
+from email.policy import default
 from django.shortcuts import render
 import bcrypt
 import django
@@ -11,27 +12,37 @@ from .models import *
 
 # 마이페이지 초입 페이지
 def user_info(request):
+    context = {}
     if request.method == "GET":
         try : 
-            context = {}
             # 세션 email이랑 유저의 email이 맞는지 확인
             # 로그인한 유저가 맞는지 확인
-            ses_user = request.session.get('user_email', None)
-            user_info = User.objects.get(email = ses_user)
+            ses_user = request.session.get('user_email', False)
+            user_info = Users_info.objects.filter(email=ses_user)
+            print(ses_user, user_info)
             # 아니라면 로그인 페이지로 리다이렉트
-            if not user_info :
-                redirect('login/')
-            else : 
-                # 맞다면 정보 보여주기 : 유저 기본 정보, 스크랩한 공고, 쓴 자소서들
-                scraps = User_scraps.objects.get(memeber_id = user_info.memeber_id)
-                scrap_postings = Job_posting.objects.filter(jobposting_id = scraps.jobposting_id) 
-                written_cvletters = User_cvletter.objects.get(member_id = user_info.member_id)
-                
-                context['user_info'] = user_info
-                context['scraps'] = list(scrap_postings)
-                context['wriiten_cvletters'] = list(written_cvletters.written_name)
-                context['message'] = 'success'
-            return render(request, '마이 페이지.html', context)
+            if user_info.exists() == False :
+                print(user_info.exists())
+                return redirect('/login/')
+            else :
+                scraps = User_scraps.objects.filter(member_id = user_info.first().member_id)
+                written_cvletters = User_cvletter.objects.filter(member_id = user_info.first().member_id)
+                if not scraps.exists() | written_cvletters.exists() :
+                    context['err'] = "스크랩 내역이 없습니다."
+                    return JsonResponse(context, status=400)
+                elif not written_cvletters.exists() :
+                    context['err'] = "작성한 자소서가 없습니다."
+                    return JsonResponse(context, status=400)
+                else :
+                    scrap_postings = Job_posting.objects.filter(jobposting_id = scraps.first().jobposting_id) 
+                    # 맞다면 정보 보여주기 : 유저 기본 정보, 스크랩한 공고, 쓴 자소서들
+                    
+                    context['user_info'] = user_info.values()[0]
+                    context['scraps'] = list(scrap_postings)
+                    context['wriiten_cvletters'] = list(written_cvletters.first().written_name)
+                    context['message'] = 'success'
+                # return render(request, '마이 페이지.html', context)
+                return JsonResponse(context, status=200)
         except django.db.utils.OperationalError :
                 return JsonResponse({'err':"테이블 없음"}, status=400)
         except Exception as err:
@@ -40,7 +51,7 @@ def user_info(request):
         
 def user_update(request):
     ses_user = request.session.get('user_email', None)
-    user_info = User.objects.get(email = ses_user)
+    user_info = Users_info.objects.get(email = ses_user)
     context = {}
     if request.method == "GET":
     # GET 일 때, 회원정보를 우선 띄워준다.    
@@ -48,14 +59,16 @@ def user_update(request):
             # 세션 email이랑 유저의 email이 맞는지 확인
             # 로그인한 유저가 맞는지 확인
             # 아니라면 로그인 페이지로 리다이렉트
-            if not user_info :
-                redirect('login/')
+            if user_info.exists() == False :
+                print(user_info.exists())
+                return redirect('/login/')
             else :
                 context['user_name'] = user_info.name
                 context['user_email'] = user_info.email
                 context['user_passwd'] = user_info.passwd
-                context['user_birth'] = user_info.birth                
-            return render(request, '회원정보 수정.html', context)
+                context['user_birth'] = user_info.birth            
+            return JsonResponse(context, status=200)    
+            # return render(request, '회원정보 수정.html', context)
         except Exception as err : 
             return JsonResponse({'err' : err})    
     elif request.method == "POST":
@@ -68,7 +81,7 @@ def user_update(request):
             
             else : 
                 # 맞다면..
-                User.objects.update(
+                Users_info.objects.update(
                     passwd = re_passwd,
                     birth = re_birth,
                     update_date = datetime.now()
@@ -79,10 +92,10 @@ def user_update(request):
                 return JsonResponse({'err':"테이블 없음"}, status=400)
         except Exception as err : 
             return JsonResponse({'err' : err})    
-# 유저 자소서 정보 편집 - 일단 삭제만 가능    
+# 유저 자소서 정보 편집
 def user_cvletter_update(request):
     ses_user = request.session.get('user_email', None)
-    user_info = User.objects.get(email = ses_user)
+    user_info = Users_info.objects.get(email = ses_user)
     user_cvletters = User_cvletter.objcets.filter(member_id=user_info.member_id)
     context = {}
     if request.method == "GET":
@@ -91,8 +104,9 @@ def user_cvletter_update(request):
             # 세션 email이랑 유저의 email이 맞는지 확인
             # 로그인한 유저가 맞는지 확인
             # 아니라면 로그인 페이지로 리다이렉트
-            if not user_info :
-                redirect('login/')
+            if user_info.exists() == False :
+                print(user_info.exists())
+                return redirect('/login/')
             else :
                 user_cvletters = User_cvletter.objects.get(member_id=user_info.member_id)
                 context['cvletter_written_name'] = user_cvletters.written_name
@@ -165,6 +179,8 @@ def user_cvletter_update(request):
 # 삭제는 요청을 받으면(버튼을 누르면) 해당 자소서 삭제 후, 리다이렉트로 마이페이지   
 def user_cvletter_delete(request):
     pass
+
+
 '''
 회원 탈퇴 : 추후 구현 예정
 
