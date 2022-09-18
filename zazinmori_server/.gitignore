@@ -1,2 +1,3 @@
 zazinmori_server/__pycache__/
+zazinmori_server/env_settings.py
 db.sqlite3

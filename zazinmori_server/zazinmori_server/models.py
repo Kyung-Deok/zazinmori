@@ -8,9 +8,9 @@ class Users_info(models.Model):
     name = models.CharField(db_column='name', max_length=50)
     email = models.CharField(db_column='email', max_length=50)
     passwd = models.CharField(db_column='passwd', max_length=1000)
-    birth = models.DateField(db_column='birthday', auto_now_add=False)
-    reg_date = models.DateTimeField(db_column='reg_date', auto_now_add=True)
-    update_date = models.DateTimeField(db_column='update_date', auto_now_add=True)
+    birth = models.CharField(db_column='birthday', max_length=200)
+    reg_date = models.CharField(db_column='reg_date', max_length=200)
+    update_date = models.CharField(db_column='update_date', max_length=200)
  
     def __str__(self):
         return '이름 : ' + self.name + ", 이메일 : " + self.email
