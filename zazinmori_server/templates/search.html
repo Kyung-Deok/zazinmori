@@ -1,0 +1,509 @@
+{% load static %}
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
+
+    <!-- SEO Meta Tags -->
+    <meta name="description" content="Tivo is a HTML landing page template built with Bootstrap to help you crate engaging presentations for SaaS apps and convert visitors into users.">
+    <meta name="author" content="Inovatik">
+
+    <!-- OG Meta Tags to improve the way the post looks when you share the page on LinkedIn, Facebook, Google+ -->
+	<meta property="og:site_name" content="" /> <!-- website name -->
+	<meta property="og:site" content="" /> <!-- website link -->
+	<meta property="og:title" content=""/> <!-- title shown in the actual shared post -->
+	<meta property="og:description" content="" /> <!-- description shown in the actual shared post -->
+	<meta property="og:image" content="" /> <!-- image link, make sure it's jpg -->
+	<meta property="og:url" content="" /> <!-- where do you want your post to link to -->
+	<meta property="og:type" content="article" />
+
+    <!-- Website Title -->
+    <title>zazinmori</title>
+
+    <!-- Styles -->
+    <link href="https://fonts.googleapis.com/css?family=Open+Sans:400,400i,700&display=swap&subset=latin-ext" rel="stylesheet">
+    <link href="{% static 'css/bootstrap.css' %}" rel="stylesheet">
+    <link href="{% static 'css/fontawesome-all.css' %}" rel="stylesheet">
+    <link href="{% static 'css/swiper.css' %}" rel="stylesheet">
+	<link href="{% static 'css/magnific-popup.css' %}" rel="stylesheet">
+	<link href="{% static 'css/styles.css' %}" rel="stylesheet">
+
+	<!-- Favicon  -->
+    <link rel="icon" href="{% static 'images/favicon.png' %}">
+
+    <!-- JQuery-->
+    <script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
+
+</head>
+<body data-spy="scroll" data-target=".fixed-top">
+
+    <!-- Preloader -->
+	<div class="spinner-wrapper">
+        <div class="spinner">
+            <div class="bounce1"></div>
+            <div class="bounce2"></div>
+            <div class="bounce3"></div>
+        </div>
+    </div>
+    <!-- end of preloader -->
+
+
+    <!-- Navigation -->
+    <nav class="navbar navbar-expand-lg navbar-dark navbar-custom fixed-top">
+        <div class="container">
+
+            <!-- Text Logo - Use this if you don't have a graphic logo -->
+            <a href="/"><img style="width:30px; height:30px; margin-top: -5px;" src="{% static 'img/logo_w.png' %}"></a>
+            <h3 class="fw-bold text-white" onclick="to_home()">zazinmori</h3>
+
+            <!-- Mobile Menu Toggle Button -->
+            <button class="navbar-toggler" type="button" data-toggle="collapse" data-target="#navbarsExampleDefault" aria-controls="navbarsExampleDefault" aria-expanded="false" aria-label="Toggle navigation">
+                <span class="navbar-toggler-awesome fas fa-bars"></span>
+                <span class="navbar-toggler-awesome fas fa-times"></span>
+            </button>
+            <!-- end of mobile menu toggle button -->
+
+            <div class="collapse navbar-collapse" id="navbarsExampleDefault">
+                <ul class="navbar-nav ml-auto">
+                    {% if context.user_email == '' %}
+                    {% else %}
+                        <li class="nav-item">
+                            <a class="nav-link page-scroll" href="/">HOME</a>
+                        </li>
+                        <li class="nav-item">
+                            <a class="nav-link page-scroll" href="/company/">SEARCH</a>
+                        </li>
+                        <li class="nav-item">
+                            <a class="nav-link page-scroll" href="#">JOBPOSTING</a>
+                        </li>
+                        <li class="nav-item">
+                            <a class="nav-link page-scroll" href="/mypage/">MYPAGE</a>
+                        </li>
+                    {% endif %}
+                </ul>
+                <span class="nav-item">
+                    {% if context.user_email == '' %}
+                        <a class="btn-outline-sm" href="/login/">LOG IN</a>
+                    {% else %}
+                        <a class="btn-outline-sm" href="/logout/">LOG OUT</a>
+                    {% endif %}
+                </span>
+            </div>
+        </div> <!-- end of container -->
+    </nav> <!-- end of navbar -->
+    <!-- end of navigation -->
+
+
+
+    <!-- Header -->
+    <header id="header" class="header">
+        <div class="header-content">
+            <div class="form" style="margin-top: -100px; margin-bottom: -100px;">
+                <div class="container mt-0 pt-0">
+                    <div class="row mt-0 pt-0">
+                        <div class="col-lg-12">
+                            <div class="text-container">
+                                <div class="above-heading">Search Company</div>
+                                <h2 class="wk"><span class="f-c3">자</span>기소개서를 <span class="f-c3">진</span>짜 <span class="f-c3">모</span>르는 <span class="f-c3">리</span>들을 위한</h2>
+                                <!-- Newsletter Form -->
+                                <form id="newsletterForm" data-toggle="validator" data-focus="false">
+                                    <div class="form-group">
+                                        <input type="text" class="form-control-input" id="search_input" onkeyup="if(window.event.keyCode==13){search()}">
+                                        <label class="label-control" for="search_input">회사명을 입력하세요</label>
+                                        <div class="help-block with-errors"></div>
+                                    </div>
+                                    <div class="form-group">
+                                        {% if context.user_email == '' %}
+                                            <button type="button" onclick="to_login()" class="form-control-submit-button">검색하기</button>
+                                        {% else%}
+                                            <button type="button" onclick="search()" class="form-control-submit-button">검색하기</button>
+                                        {% endif %}
+                                    </div>
+                                    <div class="form-message">
+                                        <div id="nmsgSubmit" class="h3 text-center hidden"></div>
+                                    </div>
+                                </form>
+                                <!-- end of newsletter form -->
+                            </div> <!-- end of text-container -->
+                        </div> <!-- end of col -->
+                    </div> <!-- end of row -->
+                </div> <!-- end of container -->
+            </div> <!-- end of form -->
+        </div> <!-- end of header-content -->
+    </header> <!-- end of header -->
+    <svg class="header-frame" data-name="Layer 1" xmlns="http://www.w3.org/2000/svg" preserveAspectRatio="none" viewBox="0 0 1920 310"><defs><style>.cls-1{fill:#5f4def;}</style></defs><title>header-frame</title><path class="cls-1" d="M0,283.054c22.75,12.98,53.1,15.2,70.635,14.808,92.115-2.077,238.3-79.9,354.895-79.938,59.97-.019,106.17,18.059,141.58,34,47.778,21.511,47.778,21.511,90,38.938,28.418,11.731,85.344,26.169,152.992,17.971,68.127-8.255,115.933-34.963,166.492-67.393,37.467-24.032,148.6-112.008,171.753-127.963,27.951-19.26,87.771-81.155,180.71-89.341,72.016-6.343,105.479,12.388,157.434,35.467,69.73,30.976,168.93,92.28,256.514,89.405,100.992-3.315,140.276-41.7,177-64.9V0.24H0V283.054Z"/></svg>
+    <!-- end of header -->
+
+
+    <!-- Search Result -->
+    <div id="main_1" class="basic-1">
+        <div class="container">
+            <div class="row">
+                <div class="col-lg-12" style="border: 1px solid #ccd3df;">
+                    <div class="text-container">
+                        <br>
+                        <h2 class="text-center m-2 p-2">검색결과</h2>
+                        <div style="height: 1px; margin-top: 1.75rem; margin-bottom: 2rem; border: none; background-color: #ccd3df;"></div>
+                        <div id="search_section">
+                            <table id="search_result" style="width:100%"></table>
+                        </div>
+                        <br><br>
+                    </div> <!-- end of text-container -->
+                </div> <!-- end of col -->
+            </div> <!-- end of row -->
+        </div> <!-- end of container -->
+    </div> <!-- end of basic-1 -->
+    <!-- end of Search Result -->
+
+
+
+    <!-- Corporation Detail -->
+    <div id="main_2" class="basic-2 mb-5">
+        <div class="container">
+            <div class="row">
+                <div class="col-lg-12" id="detail_section" style="visibility: hidden;">
+                    <!-- Row1 -->
+                    <div class="row">
+                        <div class="col-5">
+                            <div class="card text-bg-light mb-3">
+                              <div class="card-header">회사 기본 정보</div>
+                              <div class="card-body">
+                                  <table class="table table-hover">
+                                      <tr>
+                                          <th>회사명</th>
+                                          <td class="detail_td" id="corp_nm_td"></td>
+                                      </tr>
+                                      <tr>
+                                          <th>설립일</th>
+                                          <td class="detail_td" id="est_dt_td"></td>
+                                      </tr>
+                                      <tr>
+                                          <th>업종</th>
+                                          <td class="detail_td" id="category_td"></td>
+                                      </tr>
+                                      <tr>
+                                          <th>대표자</th>
+                                          <td class="detail_td" id="ceo_nm_td"></td>
+                                      </tr>
+                                      <tr>
+                                          <th>소재지</th>
+                                          <td class="detail_td" id="address_td"></td>
+                                      </tr>
+                                      <tr>
+                                          <th>전화</th>
+                                          <td class="detail_td" id="phn_no_td"></td>
+                                      </tr>
+                                  </table>
+                              </div>
+                            </div>
+                        </div>
+                        <div class="col-7">
+                            <div class="card text-bg-light mb-3">
+                              <div class="card-header">회사 재무 정보</div>
+                              <div class="card-body">
+                                  <table class="table table-hover">
+                                      <tr>
+                                          <th>기준연도</th>
+                                          <td class="detail_td" id="year_td"></td>
+                                      </tr>
+                                      <tr>
+                                          <th>매출액</th>
+                                          <td class="detail_td" id="total_sales_td"></td>
+                                      </tr>
+                                      <tr>
+                                          <th>자산총계</th>
+                                          <td class="detail_td" id="total_assets_td"></td>
+                                      </tr>
+                                      <tr>
+                                          <th>자본총계</th>
+                                          <td class="detail_td" id="total_capital_td"></td>
+                                      </tr>
+                                      <tr>
+                                          <th>부채총계</th>
+                                          <td class="detail_td" id="total_debt_td"></td>
+                                      </tr>
+                                      <tr>
+                                          <th>영업이익</th>
+                                          <td class="detail_td" id="operating_income_td"></td>
+                                      </tr>
+                                  </table>
+                              </div>
+                            </div>
+                        </div>
+                    </div><!-- End Row1-->
+
+                    <!-- Row2 -->
+                    <div class="row">
+                        <div class="col-12">
+                            <div class="card text-bg-light mb-3">
+                              <div class="card-header">최신 뉴스를 통한 키워드 분석</div>
+                              <div class="card-body">
+                                <h5 class="card-title">Light card title</h5>
+                                <p class="card-text">Some quick example text to build on the card title and make up the bulk of the card's content.</p>
+                              </div>
+                            </div>
+                        </div>
+                    </div><!-- End Row2-->
+
+                    <!-- Row3 -->
+                    <div class="row">
+                        <div class="col-6">
+                            <div class="card text-bg-light mb-3">
+                              <div class="card-header">합격자소서 분석을 통한 키워드 분석</div>
+                              <div class="card-body">
+                                <h5 class="card-title">Light card title</h5>
+                                <p class="card-text">Some quick example text to build on the card title and make up the bulk of the card's content.</p>
+                              </div>
+                            </div>
+                        </div>
+                        <div class="col-6">
+                            <div class="card text-bg-light mb-3">
+                              <div class="card-header">유사한 스타일의 기업 추천</div>
+                              <div class="card-body">
+                                <h5 class="card-title">Light card title</h5>
+                                <p class="card-text">Some quick example text to build on the card title and make up the bulk of the card's content.</p>
+                              </div>
+                            </div>
+                        </div>
+                    </div><!-- End Row3-->
+
+                    <!-- Row4 -->
+                    <div class="row">
+                        <div class="col-12">
+                            <div class="card text-bg-light mb-3">
+                              <div class="card-header">현재 진행 중인 채용</div>
+                              <div class="card-body">
+                                <h5 class="card-title">Light card title</h5>
+                                <p class="card-text">Some quick example text to build on the card title and make up the bulk of the card's content.</p>
+                              </div>
+                            </div>
+                        </div>
+                    </div><!-- End Row4-->
+
+                </div> <!-- end of col -->
+            </div> <!-- end of row -->
+        </div> <!-- end of container -->
+    </div> <!-- end of basic-2 -->
+    <!-- end of Corporation Detail -->
+
+
+    <!-- Footer -->
+    <svg class="footer-frame mt-5" data-name="Layer 2" xmlns="http://www.w3.org/2000/svg" preserveAspectRatio="none" viewBox="0 0 1920 79"><defs><style>.cls-2{fill:#5f4def;}</style></defs><title>footer-frame</title><path class="cls-2" d="M0,72.427C143,12.138,255.5,4.577,328.644,7.943c147.721,6.8,183.881,60.242,320.83,53.737,143-6.793,167.826-68.128,293-60.9,109.095,6.3,115.68,54.364,225.251,57.319,113.58,3.064,138.8-47.711,251.189-41.8,104.012,5.474,109.713,50.4,197.369,46.572,89.549-3.91,124.375-52.563,227.622-50.155A338.646,338.646,0,0,1,1920,23.467V79.75H0V72.427Z" transform="translate(0 -0.188)"/></svg>
+    <!-- end of footer -->
+
+
+    <!-- Copyright -->
+    <div class="copyright">
+        <div class="container">
+            <div class="row">
+                <div class="col-lg-12">
+                    <p class="p-small">
+                        Copyright © 2022<br>Team Ikuzo
+                    </p>
+                </div> <!-- end of col -->
+            </div> <!-- enf of row -->
+        </div> <!-- end of container -->
+    </div> <!-- end of copyright -->
+    <!-- end of copyright -->
+
+
+    <!-- Scripts -->
+    <script src="{% static 'js/jquery.min.js' %}"></script> <!-- jQuery for Bootstrap's JavaScript plugins -->
+    <script src="{% static 'js/popper.min.js' %}"></script> <!-- Popper tooltip library for Bootstrap -->
+    <script src="{% static 'js/bootstrap.min.js' %}"></script> <!-- Bootstrap framework -->
+    <script src="{% static 'js/jquery.easing.min.js' %}"></script> <!-- jQuery Easing for smooth scrolling between anchors -->
+    <script src="{% static 'js/swiper.min.js' %}"></script> <!-- Swiper for image and text sliders -->
+    <script src="{% static 'js/jquery.magnific-popup.js' %}"></script> <!-- Magnific Popup for lightboxes -->
+    <script src="{% static 'js/validator.min.js' %}"></script> <!-- Validator.js - Bootstrap plugin that validates forms -->
+    <script src="{% static 'js/scripts.js' %}"></script> <!-- Custom scripts -->
+</body>
+
+<script>
+
+    function to_home(){
+        document.location = '/';
+    }
+
+    function to_login(){
+      if(confirm("로그인 후에 서비스를 이용할 수 있습니다.")) document.location = '/login/';
+    }
+
+    function search(){
+        var search_input = document.getElementById('search_input').value;
+        console.log(search_input);
+
+        if(search_input == ''){
+          alert('검색하려는 회사명을 입력해주세요.')
+          return
+        }
+
+        $.ajax({
+            url: '/company/',
+            type: 'POST',
+            data: {'corp_nm': search_input, 'csrfmiddlewaretoken':  csrftoken},
+            dataType: 'json',
+            success: function(context) {
+              console.log('success')
+              console.log(context)
+
+              document.getElementById("main_1").scrollIntoView(true);
+              $('#search_result').remove();
+
+              var $table = $('<table id="search_result" style="width:100%"></table>');
+              $('#search_section').append($table);
+              var $tr = $('<tr id="table_ths" class="text-center" style="border-bottom: 2px solid #A69CF7;"></tr>');
+              $('#search_result').append($tr);
+
+              var corp_num = context.corp_num;
+              if (corp_num == 0){
+                var $th = $('<th style=width:100%>검색 결과가 없습니다.</th>');
+                $('#table_ths').append($th);
+              } else {
+                var $th = $('<th style="width: 20%;">회사명</th>');
+                $('#table_ths').append($th);
+                var $th = $('<th style="width: 20%;">업종</th>');
+                $('#table_ths').append($th);
+                var $th = $('<th style="width: 10%;">대표자명</th>');
+                $('#table_ths').append($th);
+                var $th = $('<th style="width: 15%;">설립일</th>');
+                $('#table_ths').append($th);
+                var $th = $('<th style="width: 35%;">소재지</th>');
+                $('#table_ths').append($th);
+
+                for (var i=0; i<corp_num; i++) {
+                  var $tr = $('<tr class="text-center" style="border-bottom: 1px solid #A69CF7;">');
+                  $('#search_result').append($tr);
+
+                  var keys = Object.keys(context.corps);
+                  var corp_nm = context.corps[keys[i]]['corp_nm']
+                  var category = context.corps[keys[i]]['category']
+                  var ceo_nm = context.corps[keys[i]]['ceo_nm']
+                  var est_dt = context.corps[keys[i]]['est_dt']
+                  var address = context.corps[keys[i]]['address']
+                  var regi_code = context.corps[keys[i]]['regi_code']
+
+                  var $th = $(`<th onclick="corp_detail(${regi_code})">${corp_nm}</th>`);
+                  $tr.append($th);
+                  var $td = $(`<td onclick="corp_detail(${regi_code})">${category}</td>`);
+                  $tr.append($td);
+                  var $td = $(`<td onclick="corp_detail(${regi_code})">${ceo_nm}</td>`);
+                  $tr.append($td);
+                  var $td = $(`<td onclick="corp_detail(${regi_code})">${est_dt}</td>`);
+                  $tr.append($td);
+                  var $td = $(`<td onclick="corp_detail(${regi_code})">${address}</a></td>`);
+                  $tr.append($td);
+                }
+              }
+            },
+            error: function(){
+              console.log('fail')
+            }
+        }); //ajax끝
+  }
+
+
+  function corp_detail(regi_code){
+    //document.getElementById("main_2").scrollIntoView(true);
+    //document.getElementById("detail_section").setAttribute('style', '"visibility: visible;"');
+
+    $.ajax({
+            url: 'company_detail/',
+            type: 'POST',
+            data: {'regi_code': regi_code, 'csrfmiddlewaretoken':  csrftoken},
+            dataType: 'json',
+            success: function(context) {
+              console.log('success')
+              console.log(context)
+
+              document.getElementById("main_2").scrollIntoView(true);
+              document.getElementById("detail_section").setAttribute('style', '"visibility: visible;"');
+
+              var detail_tds = document.getElementsByClassName("detail_td")
+              for (var i=detail_tds.length; i--;){
+                  detail_tds[i].textContent='';
+              }
+
+              <!-- 기업 기본 정보 -->
+              var corp_nm = context['com_info']['corp_nm']
+              var est_dt = context['com_info']['est_dt']
+              var category = context['com_info']['category']
+              var ceo_nm = context['com_info']['ceo_nm']
+              var address = context['com_info']['address']
+              var phn_no = context['com_info']['phn_no']
+
+              $('#corp_nm_td').text(corp_nm)
+              $('#est_dt_td').text(est_dt)
+              $('#category_td').text(category)
+              $('#ceo_nm_td').text(ceo_nm)
+              $('#address_td').text(address)
+              $('#phn_no_td').text(phn_no)
+
+
+              <!-- 기업 재무 정보 -->
+              var year = context['com_finance']['year']
+              var total_sales = context['com_finance']['total_sales']
+              var total_assets = context['com_finance']['total_assets']
+              var total_capital = context['com_finance']['total_capital']
+              var total_debt = context['com_finance']['total_debt']
+              var operating_income = context['com_finance']['operating_income']
+              //당기순이익 var net_income = context['com_finance']['net_income'] /
+
+              if(context['com_finance'] == ''){
+                  $('#year_td').text('해당 기업의 정보가 없습니다.')
+                  $('#total_sales_td').text('해당 기업의 정보가 없습니다.')
+                  $('#total_assets_td').text('해당 기업의 정보가 없습니다.')
+                  $('#total_capital_td').text('해당 기업의 정보가 없습니다.')
+                  $('#total_debt_td').text('해당 기업의 정보가 없습니다.')
+                  $('#operating_income_td').text('해당 기업의 정보가 없습니다.')
+              } else{
+                  $('#year_td').text(year)
+                  $('#total_sales_td').text(total_sales)
+                  $('#total_assets_td').text(total_assets)
+                  $('#total_capital_td').text(total_capital)
+                  $('#total_debt_td').text(total_debt)
+                  $('#operating_income_td').text(operating_income)
+              }
+
+
+              <!-- 뉴스 키워드 분석 -->
+
+              <!-- 자소서 키워드 분석 -->
+
+              <!-- 유사 기업 분석 -->
+
+              <!-- 채용 공고 -->
+
+
+            },
+            error: function(){
+              console.log('fail')
+            }
+        }); //ajax끝
+  }
+
+
+
+
+
+  function getCookie(name) {
+      var cookieValue = null;
+      if (document.cookie && document.cookie !== '') {
+          var cookies = document.cookie.split(';');
+          for (var i = 0; i < cookies.length; i++) {
+              var cookie = cookies[i].trim();
+              // Does this cookie string begin with the name we want?
+              if (cookie.substring(0, name.length + 1) === (name + '=')) {
+                  cookieValue = decodeURIComponent(cookie.substring(name.length + 1));
+                  break;
+              }
+          }
+      }
+      return cookieValue;
+  }
+
+  var csrftoken = getCookie('csrftoken');
+
+
+</script>
+</html>
