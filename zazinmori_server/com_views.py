@@ -55,6 +55,7 @@ def company_detail(request):
         context['recruits'] = com_recruits.values()[0]
     except:
         context['recruits'] = ''
+        
 
     return JsonResponse(context, status=200)
     # except django.db.utils.OperationalError :
@@ -77,8 +78,8 @@ def recruit_company(request, jobposting_id):
             com_info = Corporation.objects.filter(corp_nm=req_corp_nm)
             # job_postings = Job_posting.objects.filter(corp_id=com_info.corp_id)
             # job_posting_jobs = Jobposting_job.objects.filter(Jobposting_id=job_postings.jobposting_id)
-            job_postings = Job_posting.objects.filter(jobposting_id=jobposting_id)
-            job_posting_jobs = Jobposting_job.objects.filter(jobposting_id=jobposting_id)
+            job_postings = Jobposting.objects.filter(jobposting_id=jobposting_id)
+            job_posting_jobs = Jobposting_jobs.objects.filter(jobposting_id=jobposting_id)
 
             context['corp_nm'] = com_info.first().corp_nm
             context['job_postings'] = job_postings.values()[0]
@@ -102,8 +103,8 @@ def recruit_positions(request, jobposting_id): # 수정필요
             #     return JsonResponse({"err" : "값을 입력해 주세요"}, status=400)
             
             com_info = Corporation.objects.filter(corp_nm=req_corp_nm)
-            job_postings = Job_posting.objects.filter(jobposting_id=jobposting_id)
-            job_posting_jobs = Jobposting_job.objects.filter(jobposting_id=job_postings.first().jobposting_id)
+            job_postings = Jobposting.objects.filter(jobposting_id=jobposting_id)
+            job_posting_jobs = Jobposting_jobs.objects.filter(jobposting_id=job_postings.first().jobposting_id)
             
             context['corp_nm'] = com_info.first().corp_nm
             context['job_postings'] = job_postings.values()[0]

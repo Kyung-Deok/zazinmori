@@ -11,7 +11,7 @@ https://docs.djangoproject.com/en/4.1/ref/settings/
 """
 import os
 from pathlib import Path
-from .env_settings import SECRET_KEY,DATABASES
+from .env_settings import SECRET_KEY,DATABASES, LOGGING
 
 # Build paths inside the project like this: BASE_DIR / 'subdir'.
 BASE_DIR = Path(__file__).resolve().parent.parent
@@ -25,7 +25,7 @@ SECRET_KEY = SECRET_KEY
 # SECURITY WARNING: don't run with debug turned on in production!
 DEBUG = True
 
-#ALLOWED_HOSTS = ['.35.79.77.17']
+ALLOWED_HOSTS = ['*']
 
 
 # Application definition
@@ -74,21 +74,8 @@ WSGI_APPLICATION = 'zazinmori_server.wsgi.application'
 # Database
 # https://docs.djangoproject.com/en/4.1/ref/settings/#databases
 
-DATABASES = {
-     'default': {
-         'ENGINE': 'django.db.backends.mysql',
-         'NAME': 'pjt3',
-         #'NAME': 'zazinmori',
-         'USER' : 'admin',
-         #'USER' : 'root',
-         'PASSWORD' : 'qwer1234',
-         #'PASSWORD' : '1234',
-         'HOST' : '35.79.77.17',
-         #'HOST' : 'localhost',
-         'PORT': '3306'
-     }
- }
 DATABASES = DATABASES
+# DATABASES = DATABASES
 
 # Password validation
 # https://docs.djangoproject.com/en/4.1/ref/settings/#auth-password-validators
@@ -164,3 +151,7 @@ ACCOUNT_SESSION_REMEMBER = True
 SESSION_COOKIE_AGE = 3600
 SESSION_SAVE_EVERY_REQUEST = True
 APPEND_SLASH=False
+
+
+
+LOGGING = LOGGING

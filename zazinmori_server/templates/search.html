@@ -109,7 +109,11 @@
                                 <!-- Newsletter Form -->
                                 <form id="newsletterForm" data-toggle="validator" data-focus="false">
                                     <div class="form-group">
-                                        <input type="text" class="form-control-input" id="search_input" onkeyup="if(window.event.keyCode==13){search()}">
+                                        {% if context.user_email == '' %}
+                                            <input type="text" class="form-control-input" id="search_input">
+                                        {% else %}
+                                            <input type="text" class="form-control-input" id="search_input" onkeyup="if(window.event.keyCode==13){search()}">
+                                        {% endif %}
                                         <label class="label-control" for="search_input">회사명을 입력하세요</label>
                                         <div class="help-block with-errors"></div>
                                     </div>
@@ -137,7 +141,7 @@
 
 
     <!-- Search Result -->
-    <div id="main_1" class="basic-1">
+    <div id="main_1" class="basic-1" style ="visibility: hidden;">
         <div class="container">
             <div class="row">
                 <div class="col-lg-12" style="border: 1px solid #ccd3df;">
@@ -159,10 +163,10 @@
 
 
     <!-- Corporation Detail -->
-    <div id="main_2" class="basic-2 mb-5">
+    <div id="main_2" class="basic-2 mb-5" style="visibility: hidden;">
         <div class="container">
             <div class="row">
-                <div class="col-lg-12" id="detail_section" style="visibility: hidden;">
+                <div class="col-lg-12" id="detail_section">
                     <!-- Row1 -->
                     <div class="row">
                         <div class="col-5">
@@ -321,6 +325,10 @@
 
 <script>
 
+    window.onload=function(){
+        window.scrollTo(0, 0);
+    }
+
     function to_home(){
         document.location = '/';
     }
@@ -348,9 +356,10 @@
               console.log(context)
 
               document.getElementById("main_1").scrollIntoView(true);
+              document.getElementById("main_1").setAttribute('style', '"visibility: visible;"');
               $('#search_result').remove();
 
-              var $table = $('<table id="search_result" style="width:100%"></table>');
+              var $table = $('<table class="table table-hover" id="search_result" style="width:100%"></table>');
               $('#search_section').append($table);
               var $tr = $('<tr id="table_ths" class="text-center" style="border-bottom: 2px solid #A69CF7;"></tr>');
               $('#search_result').append($tr);
@@ -385,16 +394,25 @@
 
                   var $th = $(`<th onclick="corp_detail(${regi_code})">${corp_nm}</th>`);
                   $tr.append($th);
-                  var $td = $(`<td onclick="corp_detail(${regi_code})">${category}</td>`);
+                  var $td = $(`<td class="search_td" onclick="corp_detail(${regi_code})">${category}</td>`);
                   $tr.append($td);
-                  var $td = $(`<td onclick="corp_detail(${regi_code})">${ceo_nm}</td>`);
+                  var $td = $(`<td class="search_td" onclick="corp_detail(${regi_code})">${ceo_nm}</td>`);
                   $tr.append($td);
-                  var $td = $(`<td onclick="corp_detail(${regi_code})">${est_dt}</td>`);
+                  var $td = $(`<td class="search_td" onclick="corp_detail(${regi_code})">${est_dt}</td>`);
                   $tr.append($td);
-                  var $td = $(`<td onclick="corp_detail(${regi_code})">${address}</a></td>`);
+                  var $td = $(`<td class="search_td" onclick="corp_detail(${regi_code})">${address}</a></td>`);
                   $tr.append($td);
                 }
               }
+
+              var search_tds = document.getElementsByClassName("search_td");
+              for (var i=search_tds.length; i--;){
+                if (search_tds[i].textContent == 'null'){
+                    search_tds[i].textContent = '';
+                }
+              }
+
+
             },
             error: function(){
               console.log('fail')
@@ -417,7 +435,7 @@
               console.log(context)
 
               document.getElementById("main_2").scrollIntoView(true);
-              document.getElementById("detail_section").setAttribute('style', '"visibility: visible;"');
+              document.getElementById("main_2").setAttribute('style', '"visibility: visible;"');
 
               var detail_tds = document.getElementsByClassName("detail_td")
               for (var i=detail_tds.length; i--;){
@@ -458,11 +476,11 @@
                   $('#operating_income_td').text('해당 기업의 정보가 없습니다.')
               } else{
                   $('#year_td').text(year)
-                  $('#total_sales_td').text(total_sales)
-                  $('#total_assets_td').text(total_assets)
-                  $('#total_capital_td').text(total_capital)
-                  $('#total_debt_td').text(total_debt)
-                  $('#operating_income_td').text(operating_income)
+                  $('#total_sales_td').text(`${total_sales}원`)
+                  $('#total_assets_td').text(`${total_assets}원`)
+                  $('#total_capital_td').text(`${total_capital}원`)
+                  $('#total_debt_td').text(`${total_debt}원`)
+                  $('#operating_income_td').text(`${operating_income}원`)
               }
 
 

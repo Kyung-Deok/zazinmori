@@ -84,6 +84,7 @@ class Failcvletter(models.Model):
 
 class Jobposting(models.Model):
     jobposting_id = models.BigIntegerField()
+    regi_code = models.TextField(blank=True, null=True)
     corp_nm = models.TextField(blank=True, null=True)
     period = models.TextField(blank=True, null=True)
     start_time = models.TextField(blank=True, null=True)
