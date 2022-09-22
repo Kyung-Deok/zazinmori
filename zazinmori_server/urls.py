@@ -15,7 +15,7 @@ Including another URLconf
 """
 from django.contrib import admin
 from django.urls import path
-from . import auth_views, com_views, user_views, cvletter_views, test_views
+from . import auth_views, com_views, user_views, cvletter_views
 
 urlpatterns = [
     ###### 유저 가입, 로그인 , 인증 로직 ######
