@@ -11,15 +11,15 @@ from django.http import JsonResponse, HttpResponse
 from .models import Users_info
 from .env_settings import SALT 
  
+# return JsonResponse()부분을 필요에 따라 render()나 JsonResponse()로 고쳐서 씀.
+
 def index(request):
     context = {}
     # m_id 세션변수 값이 없다면 '' 을 넣어라
+    # html 파일에서 {% if request.session %} 로그인이 됐다면 표시할 태그 {% else %} 로그인 안됐을때 표시할거 {% endif %}
     context['hello'] = 'hello'
-    context['user_email'] = request.session.get('user_email', '')
-    context['user_age'] = request.session.get('user_age', '')
-    # username = request.COOKIES.get('username')
-    # password = request.COOKIES.get('password')
-
+    context['user_email'] = request.session.get('user_email', False)
+    context['user_age'] = request.session.get('user_age', False)
     # if request.session is None :
     #     return redirect('/')
  
@@ -41,12 +41,12 @@ def register(request):
             req_passwd2 = request.POST.get("passwd", False)
             
             print(req_passwd, req_name, req_email, req_birth)
-            # 값 전부 썼는지 확인
+            # 값 전부 썼는지 확인(html input 태그 속성에서 required 태그 쓰면 이거 안해도 됩니다)
             if False in (req_passwd, req_email,req_birth, req_name):
                 return JsonResponse({"err" : "모두 정확히 기입해 주세요."}, status=400)
             
             # 회원가입 중복 체크
-            user_exist_id = Users_info.objects.filter(email=req_email)
+            user_exist_id = Users_info.objects.filter(email=req_email) # id 중복체크
             if user_exist_id.exists():
                 return JsonResponse({"message" : "중복된 이메일 입니다."}, status=400)
             elif req_passwd != req_passwd2 :
@@ -58,7 +58,7 @@ def register(request):
                     name=req_name,
                     email=req_email, 
                     birth=req_birth,
-                    reg_date = datetime.now().strftime('%Y-%m-%d %H:%M:%S'), 
+                    reg_date = datetime.now().strftime('%Y-%m-%d %H:%M:%S'), # json은 date 타입 지원x , string으로 변환
                     update_date = datetime.now().strftime('%Y-%m-%d %H:%M:%S')
                 )
                 context['regi_time'] = datetime.now().strftime('%Y-%m-%d %H:%M:%S')
@@ -107,5 +107,6 @@ def login(request):
             return JsonResponse({"err": err})
         
 def logout(request):
+    # 세션 id를 지운다 그리고 메인페이지로 이동
     request.session.flush()
     return redirect('/')
