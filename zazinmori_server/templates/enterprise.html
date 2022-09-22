@@ -1,0 +1,233 @@
+{% load static %}
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+  <meta charset="utf-8">
+  <meta content="width=device-width, initial-scale=1.0" name="viewport">
+
+  <title> zazinmori </title>
+  <meta content="" name="description">
+  <meta content="" name="keywords">
+
+  <!-- Favicons -->
+  <link href="{% static 'img/favicon.png' %}" rel="icon">
+  <link href="{% static 'img/apple-touch-icon.png' %}" rel="apple-touch-icon">
+
+  <!-- Google Fonts -->
+  <link href="https://fonts.googleapis.com/css?family=Open+Sans:300,300i,400,400i,600,600i,700,700i|Raleway:300,300i,400,400i,500,500i,600,600i,700,700i|Poppins:300,300i,400,400i,500,500i,600,600i,700,700i" rel="stylesheet">
+
+  <!-- Vendor CSS Files -->
+  <link href="{% static 'vendor/animate.css/animate.min.css' %}" rel="stylesheet">
+  <link href="{% static 'vendor/bootstrap/css/bootstrap.min.css' %}" rel="stylesheet">
+  <link href="{% static 'vendor/bootstrap-icons/bootstrap-icons.css' %}" rel="stylesheet">
+  <link href="{% static 'vendor/boxicons/css/boxicons.min.css' %}" rel="stylesheet">
+  <link href="{% static 'vendor/glightbox/css/glightbox.min.css' %}" rel="stylesheet">
+  <link href="{% static 'vendor/remixicon/remixicon.css' %}" rel="stylesheet">
+  <link href="{% static 'vendor/swiper/swiper-bundle.min.css' %}" rel="stylesheet">
+
+  <!-- Template Main CSS File -->
+  <link href="{% static 'css/style.css' %}" rel="stylesheet">
+
+  <!-- =======================================================
+  * Template Name: Hidayah - v4.7.0
+  * Template URL: https://bootstrapmade.com/hidayah-free-simple-html-template-for-corporate/
+  * Author: BootstrapMade.com
+  * License: https://bootstrapmade.com/license/
+  ======================================================== -->
+</head>
+
+<body>
+
+  <!-- ======= Header ======= -->
+  <header id="header" class="fixed-top header-inner-pages">
+    <div class="container d-flex align-items-center justify-content-between">
+
+      <h1 class="logo"><a href="/lo_index/"> zazinmori </a></h1>
+      <!-- Uncomment below if you prefer to use an image logo -->
+      <!-- <a href="index.html" class="logo"><img src="assets/img/logo.png" alt="" class="img-fluid"></a>-->
+
+      <nav id="navbar" class="navbar">
+        <ul>
+          <li><a class="nav-link scrollto active" href="/my_page/"> My page </a></li>
+          <li><a class="nav-link scrollto" href="/zazinmori_0/zazinmori_server/static"> Logout </a></li>
+          <li><a class="nav-link scrollto" href="/search/"> 검색 </a></li>
+          <li><a class="nav-link scrollto" href="#about"> 기업 공고 </a></li>
+          <li><a class="nav-link scrollto" href="/writing/"> 자소서 작성 </a></li>
+
+        </ul>
+        <i class="bi bi-list mobile-nav-toggle"></i>
+      </nav><!-- .navbar -->
+    </div>
+  </header><!-- End Header -->
+
+  <!-- ======= Hero Section ======= -->
+  <section id="hero">
+    <div id="heroCarousel" data-bs-interval="5000" class="carousel slide carousel-fade" data-bs-ride="carousel">
+
+      <ol class="carousel-indicators" id="hero-carousel-indicators"></ol>
+
+      <div class="carousel-inner" role="listbox">
+
+        <!-- Slide 1 -->
+        <div class="carousel-item active"> <img src="{% static '/img/writing-2.jpg' %}" alt="index" style="width:170%;" >
+          <div class="carousel-container">
+            <div class="container">
+              <h2 class="animated fadeInDown"> # 테스트 태그 </h2>
+              <p class="animated fadeInUp"> 태그 관련 간단한 설명 <br> 자세히 버튼을 누르면 해당 태그의 검색결과로 이동  </p>
+              <a href="#" class="btn-get-started animated fadeInUp scrollto"> 자세히 </a>
+            </div>
+          </div>
+        </div>
+
+        <!-- Slide 2 -->
+        <div class="carousel-item active"> <img src="{% static '/img/writing-1.jpg' %}" alt="index" style="width:170%;" >
+          <div class="carousel-container">
+            <div class="container">
+              <h2 class="animated fadeInDown"> # 테스트 태그 2 </h2>
+              <p class="animated fadeInUp"> 태그 관련 간단한 설명 <br> 자세히 버튼을 누르면 해당 태그의 검색결과로 이동  </p>
+              <a href="#" class="btn-get-started animated fadeInUp scrollto"> 자세히 </a>
+            </div>
+          </div>
+        </div>
+
+        <!-- Slide 3 -->
+        <div class="carousel-item active"> <img src="{% static '/img/writing-10.jpg' %}" alt="index" style="width:170%;" >
+          <div class="carousel-container">
+            <div class="container">
+              <h2 class="animated fadeInDown"> # 테스트 태그 3 </h2>
+              <p class="animated fadeInUp"> 태그 관련 간단한 설명 <br> 자세히 버튼을 누르면 해당 태그의 검색결과로 이동  </p>
+              <a href="#" class="btn-get-started animated fadeInUp scrollto"> 자세히 </a>
+            </div>
+          </div>
+        </div>
+
+      </div>
+
+      <a class="carousel-control-prev" href="#heroCarousel" role="button" data-bs-slide="prev">
+      <span class="carousel-control-prev-icon bi bi-chevron-left" aria-hidden="true"></span>
+    </a>
+    <a class="carousel-control-next" href="#heroCarousel" role="button" data-bs-slide="next">
+      <span class="carousel-control-next-icon bi bi-chevron-right" aria-hidden="true"></span>
+    </a>
+
+  </div>
+</section>
+    <!-- ======= Services Section ======= -->
+    <section id="services" class="services">
+      <div class="container-fluid">
+
+        <div class="section-title">
+          <h1> 검색한 키워드의 관련 모집 공고문 </h1>
+        </div>
+
+        <div class="row justify-content-center">
+          <div class="col-xl-10">
+            <div class="row">
+              <table class="MPcptable" style="width:50%;">
+                <thead>
+                  <tr>
+                    <th scope="col" class="th-number"> 번호 </th>
+                    <th scope="col" class="th-compname"> 　　기업공고　　 </th>
+                    <th scope="col" class="th-date"> 날짜 </th>
+                    <th scope="col" class="th-keyword"> 　　추천 키워드　 </th>
+                  </tr>
+                </thead>
+                <tbody>
+                  <tr>
+                    <td>1</td>
+                    <th>
+                      <a herf="#!"> 테스트 테이블 입니다 </a>
+                    </th>
+                    <td> 2022.01.26 </td>
+                    <td> 　#긍정 #희생 </td>
+                  </tr>
+                  <tr>
+                    <td>2</td>
+                    <th>
+                      <a herf="#!"> 중요한것은 100마디의 말보다 1번의 행동이다 </a>
+                    </th>
+                    <td> 2022.05.05 </td>
+                    <td> 　#긍정 #노력 #희생 </td>
+                  </tr>
+                  <tr>
+                    <td>3</td>
+                    <th>
+                      <a herf="#!"> 유재석처럼 올바른 사람이 되고싶다 </a>
+                    </th>
+                    <td> 2022.08.08 </td>
+                    <td> 　#열정 #성실 #긍정 </td>
+                  </tr>
+                  <tr>
+                    <td>4</td>
+                    <th>
+                      <a herf="#!"> 긍정적으로 살아야 도전할 수 있다 </a>
+                    </th>
+                    <td> 2021.12.31 </td>
+                    <td> 　#각오 #다짐 #노력 </td>
+                  </tr>
+                  <tr>
+                    <td>5</td>
+                    <th>
+                      <a herf="#!"> 부정적인 에너지는 주변 사람들도 바꿔버린다 </a>
+                    </th>
+                    <td> 2022.09.09 </td>
+                    <td> 　#긍정 #노력 #희생 </td>
+                  </tr>
+                  <tr>
+                    <td>6</td>
+                    <th>
+                      <a herf="#!"> 밥보다 빵을 좋아했더니 살만 쪄버렸다. </a>
+                    </th>
+                    <td> 2022.02.22 </td>
+                    <td> 　#요리 #자취 #레시피 </td>
+                  </tr>
+                  <tr>
+                    <td>7</td>
+                    <th>
+                      <a herf="#!"> 무작정 굶는 다이어트는 영양실조만 얻는다 </a>
+                    </th>
+                    <td> 2022.01.29 </td>
+                    <td> 　#게임 #제작 #코딩 </td>
+                  </tr>
+                  <tr>
+                    <td>8</td>
+                    <th>
+                      <a herf="#!"> 되도록이면 헬스장에서 제대로 운동하자 </a>
+                    </th>
+                    <td> 2022.05.28 </td>
+                    <td> 　#hadoop #zepplin </td>
+                  </tr>
+                  <tr>
+                    <td>9</td>
+                    <th>
+                      <a herf="#!"> 과자나 탄산은 좋은 점이 별로 없다 </a>
+                    </th>
+                    <td> 2022.07.26 </td>
+                    <td> 　#운동 #헬스 #배가나옴 </td>
+                  </tr>
+                  <tr>
+                    <td>10</td>
+                    <th>
+                      <a herf="#!"> life is short, you need python </a>
+                    </th>
+                    <td> 2022.06.25 </td>
+                    <td> 　#긍정 #노력 #희생 </td>
+                  </tr>
+                </tbody>
+              </table>
+            </div>
+          </div>
+        </div>
+      </div>
+    </section><!-- End Services Section -->
+
+
+
+  <!-- Vendor JS Files -->
+  <script src="{% static 'vendor/bootstrap/js/bootstrap.bundle.min.js' %}"></script>
+  <!-- Template Main JS File -->
+  <script src="{% static 'js/main.js' %}"></script>
+</body>
+
+</html>
