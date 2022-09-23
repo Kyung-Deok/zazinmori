@@ -11,7 +11,7 @@ https://docs.djangoproject.com/en/4.1/ref/settings/
 """
 import os
 from pathlib import Path
-from .env_settings import SECRET_KEY,DATABASES, LOGGING
+from .env_settings import SECRET_KEY,DATABASES #LOGGING
 
 # Build paths inside the project like this: BASE_DIR / 'subdir'.
 BASE_DIR = Path(__file__).resolve().parent.parent
@@ -154,4 +154,4 @@ APPEND_SLASH=False
 
 
 
-LOGGING = LOGGING
+#LOGGING = LOGGING

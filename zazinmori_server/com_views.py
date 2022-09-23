@@ -50,12 +50,13 @@ def company_detail(request):
     except:
         context['com_finance'] = ''
 
-    try:
-        com_recruits = Jobposting.objects.filter(regi_code=req_regi_code)
-        context['recruits'] = com_recruits.values()[0]
-    except:
-        context['recruits'] = ''
-        
+    com_recruits = Jobposting.objects.filter(regi_code=req_regi_code)
+    context['recruit_num'] = len(com_recruits)
+    for i in range(len(com_recruits)):
+        recruit_dict = {}
+        recruit_dict[f'{i}'] = com_recruits.values()[i]    
+    context['com_recruits'] = recruit_dict
+    
 
     return JsonResponse(context, status=200)
     # except django.db.utils.OperationalError :

@@ -48,8 +48,8 @@ class Corporation(models.Model):
 
 
 class Cvletter_items(models.Model):
-    items_id = models.BigIntegerField()
-    jobs_id = models.BigIntegerField()
+    items_id = models.TextField(primary_key=True)
+    jobs_id = models.TextField(blank=True, null=True)
     question = models.TextField(blank=True, null=True)
     word = models.TextField(blank=True, null=True)
 
@@ -83,7 +83,7 @@ class Failcvletter(models.Model):
 
 
 class Jobposting(models.Model):
-    jobposting_id = models.BigIntegerField()
+    jobposting_id = models.TextField(primary_key=True)
     regi_code = models.TextField(blank=True, null=True)
     corp_nm = models.TextField(blank=True, null=True)
     period = models.TextField(blank=True, null=True)
@@ -99,8 +99,8 @@ class Jobposting(models.Model):
 
 
 class Jobposting_jobs(models.Model):
-    jobs_id = models.BigIntegerField()
-    jobposting_id = models.BigIntegerField()
+    jobs_id = models.TextField(primary_key=True)
+    jobposting_id = models.TextField(blank=True, null=True)
     job = models.TextField(blank=True, null=True)
     new_or_exp = models.TextField(blank=True, null=True)
 

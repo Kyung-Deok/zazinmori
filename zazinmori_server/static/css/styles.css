@@ -2155,6 +2155,10 @@ html {
 	word-break: keep-all;
 }
 
+.pointer {
+	cursor: pointer;
+}
+
 .f-c0 { color: #FFFFFF; }
 .f-c1 { color: #CEC8FD; }
 .f-c2 { color: #A69CF7; }

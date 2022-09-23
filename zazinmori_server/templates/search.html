@@ -55,7 +55,7 @@
 
             <!-- Text Logo - Use this if you don't have a graphic logo -->
             <a href="/"><img style="width:30px; height:30px; margin-top: -5px;" src="{% static 'img/logo_w.png' %}"></a>
-            <h3 class="fw-bold text-white" onclick="to_home()">zazinmori</h3>
+            <h3 class="fw-bold text-white pointer" onclick="to_home()">zazinmori</h3>
 
             <!-- Mobile Menu Toggle Button -->
             <button class="navbar-toggler" type="button" data-toggle="collapse" data-target="#navbarsExampleDefault" aria-controls="navbarsExampleDefault" aria-expanded="false" aria-label="Toggle navigation">
@@ -278,8 +278,8 @@
                             <div class="card text-bg-light mb-3">
                               <div class="card-header">현재 진행 중인 채용</div>
                               <div class="card-body">
-                                <h5 class="card-title">Light card title</h5>
-                                <p class="card-text">Some quick example text to build on the card title and make up the bulk of the card's content.</p>
+                                <table class="table table-hover" id="recruit_table">
+                                </table>
                               </div>
                             </div>
                         </div>
@@ -361,7 +361,7 @@
 
               var $table = $('<table class="table table-hover" id="search_result" style="width:100%"></table>');
               $('#search_section').append($table);
-              var $tr = $('<tr id="table_ths" class="text-center" style="border-bottom: 2px solid #A69CF7;"></tr>');
+              var $tr = $('<tr id="table_ths" class="text-center" ></tr>');
               $('#search_result').append($tr);
 
               var corp_num = context.corp_num;
@@ -381,7 +381,7 @@
                 $('#table_ths').append($th);
 
                 for (var i=0; i<corp_num; i++) {
-                  var $tr = $('<tr class="text-center" style="border-bottom: 1px solid #A69CF7;">');
+                  var $tr = $('<tr class="text-center" >');
                   $('#search_result').append($tr);
 
                   var keys = Object.keys(context.corps);
@@ -392,7 +392,7 @@
                   var address = context.corps[keys[i]]['address']
                   var regi_code = context.corps[keys[i]]['regi_code']
 
-                  var $th = $(`<th onclick="corp_detail(${regi_code})">${corp_nm}</th>`);
+                  var $th = $(`<th class="pointer" onclick="corp_detail(${regi_code})">${corp_nm}</th>`);
                   $tr.append($th);
                   var $td = $(`<td class="search_td" onclick="corp_detail(${regi_code})">${category}</td>`);
                   $tr.append($td);
@@ -491,6 +491,35 @@
               <!-- 유사 기업 분석 -->
 
               <!-- 채용 공고 -->
+              $('#recruit_table').empty()
+
+              var recruit_num = context.recruit_num;
+              if(recruit_num == 0){
+                var $tr = $('<tr class="text-center">');
+                $('#recruit_table').append($tr);
+                var $th = $('<th style=width:100%>현재 진행 중인 채용이 없습니다.</th>');
+                $tr.append($th);
+              }
+
+              for (var i=0; i<recruit_num; i++){
+                var $tr = $('<tr class="text-center">');
+                $('#recruit_table').append($tr);
+
+                 
+              }
+
+
+//                  var keys = Object.keys(context.corps);
+//                  var corp_nm = context.corps[keys[i]]['corp_nm']
+//
+//                  var $th = $(`<th class="pointer" onclick="corp_detail(${regi_code})">${corp_nm}</th>`);
+//                  $tr.append($th);
+//                  var $td = $(`<td class="search_td" onclick="corp_detail(${regi_code})">${category}</td>`);
+//                  $tr.append($td);
+            
+
+
+              
 
 
             },
