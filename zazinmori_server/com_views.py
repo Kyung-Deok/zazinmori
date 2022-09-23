@@ -52,8 +52,8 @@ def company_detail(request):
 
     com_recruits = Jobposting.objects.filter(regi_code=req_regi_code)
     context['recruit_num'] = len(com_recruits)
+    recruit_dict = {}
     for i in range(len(com_recruits)):
-        recruit_dict = {}
         recruit_dict[f'{i}'] = com_recruits.values()[i]    
     context['com_recruits'] = recruit_dict
     
@@ -65,32 +65,32 @@ def company_detail(request):
     #     return JsonResponse({"err": err})
 
 
-def recruit_company(request, jobposting_id):
-    context={}
-    if request.method == "GET":
-        # return render(request, '채용 공고 정보 페이지.html')
-        try:
-            context['message'] = f"채용 공고 정보 페이지 {jobposting_id}번 회사 채용공고"
-            req_corp_nm = request.GET.get('corp_nm', None)
-            
-            if req_corp_nm is None :
-                return redirect('/')
-            
-            com_info = Corporation.objects.filter(corp_nm=req_corp_nm)
-            # job_postings = Job_posting.objects.filter(corp_id=com_info.corp_id)
-            # job_posting_jobs = Jobposting_job.objects.filter(Jobposting_id=job_postings.jobposting_id)
-            job_postings = Jobposting.objects.filter(jobposting_id=jobposting_id)
-            job_posting_jobs = Jobposting_jobs.objects.filter(jobposting_id=jobposting_id)
+def recruits(request, jobposting_id):
+    context={}    
+    # post방식으로만 통신
+    try:
+        jobposting_id = request.POST['jobposting_id']
 
-            context['corp_nm'] = com_info.first().corp_nm
-            context['job_postings'] = job_postings.values()[0]
-            context['job_posting_job']=job_posting_jobs.values()[0]
-            return JsonResponse(context, status=200)
+        jobposting = Jobposting.objects.filter(jobposting_id=jobposting_id) #1개
+        jobposting_jobs = Jobposting_jobs.objects.filter(jobposting_id=jobposting_id) #여러개
 
-        except django.db.utils.OperationalError :
-            return JsonResponse({'err':"테이블 없음"}, status=400)
-        except Exception as err:
-            return JsonResponse({"err": err})
+        context['jobposting_id'] = jobposting[0].jobposting_id
+        context['posting_type'] = jobposting[0].posting_type
+        context['posting_detail'] = jobposting[0].posting_detail
+        
+        context['job_nums'] = len(jobposting_jobs)
+        jobs_dict = {}       
+        for i in range(len(jobposting_jobs)):            
+            jobs_dict[f'{i}'] = jobposting_jobs.values()[i]  
+        context['jobs'] = jobs_dict
+        
+        return JsonResponse(context, status=200)
+
+    except django.db.utils.OperationalError :
+        return JsonResponse({'err':"테이블 없음"}, status=400)
+    except Exception as err:
+        return JsonResponse({"err": err})
+
 
 
 def recruit_positions(request, jobposting_id): # 수정필요

@@ -32,8 +32,8 @@ urlpatterns = [
     ###### 기업 검색 로직 ######
     path('company/', com_views.search_company, name='searchcoms'),#
     path('company/company_detail/', com_views.company_detail, name='detailcoms'),#
-    path('company/<int:jobposting_id>/recruits/', com_views.recruit_company, name='recruitcoms'),
-    path('company/<int:jobposting_id>/recruits/detail', com_views.recruit_positions, name='recruitposits'),
+    #path('company/<int:jobposting_id>/recruits/', com_views.recruit_company, name='recruitcoms'),
+    path('company/recruits/', com_views.recruits, name='recruits'),
     ###### 마이 페이지 로직 ######
     path('info/', user_views.user_info, name='userinfo'), #
     path('info/user/', user_views.user_update, name='userupdate'), #

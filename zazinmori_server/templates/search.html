@@ -292,6 +292,25 @@
     <!-- end of Corporation Detail -->
 
 
+    <!--Modal for Recruiting-->
+    <div class="modal" id="recruit_modal" tabindex="-1">
+        <div class="modal-dialog modal-lg">
+            <div class="modal-content">
+                <div class="modal-header">
+                  <h5 class="modal-title">Modal title</h5>
+                  <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+                </div>
+                <div class="modal-body">
+                  <p>Modal body text goes here.</p>
+                </div>
+                <div class="modal-footer">
+                  <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Close</button>
+                </div>
+              </div>
+        </div>
+    </div>
+
+
     <!-- Footer -->
     <svg class="footer-frame mt-5" data-name="Layer 2" xmlns="http://www.w3.org/2000/svg" preserveAspectRatio="none" viewBox="0 0 1920 79"><defs><style>.cls-2{fill:#5f4def;}</style></defs><title>footer-frame</title><path class="cls-2" d="M0,72.427C143,12.138,255.5,4.577,328.644,7.943c147.721,6.8,183.881,60.242,320.83,53.737,143-6.793,167.826-68.128,293-60.9,109.095,6.3,115.68,54.364,225.251,57.319,113.58,3.064,138.8-47.711,251.189-41.8,104.012,5.474,109.713,50.4,197.369,46.572,89.549-3.91,124.375-52.563,227.622-50.155A338.646,338.646,0,0,1,1920,23.467V79.75H0V72.427Z" transform="translate(0 -0.188)"/></svg>
     <!-- end of footer -->
@@ -323,9 +342,17 @@
     <script src="{% static 'js/scripts.js' %}"></script> <!-- Custom scripts -->
 </body>
 
+<!--***********************************************-->
+<!--********************script*********************-->
+<!--***********************************************-->
+
 <script>
 
     window.onload=function(){
+        window.scrollTo(0, 0);
+    }
+
+    window.onbeforeunload=function(){
         window.scrollTo(0, 0);
     }
 
@@ -502,35 +529,22 @@
                 var $tr = $('<tr class="text-center">');
                 $('#recruit_table').append($tr);
                 var keys = Object.keys(context.com_recruits);
-                var corp_nm = context.com_recruits[keys[i]]['corp_nm']
                 var start_time = context.com_recruits[keys[i]]['start_time']
                 var end_time = context.com_recruits[keys[i]]['end_time']
                 var url = context.com_recruits[keys[i]]['url']
+                var jobposting_id = context.com_recruits[keys[i]]['jobposting_id']
 
                 var $th = $(`<th>${corp_nm}</th>`);
                 $tr.append($th);
                 if(start_time=='null'){
                     var $th = $(`<th>수시 채용 중입니다</th>`);
                 } else{
-                    var $th = $(`<td>${start_time} ~ ${end_time}</td>`);
+                    var $th = $(`<td>채용기간: ${start_time} ~ ${end_time}</td>`);
                 }
                 $tr.append($th);
-                var $td = $(`<th></td>`);
+                var $td = $(`<td><button type="button" onclick="posting(${jobposting_id});" class="btn btn-outline-dark mx-3">채용공고 확인</button><button type="button" onclick="apply('${url}');" class="btn btn-dark">채용지원</button></td>`)
                 $tr.append($td);
-              }
-
-
-//                  var keys = Object.keys(context.corps);
-//                  var corp_nm = context.corps[keys[i]]['corp_nm']
-//
-//                  var $th = $(`<th class="pointer" onclick="corp_detail(${regi_code})">${corp_nm}</th>`);
-//                  $tr.append($th);
-//                  var $td = $(`<td class="search_td" onclick="corp_detail(${regi_code})">${category}</td>`);
-//                  $tr.append($td);
-            
-
-
-              
+              }            
 
 
             },
@@ -540,6 +554,77 @@
         }); //ajax끝
   }
 
+
+  function posting(jobposting_id){
+    $.ajax({
+        url: '/company/recruits/',
+        type: 'POST',
+        data: {'jobposting_id': jobposting_id, 'csrfmiddlewaretoken':  csrftoken},
+        dataType: 'json',
+        success: function(context) {
+          console.log('success')
+          console.log(context)
+
+          document.getElementById("main_1").scrollIntoView(true);
+          document.getElementById("main_1").setAttribute('style', '"visibility: visible;"');
+          $('#search_result').remove();
+
+          var $table = $('<table class="table table-hover" id="search_result" style="width:100%"></table>');
+          $('#search_section').append($table);
+          var $tr = $('<tr id="table_ths" class="text-center" ></tr>');
+          $('#search_result').append($tr);
+
+          var corp_num = context.corp_num;
+          if (corp_num == 0){
+            var $th = $('<th style=width:100%>검색 결과가 없습니다.</th>');
+            $('#table_ths').append($th);
+          } else {
+            var $th = $('<th style="width: 20%;">회사명</th>');
+            $('#table_ths').append($th);
+            var $th = $('<th style="width: 20%;">업종</th>');
+            $('#table_ths').append($th);
+            var $th = $('<th style="width: 10%;">대표자명</th>');
+            $('#table_ths').append($th);
+            var $th = $('<th style="width: 15%;">설립일</th>');
+            $('#table_ths').append($th);
+            var $th = $('<th style="width: 35%;">소재지</th>');
+            $('#table_ths').append($th);
+
+            for (var i=0; i<corp_num; i++) {
+              var $tr = $('<tr class="text-center" >');
+              $('#search_result').append($tr);
+
+              var keys = Object.keys(context.corps);
+              var corp_nm = context.corps[keys[i]]['corp_nm']
+              var category = context.corps[keys[i]]['category']
+              var ceo_nm = context.corps[keys[i]]['ceo_nm']
+              var est_dt = context.corps[keys[i]]['est_dt']
+              var address = context.corps[keys[i]]['address']
+              var regi_code = context.corps[keys[i]]['regi_code']
+
+              var $th = $(`<th class="pointer" onclick="corp_detail(${regi_code})">${corp_nm}</th>`);
+              $tr.append($th);
+              var $td = $(`<td class="search_td" onclick="corp_detail(${regi_code})">${category}</td>`);
+              $tr.append($td);
+              var $td = $(`<td class="search_td" onclick="corp_detail(${regi_code})">${ceo_nm}</td>`);
+            }
+          }
+          
+        $('#recruit_modal').modal('show');
+
+        },
+        error: function(){
+          console.log('fail')
+        }
+    }); //ajax끝
+
+
+    $('#recruit_modal').modal('show');
+  }
+
+  function apply(url){
+    window.open(url);
+  }
 
 
 
