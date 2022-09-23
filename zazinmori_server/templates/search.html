@@ -422,9 +422,6 @@
 
 
   function corp_detail(regi_code){
-    //document.getElementById("main_2").scrollIntoView(true);
-    //document.getElementById("detail_section").setAttribute('style', '"visibility: visible;"');
-
     $.ajax({
             url: 'company_detail/',
             type: 'POST',
@@ -504,8 +501,22 @@
               for (var i=0; i<recruit_num; i++){
                 var $tr = $('<tr class="text-center">');
                 $('#recruit_table').append($tr);
+                var keys = Object.keys(context.com_recruits);
+                var corp_nm = context.com_recruits[keys[i]]['corp_nm']
+                var start_time = context.com_recruits[keys[i]]['start_time']
+                var end_time = context.com_recruits[keys[i]]['end_time']
+                var url = context.com_recruits[keys[i]]['url']
 
-                 
+                var $th = $(`<th>${corp_nm}</th>`);
+                $tr.append($th);
+                if(start_time=='null'){
+                    var $th = $(`<th>수시 채용 중입니다</th>`);
+                } else{
+                    var $th = $(`<td>${start_time} ~ ${end_time}</td>`);
+                }
+                $tr.append($th);
+                var $td = $(`<th></td>`);
+                $tr.append($td);
               }
 
 
