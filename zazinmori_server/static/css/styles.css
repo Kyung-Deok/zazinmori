@@ -1481,7 +1481,7 @@ a.back-to-top {
 	width: 2.625rem;
 	height: 2.625rem;
 	border-radius: 1.875rem;
-	background: #4f3cda url("../images/up-arrow.png") no-repeat center 47%;
+	background: #4f3cda url("../img/up-arrow.png") no-repeat center 47%;
 	background-size: 1.125rem 1.125rem;
 	text-indent: -9999px;
 }
@@ -2155,6 +2155,10 @@ html {
 	word-break: keep-all;
 }
 
+.pointer {
+	cursor: pointer;
+}
+
 .f-c0 { color: #FFFFFF; }
 .f-c1 { color: #CEC8FD; }
 .f-c2 { color: #A69CF7; }
@@ -2162,13 +2166,45 @@ html {
 .f-c4 { color: #5F4DEE; }
 .f-c5 { color: #3D29E7; }
 .f-c6 { color: #230DDB; }
+.f-g3 { color: #777; }
+.f-g4 { color: #555; }
+.f-g5 { color: #333; }
+
+.bg-c0 { background-color: #FFFFFF; }
+.bg-c1 { background-color: #CEC8FD; }
+.bg-c2 { background-color: #A69CF7; }
+.bg-c3 { background-color: #7F71F2; }
+.bg-c4 { background-color: #5F4DEE; }
+.bg-c5 { background-color: #3D29E7; }
+.bg-c6 { background-color: #230DDB; }
 
 .border-red {border: 1px solid red;}
 .border-yellow {border: 1px solid yellow;}
 .border-green {border: 1px solid green;}
 .border-blue {border: 1px solid blue;}
+.border-c1 {border: 1px solid #CEC8FD;}
+.border-c2 {border: 1px solid #A68CF7;}
+.border-c3 {border: 1px solid #7F71F2;}
 .border-c4 {border: 1px solid #5F4DEE;}
 .border-gray {border: 1px solid #818182}
+
+.divide {
+	height: 1px;
+	margin-top: 1.75rem;
+	margin-bottom: 5rem;
+	border: none;
+	background-color: #ccd3df;
+}
+
+.fas {
+	color:#5f4dee;
+	font-size: 0.5rem;
+	line-height: 1.625rem;
+}
+
+.media-body {
+	margin-left: 0.625rem;
+}
 
 
 /*input[type=date]::-webkit-datetime-edit-year-field {*/
