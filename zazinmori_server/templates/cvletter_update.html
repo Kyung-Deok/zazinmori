@@ -119,11 +119,12 @@
                     </div> end of image-container-large -->
                     {% for item in context.items %}
                     <div class="text-container">
+                        <p class='hidden_cvitem_id' style="width:0; height:0; visibility:hidden;">{{ item.user_cvitems_id }}</p>
                         <h3 class='question_section'>{{ item.question }}</h3>
                         <h5 class='word_section'>{{ item.word }}</h5>
                         <div>
                             <p class='words_len' style="float: right;">0자 작성</p>
-                            <textarea class="textarea" style="width:100%;" cols = "100" rows = "6" placeholder="내용을 입력해주세요."></textarea>
+                            <textarea class="textarea" style="width:100%;" cols = "100" rows = "6" placeholder="내용을 입력해주세요.">{{ item.answer }}</textarea>
                         </div>
                         <h4 class="mt-3 pl-2 f-g4">! 여기도 지원해보시는 건 어때요?</h4>
                         <p class="pl-3 f-g3" style="font-weight:600;"><span class="f-c4">{{ item.qtype_text }}</span> 유형의 질문에 대해 비슷한 자소서로 합격 가능성이 높은 기업들입니다</p>                         
@@ -133,7 +134,7 @@
                             <div class="wk mx-3">#{{ item.corp3 }}</div>
                             <div class="wk mx-3">#{{ item.corp4 }}</div>
                             <div class="wk mx-3">#{{ item.corp5 }}</div>
-                        </div>
+                        </div>                          
                     </div> <!-- end of text-container -->
                     {% endfor %}
 
@@ -142,14 +143,13 @@
                     </div>end of text container -->
                     <div class="text-center">
                         <button class="btn-outline-reg mx-2" onclick="back()">BACK</button>
-                        <button class="btn-solid-reg mx-2"style="width: 15rem;" onclick="save_cvletter()">SAVE</button>
+                        <button class="btn-solid-reg mx-2"style="width: 15rem;" onclick="update_cvletter()">SAVE</button>
                     </div>
                 </div> <!-- end of col-->
             </div> <!-- end of row -->
         </div> <!-- end of container -->
     </div> <!-- end of ex-basic-2 -->
     <!-- end of privacy content -->
-    <p id="jobs_id" style="visibility:hidden;">{{ context.jobs_id }}</p>
 
 
 
@@ -199,30 +199,26 @@
     }
 
 
-    function save_cvletter(){
+    function update_cvletter(){
         
-        var jobs_id = $('#jobs_id').text();
-        console.log(jobs_id);
         var item_num = $('.question_section').length;
-        var q_dict = {};
+        var id_dict = {};
         var a_dict = {};
-        var w_dict = {};
 
         for (var i=0; i<item_num; i++){
-            q_dict[`${i}`] = $('.question_section')[i].textContent;
-            w_dict[`${i}`] = $('.word_section')[i].textContent;
+            id_dict[`${i}`] = $('.hidden_cvitem_id')[i].textContent;
             a_dict[`${i}`] = $('.textarea')[i].value;
         }
 
         $.ajax({
-            url: '/cvletter/write/0',
+            url: '/cvletter/update/0',
             type: 'POST',
-            data: JSON.stringify({'jobs_id': jobs_id, 'item_num': item_num, 'q_dict': q_dict, 'a_dict': a_dict, 'w_dict': w_dict}),
+            data: JSON.stringify({'item_num': item_num, 'id_dict': id_dict, 'a_dict': a_dict}),
             dataType: 'json',
             success: function(context){
               console.log('success')
-              console.log(context);
-              if(confirm("자소서가 저장되었습니다. 마이페이지로 이동하시겠습니까?")) document.location = '/mypage/';
+              //console.log(context);
+              if(confirm("자소서가 수정되었습니다. 마이페이지로 이동하시겠습니까?")) document.location = '/mypage/';
             },
             error: function(){
               console.log('fail');

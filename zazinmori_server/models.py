@@ -149,30 +149,52 @@ class Topic(models.Model):
         db_table = 'topic'
 
 
+# class User_cvletter(models.Model):
+#     user_cvletter_id = models.AutoField(primary_key=True)
+#     member_id = models.CharField(max_length=45, blank=True, null=True)
+#     written_date = models.TextField(blank=True, null=True)
+#     q1 = models.TextField(blank=True, null=True)
+#     q2 = models.TextField(blank=True, null=True)
+#     q3 = models.TextField(blank=True, null=True)
+#     q4 = models.TextField(blank=True, null=True)
+#     q5 = models.TextField(blank=True, null=True)
+#     q6 = models.TextField(blank=True, null=True)
+#     q7 = models.TextField(blank=True, null=True)
+#     q8 = models.TextField(blank=True, null=True)
+#     a1 = models.TextField(blank=True, null=True)
+#     a2 = models.TextField(blank=True, null=True)
+#     a3 = models.TextField(blank=True, null=True)
+#     a4 = models.TextField(blank=True, null=True)
+#     a5 = models.TextField(blank=True, null=True)
+#     a6 = models.TextField(blank=True, null=True)
+#     a7 = models.TextField(blank=True, null=True)
+#     a8 = models.TextField(blank=True, null=True)
+
+#     class Meta:
+#         managed = False
+#         db_table = 'user_cvletter'
+        
 class User_cvletter(models.Model):
     user_cvletter_id = models.AutoField(primary_key=True)
+    jobs_id = models.CharField(max_length=45, blank=True, null=True)
     member_id = models.CharField(max_length=45, blank=True, null=True)
     written_date = models.TextField(blank=True, null=True)
-    q1 = models.TextField(blank=True, null=True)
-    q2 = models.TextField(blank=True, null=True)
-    q3 = models.TextField(blank=True, null=True)
-    q4 = models.TextField(blank=True, null=True)
-    q5 = models.TextField(blank=True, null=True)
-    q6 = models.TextField(blank=True, null=True)
-    q7 = models.TextField(blank=True, null=True)
-    q8 = models.TextField(blank=True, null=True)
-    a1 = models.TextField(blank=True, null=True)
-    a2 = models.TextField(blank=True, null=True)
-    a3 = models.TextField(blank=True, null=True)
-    a4 = models.TextField(blank=True, null=True)
-    a5 = models.TextField(blank=True, null=True)
-    a6 = models.TextField(blank=True, null=True)
-    a7 = models.TextField(blank=True, null=True)
-    a8 = models.TextField(blank=True, null=True)
 
     class Meta:
         managed = False
         db_table = 'user_cvletter'
+        
+        
+class User_cvletter_items(models.Model):
+    user_cvitems_id = models.AutoField(primary_key=True)
+    user_cvletter_id = models.CharField(max_length=45, blank=True, null=True)
+    question = models.TextField(blank=True, null=True)
+    answer = models.TextField(blank=True, null=True)
+    word = models.TextField(blank=True, null=True)
+
+    class Meta:
+        managed = False
+        db_table = 'user_cvletter_items'
 
 
 class User_scrap(models.Model):
@@ -192,9 +214,26 @@ class User_info(models.Model):
     name = models.CharField(max_length=45, blank=True, null=True)
     birth = models.CharField(max_length=45, blank=True, null=True)
     gender = models.CharField(max_length=45, blank=True, null=True)
+    phone = models.CharField(max_length=45, blank=True, null=True)
+    category = models.CharField(max_length=45, blank=True, null=True)
+    area = models.CharField(max_length=45, blank=True, null=True)
+    salary = models.CharField(max_length=45, blank=True, null=True)
     reg_date = models.CharField(max_length=45, blank=True, null=True)
     update_date = models.CharField(max_length=45, blank=True, null=True)
 
     class Meta:
         managed = False
         db_table = 'user_info'
+        
+        
+class Board(models.Model):
+    post_id = models.AutoField(primary_key=True)
+    member_id = models.CharField(max_length=45, blank=True, null=True)
+    name = models.CharField(max_length=45, blank=True, null=True)
+    title = models.TextField(blank=True, null=True)
+    content = models.TextField(blank=True, null=True)
+    written_date = models.TextField(blank=True, null=True)
+
+    class Meta:
+        managed = False
+        db_table = 'board'

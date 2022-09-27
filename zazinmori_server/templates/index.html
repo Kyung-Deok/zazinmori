@@ -30,7 +30,7 @@
 	<link href="{% static 'css/styles.css' %}" rel="stylesheet">
 	
 	<!-- Favicon  -->
-    <link rel="icon" href="{% static 'images/favicon.png' %}">
+    <link rel="icon" href="{% static 'img/favicon.png' %}">
 
     <!-- JQuery-->
     <script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
@@ -56,7 +56,7 @@
 
             <!-- Text Logo - Use this if you don't have a graphic logo -->
             <a href="/"><img style="width:30px; height:30px; margin-top: -5px;" src="{% static 'img/logo_w.png' %}"></a>
-            <h3 class="fw-bold text-white" onclick="to_home()">zazinmori</h3>
+            <h3 class="fw-bold text-white pointer" onclick="to_home()">zazinmori</h3>
 
             <!-- Mobile Menu Toggle Button -->
             <button class="navbar-toggler" type="button" data-toggle="collapse" data-target="#navbarsExampleDefault" aria-controls="navbarsExampleDefault" aria-expanded="false" aria-label="Toggle navigation">
@@ -67,7 +67,7 @@
 
             <div class="collapse navbar-collapse" id="navbarsExampleDefault">
                 <ul class="navbar-nav ml-auto">
-                    {% if context.user_email == '' %}
+                    {% if not context.user_email %}
                     {% else %}
                         <li class="nav-item">
                             <a class="nav-link page-scroll" href="/">HOME</a>
@@ -76,7 +76,7 @@
                             <a class="nav-link page-scroll" href="/company/">SEARCH</a>
                         </li>
                         <li class="nav-item">
-                            <a class="nav-link page-scroll" href="#">JOBPOSTING</a>
+                            <a class="nav-link page-scroll" href="/community/">COMMUNITY</a>
                         </li>
                         <li class="nav-item">
                             <a class="nav-link page-scroll" href="/mypage/">MYPAGE</a>
@@ -84,7 +84,7 @@
                     {% endif %}
                 </ul>
                 <span class="nav-item">
-                    {% if context.user_email == '' %}
+                    {% if not context.user_email %}
                         <a class="btn-outline-sm" href="/login/">LOG IN</a>
                     {% else %}
                         <a class="btn-outline-sm" href="/logout/">LOG OUT</a>
@@ -110,11 +110,7 @@
                                 <span class="f-c1">리</span>들을 위하여<br>
                             </h1>
                             <p class="p-large"></p>
-                            {% if context.user_email == '' %}
-                                <a class="btn-solid-lg page-scroll" href="/#/" onclick="to_login()">서비스 이용하기</a>
-                            {% else %}
-                                <a class="btn-solid-lg page-scroll" href="/company/">서비스 이용하기</a>
-                            {% endif %}
+                            <a class="btn-solid-lg page-scroll" href="/company/">서비스 이용하기</a>
                         </div> <!-- end of text-container -->
                     </div> <!-- end of col -->
                     <div class="col-lg-6 col-xl-7">

@@ -55,7 +55,7 @@
 
             <!-- Text Logo - Use this if you don't have a graphic logo -->
             <a href="/"><img style="width:30px; height:30px; margin-top: -5px;" src="{% static 'img/logo_w.png' %}"></a>
-            <h3 class="fw-bold text-white" onclick="to_home()">zazinmori</h3>
+            <h3 class="fw-bold text-white pointer" onclick="to_home()">zazinmori</h3>
 
             <!-- Mobile Menu Toggle Button -->
             <button class="navbar-toggler" type="button" data-toggle="collapse" data-target="#navbarsExampleDefault" aria-controls="navbarsExampleDefault" aria-expanded="false" aria-label="Toggle navigation">
@@ -66,7 +66,7 @@
 
             <div class="collapse navbar-collapse" id="navbarsExampleDefault">
                 <ul class="navbar-nav ml-auto">
-                    {% if context.user_email == '' %}
+                    {% if not context.user_email %}
                     {% else %}
                         <li class="nav-item">
                             <a class="nav-link page-scroll" href="/">HOME</a>
@@ -75,7 +75,7 @@
                             <a class="nav-link page-scroll" href="/company/">SEARCH</a>
                         </li>
                         <li class="nav-item">
-                            <a class="nav-link page-scroll" href="#">JOBPOSTING</a>
+                            <a class="nav-link page-scroll" href="/community/">COMMUNITY</a>
                         </li>
                         <li class="nav-item">
                             <a class="nav-link page-scroll" href="/mypage/">MYPAGE</a>
@@ -83,7 +83,7 @@
                     {% endif %}
                 </ul>
                 <span class="nav-item">
-                    {% if context.user_email == '' %}
+                    {% if not context.user_email %}
                         <a class="btn-outline-sm" href="/login/">LOG IN</a>
                     {% else %}
                         <a class="btn-outline-sm" href="/logout/">LOG OUT</a>
@@ -106,36 +106,88 @@
                     <div class="form-container">
                         <form id="signUpForm" data-toggle="validator" data-focus="false">
                             <div class="form-group">
-                                <input type="text" class="form-control-input" id="email_input" required>
-                                <label class="label-control" for="email_input">Email</label>
+                                <input type="email" class="form-control-input" id="email_input" required>
+                                <label class="label-control" for="email_input"><span style="color:red;">* </span>Email</label>
                                 <div class="help-block with-errors"></div>
                             </div>
                             <div class="form-group">
                                 <input type="text" class="form-control-input" id="name_input" required>
-                                <label class="label-control" for="name_input">Name</label>
+                                <label class="label-control" for="name_input"><span style="color:red;">* </span>Name</label>
                                 <div class="help-block with-errors"></div>
                             </div>
                             <div class="form-group">
                                 <input type="password" class="form-control-input" id="passwd_input" required>
-                                <label class="label-control" for="passwd_input">Password</label>
+                                <label class="label-control" for="passwd_input"><span style="color:red;">* </span>Password</label>
                                 <div class="help-block with-errors"></div>
                             </div>
                             <div class="form-group">
                                 <input type="password" class="form-control-input" id="passwd2_input" required>
-                                <label class="label-control" for="passwd2_input">Password Check</label>
+                                <label class="label-control" for="passwd2_input"><span style="color:red;">* </span>Password Check</label>
                                 <div class="help-block with-errors"></div>
                             </div>
                             <div class="form-group">
                                 <input type="date" class="form-control-input" id="birth_input" required>
-                                <label class="label-control" for="birth_input">Birthday</label>
+                                <label class="label-control" style="top:0.125rem; opacity:1; font-size:0.75rem; font-weight: 700;" for="birth_input"><span style="color:red;">* </span>Birthday</label>
                                 <div class="help-block with-errors"></div>
                             </div>
                             <div class="form-group">
+                                <span style="color:red;">*</span>
                                 <input type="radio" class="btn-check" name="gender_input" id="option1" value="m" autocomplete="off" checked>
                                 <label class="btn btn-dark mx-3 mt-1" for="option1">Male</label>
                                 <input type="radio" class="btn-check mx-3 mt-1" name="gender_input" id="option2" value="f" autocomplete="off">
                                 <label class="btn btn-dark" for="option2">Female</label>
-                            <div class="help-block with-errors"></div>
+                                <div class="help-block with-errors"></div>
+                            </div>
+                            <div class="form-group">
+                                <input type="tel" class="form-control-input" pattern="010[0-9]{4}[0-9]{4}"id="phone_input">
+                                <label class="label-control" for="phone_input"><span style="color:red;">* </span>Phone Number(숫자만 입력하세요)</label>
+                                <div class="help-block with-errors"></div>
+                            </div>
+                            <div class="form-group">
+                                <select class="form-control-input" id="category_input">
+                                    <option selected></option>
+                                    <option value="서비스업">서비스업</option>
+                                    <option value="제조·화학업">제조·화학업</option>
+                                    <option value="IT·웹·통신업">IT·웹·통신업</option>
+                                    <option value="은행·금융업">은행·금융업</option>
+                                    <option value="미디어·디자인업">미디어·디자인업</option>
+                                    <option value="교육업">교육업</option>
+                                    <option value="의료·제약·복지업">의료·제약·복지업</option>
+                                    <option value="판매·유통업">판매·유통업</option>
+                                    <option value="건설업">건설업</option>
+                                    <option value="기관·협회">기관·협회</option>
+                                </select>
+                                <label class="label-control" style="top:0.125rem; opacity:1; font-size:0.75rem; font-weight: 700;" for="category_input"><span style="color:red;">* </span>관심업종</label>
+                                <div class="help-block with-errors"></div>
+                            </div>
+                            <div class="form-group">
+                                <select class="form-control-input" id="area_input">
+                                    <option selected></option>
+                                    <option value="서울">서울</option>
+                                    <option value="부산">부산</option>
+                                    <option value="대구">대구</option>
+                                    <option value="인천">인천</option>
+                                    <option value="광주">광주</option>
+                                    <option value="대전">대전</option>
+                                    <option value="울산">울산</option>
+                                    <option value="세종">세종</option>
+                                    <option value="경기">경기</option>
+                                    <option value="강원">강원</option>
+                                    <option value="충북">충북</option>
+                                    <option value="충남">충남</option>
+                                    <option value="전북">전북</option>
+                                    <option value="전남">전남</option>
+                                    <option value="경북">경북</option>
+                                    <option value="경남">경남</option>
+                                    <option value="제주">제주</option>
+                                </select>
+                                <label class="label-control" style="top:0.125rem; opacity:1; font-size:0.75rem; font-weight: 700;" for="area_input"><span style="color:red;">* </span>희망근무지</label>
+                                <div class="help-block with-errors"></div>
+                            </div>
+                            <div class="form-group">
+                                <input type="number" class="form-control-input" id="salary_input" required>
+                                <label class="label-control" for="salary_input"><span style="color:red;">* </span>희망연봉(천 만원)</label>
+                                <div class="help-block with-errors"></div>
                             </div>
                             <div class="form-group">
                                 <p></p>
@@ -149,7 +201,7 @@
                         </form>
                     </div> <!-- end of form container -->
                     <!-- end of sign up form -->
-
+                    <br><br><br>
                 </div> <!-- end of col -->
             </div> <!-- end of row -->
         </div> <!-- end of container -->
@@ -196,24 +248,30 @@
     var req_birth = document.getElementById('birth_input').value;
     var req_passwd = document.getElementById('passwd_input').value;
     var req_passwd2 = document.getElementById('passwd2_input').value;
+    var req_phone = parseInt(document.getElementById('phone_input').value);
+    var req_category = document.getElementById('category_input').value;
+    var req_area = document.getElementById('area_input').value;
+    var req_salary = parseInt(document.getElementById('salary_input').value);
     for (var i=0; i<2; i++){
         if (document.getElementsByName('gender_input')[i].checked){
             var req_gender = document.getElementsByName('gender_input')[i].value;
         }
     }
-    console.log(`${req_name}, ${req_email}, ${req_birth}, ${req_passwd}, ${req_passwd2}, ${req_gender}`);
 
-    if (req_name==''|req_email==''|req_birth==''|req_passwd==''|req_passwd2==''|req_gender==''){
-      alert('모든 입력란을 작성해주세요.')
+    if (req_name==''|req_email==''|req_birth==''|req_passwd==''|req_passwd2==''|req_gender==''|req_phone==''|req_category==''|req_area==''|req_salary==''){
+      alert('모든 입력란을 작성해주세요.');
     } else if (req_passwd != req_passwd2){
-      alert('비밀번호가 일치하지 않습니다.')
-      document.getElementById('passwd_input').value = ''
-      document.getElementById('passwd2_input').value = ''
+      alert('비밀번호가 일치하지 않습니다.');
+      document.getElementById('passwd_input').value = '';
+      document.getElementById('passwd2_input').value = '';
+    } else if (isNaN(req_phone)){
+        alert('핸드폰번호는 숫자만 입력하세요');
+        document.getElementById('phone_input').value = '';
     } else {
       $.ajax({
           url: '/register/',
           type: 'POST',
-          data: {'req_name': req_name, 'req_email': req_email, 'req_birth': req_birth, 'req_passwd': req_passwd, 'req_gender':req_gender, 'csrfmiddlewaretoken':  csrftoken},
+          data: {'req_name': req_name, 'req_email': req_email, 'req_birth': req_birth, 'req_passwd': req_passwd, 'req_gender':req_gender, 'req_phone':req_phone, 'req_category':req_category, 'req_area':req_area, 'req_salary':req_salary},
           dataType: 'json',
           success: function(context) {
             console.log(context.email_chk);

@@ -4,7 +4,7 @@
 <head>
     <meta charset="utf-8">
     <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
-    
+
     <!-- SEO Meta Tags -->
     <meta name="description" content="Tivo is a HTML landing page template built with Bootstrap to help you crate engaging presentations for SaaS apps and convert visitors into users.">
     <meta name="author" content="Inovatik">
@@ -20,7 +20,7 @@
 
     <!-- Website Title -->
     <title>zazinmori</title>
-    
+
     <!-- Styles -->
     <link href="https://fonts.googleapis.com/css?family=Open+Sans:400,400i,700&display=swap&subset=latin-ext" rel="stylesheet">
     <link href="{% static 'css/bootstrap.css' %}" rel="stylesheet">
@@ -28,7 +28,7 @@
     <link href="{% static 'css/swiper.css' %}" rel="stylesheet">
 	<link href="{% static 'css/magnific-popup.css' %}" rel="stylesheet">
 	<link href="{% static 'css/styles.css' %}" rel="stylesheet">
-	
+
 	<!-- Favicon  -->
     <link rel="icon" href="{% static 'images/favicon.png' %}">
 
@@ -37,7 +37,7 @@
 
 </head>
 <body data-spy="scroll" data-target=".fixed-top">
-    
+
     <!-- Preloader -->
 	<div class="spinner-wrapper">
         <div class="spinner">
@@ -48,7 +48,6 @@
     </div>
     <!-- end of preloader -->
 
-    
 
     <!-- Navigation -->
     <nav class="navbar navbar-expand-lg navbar-dark navbar-custom fixed-top">
@@ -95,67 +94,68 @@
     </nav> <!-- end of navbar -->
     <!-- end of navigation -->
 
+
     <!-- Header -->
-    <header id="header" class="ex-header">
+    <header id="header" class="ex-2-header">
         <div class="container">
             <div class="row">
                 <div class="col-lg-12">
-                    <h1>자기소개서 작성</h1>
+                    <h1>회원정보 수정</h1>
+                    <p></p>
+                    <!-- Sign Up Form -->
+                    <div class="form-container">
+                        <form id="signUpForm" data-toggle="validator" data-focus="false">
+                            <div class="form-group">
+                                <input type="text" class="form-control-input" id="email_input" value={{ context.user_email}} disabled>
+                                <label class="label-control" style="top:0.125rem; opacity:1; font-size:0.75rem; font-weight: 700;" for="email_input">email</label>
+                                <div class="help-block with-errors"></div>
+                            </div>
+                            <div class="form-group">
+                                <input type="password" class="form-control-input" id="new_passwd_input" required>
+                                <label class="label-control" for="new_passwd_input">password</label>
+                                <div class="help-block with-errors"></div>
+                            </div>
+                            <div class="form-group">
+                                <input type="text" class="form-control-input" id="name_input" value={{ context.user_name }} required>
+                                <label class="label-control" style="top:0.125rem; opacity:1; font-size:0.75rem; font-weight: 700;" for="name_input">name</label>
+                                <div class="help-block with-errors"></div>
+                            </div>
+                            <div class="form-group">
+                                <input type="date" class="form-control-input" id="birth_input" value={{ context.user_birth }} required>
+                                <label class="label-control" style="top:0.125rem; opacity:1; font-size:0.75rem; font-weight: 700;" for="birth_input">Birthday</label>
+                                <div class="help-block with-errors"></div>
+                            </div>
+                            <div class="form-group">
+                                <input type="radio" class="btn-check" name="gender_input" id="option1" value="m" autocomplete="off">
+                                <label class="btn btn-dark mx-3 mt-1" for="option1">Male</label>
+                                <input type="radio" class="btn-check mx-3 mt-1" name="gender_input" id="option2" value="f" autocomplete="off">
+                                <label class="btn btn-dark" for="option2">Female</label>
+                                <div class="help-block with-errors"></div>
+                            </div>
+                            <div class="form-group">
+                                <p></p>
+                                <p style="margin-bottom: 10px; color: #333;">기존 비밀번호를 입력하세요</p>
+                                <div class="form-group">                                    
+                                    <input type="password" class="form-control-input" id="old_passwd_input" required>
+                                    <label class="label-control" for="old_passwd_input">Password</label>
+                                    <div class="help-block with-errors"></div>
+                                </div>
+                            </div>
+                            <div class="form-group">
+                                <button type="button" onclick="update()" class="form-control-submit-button">UPDATE</button>
+                            </div>
+                            <div class="form-message">
+                                <div id="smsgSubmit" class="h3 text-center hidden"></div>
+                            </div>
+                        </form>
+                    </div> <!-- end of form container -->
+                    <!-- end of sign up form -->
                 </div> <!-- end of col -->
             </div> <!-- end of row -->
         </div> <!-- end of container -->
+        <br><br><br>
     </header> <!-- end of ex-header -->
     <!-- end of header -->
-
-
-
-    <!-- Privacy Content -->
-    <div class="ex-basic-2">
-        <div class="container">
-            <div class="row">
-                <div id="main" class="col-lg-12">
-                    <!--<div class="image-container-large">
-                        <img class="img-fluid" src="{% static 'img/article-details-large.jpg' %}" alt="alternative">
-                    </div> end of image-container-large -->
-                    {% for item in context.items %}
-                    <div class="text-container">
-                        <h3 class='question_section'>{{ item.question }}</h3>
-                        <h5 class='word_section'>{{ item.word }}</h5>
-                        <div>
-                            <p class='words_len' style="float: right;">0자 작성</p>
-                            <textarea class="textarea" style="width:100%;" cols = "100" rows = "6" placeholder="내용을 입력해주세요."></textarea>
-                        </div>
-                        <h4 class="mt-3 pl-2 f-g4">! 여기도 지원해보시는 건 어때요?</h4>
-                        <p class="pl-3 f-g3" style="font-weight:600;"><span class="f-c4">{{ item.qtype_text }}</span> 유형의 질문에 대해 비슷한 자소서로 합격 가능성이 높은 기업들입니다</p>                         
-                        <div class="row mx-auto">
-                            <div class="wk mx-3">#{{ item.corp1 }}</div>
-                            <div class="wk mx-3">#{{ item.corp2 }}</div>
-                            <div class="wk mx-3">#{{ item.corp3 }}</div>
-                            <div class="wk mx-3">#{{ item.corp4 }}</div>
-                            <div class="wk mx-3">#{{ item.corp5 }}</div>
-                        </div>
-                    </div> <!-- end of text-container -->
-                    {% endfor %}
-
-                    <!--<div class="text-container dark">
-                        <p class="testimonial-text">Tivo is a HTML landing page template tool. By its nature, Services enable our customers to promote their products and services integrate with hundreds of business applications that they already use, all in one place. Services help our customers promote their products and services, marketing and advertising; engaging audiences; scheduling and publishing messages; and analyze the results.</p>
-                    </div>end of text container -->
-                    <div class="text-center">
-                        <button class="btn-outline-reg mx-2" onclick="back()">BACK</button>
-                        <button class="btn-solid-reg mx-2"style="width: 15rem;" onclick="save_cvletter()">SAVE</button>
-                    </div>
-                </div> <!-- end of col-->
-            </div> <!-- end of row -->
-        </div> <!-- end of container -->
-    </div> <!-- end of ex-basic-2 -->
-    <!-- end of privacy content -->
-    <p id="jobs_id" style="visibility:hidden;">{{ context.jobs_id }}</p>
-
-
-
-    <!-- Footer -->
-    <svg class="footer-frame" data-name="Layer 2" xmlns="http://www.w3.org/2000/svg" preserveAspectRatio="none" viewBox="0 0 1920 79"><defs><style>.cls-2{fill:#5f4def;}</style></defs><title>footer-frame</title><path class="cls-2" d="M0,72.427C143,12.138,255.5,4.577,328.644,7.943c147.721,6.8,183.881,60.242,320.83,53.737,143-6.793,167.826-68.128,293-60.9,109.095,6.3,115.68,54.364,225.251,57.319,113.58,3.064,138.8-47.711,251.189-41.8,104.012,5.474,109.713,50.4,197.369,46.572,89.549-3.91,124.375-52.563,227.622-50.155A338.646,338.646,0,0,1,1920,23.467V79.75H0V72.427Z" transform="translate(0 -0.188)"/></svg>
-    <!-- end of footer -->
 
 
     <!-- Copyright -->
@@ -169,10 +169,10 @@
                 </div> <!-- end of col -->
             </div> <!-- enf of row -->
         </div> <!-- end of container -->
-    </div> <!-- end of copyright --> 
+    </div> <!-- end of copyright -->
     <!-- end of copyright -->
-    
-    	
+
+
     <!-- Scripts -->
     <script src="{% static 'js/jquery.min.js' %}"></script> <!-- jQuery for Bootstrap's JavaScript plugins -->
     <script src="{% static 'js/popper.min.js' %}"></script> <!-- Popper tooltip library for Bootstrap -->
@@ -190,66 +190,67 @@
         document.location = '/';
     }
 
-    function to_login(){
-      if(confirm("로그인 후에 서비스를 이용할 수 있습니다.")) document.location = '/login/';
-    }
 
-    function back(){
-        if(confirm("이전 페이지로 돌아가시겠습니까? 작성 중인 자소서는 저장되지 않습니다.")) window.history.back();
-    }
+  function update(){
+    var req_name = document.getElementById('name_input').value;
+    var req_email = document.getElementById('email_input').value;
+    var req_birth = document.getElementById('birth_input').value;
+    var new_passwd = document.getElementById('new_passwd_input').value;
+    var old_passwd = document.getElementById('old_passwd_input').value;
 
-
-    function save_cvletter(){
-        
-        var jobs_id = $('#jobs_id').text();
-        console.log(jobs_id);
-        var item_num = $('.question_section').length;
-        var q_dict = {};
-        var a_dict = {};
-        var w_dict = {};
-
-        for (var i=0; i<item_num; i++){
-            q_dict[`${i}`] = $('.question_section')[i].textContent;
-            w_dict[`${i}`] = $('.word_section')[i].textContent;
-            a_dict[`${i}`] = $('.textarea')[i].value;
+    for (var i=0; i<2; i++){
+        if (document.getElementsByName('gender_input')[i].checked){
+            var req_gender = document.getElementsByName('gender_input')[i].value;
         }
+    }
+    if (req_name==''|req_email==''|req_birth==''|new_passwd==''|old_passwd==''|req_gender==''){
+      alert('모든 입력란을 작성해주세요.')
+    } else {
+      $.ajax({
+          url: '/mypage/user_update/',
+          type: 'POST',
+          data: {'req_name': req_name, 'req_email': req_email, 'req_birth': req_birth, 'old_passwd': old_passwd, 'new_passwd': new_passwd, 'req_gender':req_gender},
+          dataType: 'json',
+          success: function(context) {
+            console.log(context)
 
-        $.ajax({
-            url: '/cvletter/write/0',
-            type: 'POST',
-            data: JSON.stringify({'jobs_id': jobs_id, 'item_num': item_num, 'q_dict': q_dict, 'a_dict': a_dict, 'w_dict': w_dict}),
-            dataType: 'json',
-            success: function(context){
-              console.log('success')
-              console.log(context);
-              if(confirm("자소서가 저장되었습니다. 마이페이지로 이동하시겠습니까?")) document.location = '/mypage/';
-            },
-            error: function(){
-              console.log('fail');
-              alert("오류 발생");
+            var err = context.err
+            if ( !err ){
+                alert('회원정보가 업데이트 되었습니다.');
+                document.location = '/login/';
+            } else{
+                alert(context.err);
             }
-        }); //ajax끝
-        
-    }
+            //document.location = '/';
+          },
+          error: function(){
+            console.log('fail')
+          }
+      }); //ajax끝
+    } //else끝
+  }
 
 
-    window.onload = function(){
 
-        var num = 0;
 
-        const textarea_lst = document.getElementsByClassName('textarea');
-        const words_len_lst = document.getElementsByClassName('words_len');
+  function getCookie(name) {
+      var cookieValue = null;
+      if (document.cookie && document.cookie !== '') {
+          var cookies = document.cookie.split(';');
+          for (var i = 0; i < cookies.length; i++) {
+              var cookie = cookies[i].trim();
+              // Does this cookie string begin with the name we want?
+              if (cookie.substring(0, name.length + 1) === (name + '=')) {
+                  cookieValue = decodeURIComponent(cookie.substring(name.length + 1));
+                  break;
+              }
+          }
+      }
+      return cookieValue;
+  }
 
-        for (var i=textarea_lst.length; i--;){
-
-            const textarea = textarea_lst[i];
-            const words_len = words_len_lst[i];
-
-            textarea.addEventListener(('input'), ()=>{
-                words_len.innerHTML = `${textarea.value.length}자 작성`
-            });
-        } 
-    }
+  var csrftoken = getCookie('csrftoken');
 
 </script>
+
 </html>
