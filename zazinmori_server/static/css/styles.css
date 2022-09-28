@@ -2207,6 +2207,47 @@ html {
 }
 
 
+.recom_box {
+	/* display: block;
+	width: 100%;
+	margin-right: auto;
+	margin-bottom: 0.4rem;
+	margin-left: auto;
+	border: 1px solid #ccd3df;
+	border-radius: 0.375rem; */
+	background: #fff;
+    border: 1px solid #ccd3df;
+    border-radius: 5px;
+    width: 100%;
+    height: 65px;
+	margin-bottom: 0.4rem;
+    padding: 5px;
+    display: flex;
+    flex-direction: column;
+    justify-content: space-between;
+    position: relative;
+}
+
+.recom_head {
+	background: linear-gradient(transparent 0%, transparent 60%, #CEC8FD 60%, #CEC8FD 100%);
+	color: #333;
+	font-size: 24px;
+	/* font-size: 16px; */
+    font-weight: 700;
+	word-break: keep-all;
+}
+
+.recom_font {
+	font-size: 12px;
+}
+
+
+.abbr {
+	text-overflow: ellipsis;
+	overflow: hidden;
+	white-space: nowrap;
+}
+
 /*input[type=date]::-webkit-datetime-edit-year-field {*/
 /*    -webkit-appearance: none;*/
 /*    display: none;*/

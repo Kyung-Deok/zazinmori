@@ -17,7 +17,6 @@ def index(request):
     context['user_email'] = request.session.get('user_email', False)
     context['user_birth'] = request.session.get('user_birth', False)
     context['user_gender'] = request.session.get('user_gender',False)
-    logging_click(request)
     return render(request, 'index.html', {'context': context})
  
 def register(request):
@@ -85,7 +84,6 @@ def login(request):
         req_passwd = request.POST['passwd']
         # 로그인 체크하기
         user_email = User_info.objects.filter(email=req_email).first()
-        print(user_email)
         if user_email is None : # 비밀번호 검증 추가해야 댐
             context['err'] = "해당 회원 정보가 없습니다."
             return JsonResponse(context)
@@ -101,8 +99,9 @@ def login(request):
                 request.session['user_email'] = user_email.email
                 request.session['user_birth'] = user_email.birth
                 request.session['user_gender'] = user_email.gender
+                request.session['login_time'] = datetime.now().strftime('%Y-%m-%d %H:%M:%S')
                 logging_login(request, user_email)
-                logging_click(request)
+                
                 #json 형식으로 저장 불가한 타입
                 context['user_email'] = user_email.email
                 #context['user_name'] = [user_email.email, request.session['user_age']]
@@ -120,8 +119,9 @@ def login(request):
 
         
 def logout(request):
+    user = User_info.objects.filter(email=request.session.get("user_email")).first()
+    logging_login(request,user)
     request.session.flush()
-    logging_click(request)
     return redirect('/')
 
 

@@ -10,6 +10,7 @@ from .loggers import logging_search, logging_user_target,logging_click
 from .env_settings import ES_ID, ES_URL, ES_PW
 from .models import *
 from datetime import datetime
+import requests
 
 
 def search_company(request):
@@ -38,8 +39,6 @@ def search_company(request):
 
         context['corp_result'] = search_list
         context['corp_num'] = len(search_list)
-        # from pprint import pprint
-        # pprint(context['corp_result'])
         logging_click(request)
         
         return JsonResponse(context,status=200)
@@ -47,17 +46,41 @@ def search_company(request):
 
 def company_detail(request):
     context = {}
-    # 로그용 쿼리
-    user = User_info.objects.filter(user_email=request.session.get("user_email",None)).first()
     req_regi_code = request.POST['regi_code']
-    logging_user_target(request, user, com_recruits)
+    
+    # 로그용 쿼리    
+    com_name = Corporation.objects.filter(regi_code=req_regi_code)
+    user = User_info.objects.filter(email=request.session.get("user_email")).first()
+    if user:
+        logging_user_target(request, user, com_name)
 
-    com_recruits = Jobposting.objects.filter(regi_code=req_regi_code)
+    # 채용공고    
+    com_recruits = Jobposting.objects.filter(regi_code=req_regi_code)    
     context['recruit_num'] = len(com_recruits)
     recruit_dict = {}
     for i in range(len(com_recruits)):
         recruit_dict[f'{i}'] = com_recruits.values()[i]    
     context['com_recruits'] = recruit_dict
+    
+    # 뉴스 키워드
+    news_keywords = News_result.objects.filter(regi_code=req_regi_code)
+    context['news_num'] = len(news_keywords)
+    news_dict = {}
+    for j in range(len(news_keywords)):
+        news_dict[f'{j}'] = news_keywords.values()[j]
+    context['news_keywords'] = news_dict
+    
+    # 자소서 키워드
+    corp_nm = com_name.first().corp_nm
+    if corp_nm=='삼성전자':
+        context['textcount_code'] = 1
+    else:
+        model_result = textcount(corp_nm)
+        context['model_result'] = model_result['results']['results']
+        if len(context['model_result']) == 0:
+            context['textcount_code'] = 0
+        else:
+            context['textcount_code'] = 2
     
 
     return JsonResponse(context, status=200)
@@ -65,6 +88,15 @@ def company_detail(request):
     #     return JsonResponse({'err':"테이블 없음"}, status=400)
     # except Exception as err:
     #     return JsonResponse({"err": err})
+
+
+
+def textcount(corp_nm) :
+    results={}
+    res = requests.post('http://localhost:8988/prediction/cvl_keywords/', json={"corp_nm" : corp_nm})    
+    results['results'] = res.json()
+    return results
+
 
 
 def recruits(request):

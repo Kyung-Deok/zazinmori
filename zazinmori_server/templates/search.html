@@ -38,6 +38,11 @@
     <!-- Plotly -->
     <script src="https://cdn.plot.ly/plotly-latest.min.js"></script>
 
+    <!-- Hicharts -->
+    <script src="https://code.highcharts.com/highcharts.js"></script>
+    <script src="https://code.highcharts.com/modules/networkgraph.js"></script>
+    <script src="https://code.highcharts.com/modules/accessibility.js"></script>
+
 </head>
 <body data-spy="scroll" data-target=".fixed-top">
 
@@ -240,7 +245,8 @@
                               <div class="card-body">
                                 <div class="row">
                                     <div class="col-6 p-3">
-                                        <img style="margin-left:2rem; width:100%; over-fit: cover;" src="{% static 'img/samsung_network.png' %}">
+                                        <div id="network_container" style="min-width:320px;max-width:500px;margin:0 auto;height:500px;"></div>
+                                        {% comment %} <img style="margin-left:2rem; width:100%; over-fit: cover;" src="{% static 'img/samsung_network.png' %}"> {% endcomment %}
                                     </div>
                                     <div class="col-6 overflow-hidden">
                                         {% comment %} <h5 class="card-title">Top10 키워드</h5>
@@ -258,37 +264,8 @@
                         <div class="col-12">
                             <div class="card text-bg-light mb-3">
                               <div class="card-header font-weight-bold">최신 뉴스 분석을 통한 키워드 추천</div>
-                              <div class="card-body" style="overflow:auto;">
-                                <ul class="list-unstyled li-space-lg p-3">
-                                    <li class="p-3">
-                                        <div class="text-left font-weight-bold wk" style="font-size: 120%;"><i class="fas fa-square" style="margin-left: -20px; margin-right: 20px;"></i>삼성전자, ' 반도체 전초기지' 평택 캠퍼스 첫 공개 평택 3 라인, 7월부터 낸 드플래시 양산 체계 구축</div>
-                                        <div class="text-left wk ml-1 mt-2 mb-4" style="font-size: 110%; color: black;">삼성전자 평택 캠퍼스에 있는 한 생산라인 내부에서 임직원들이 방진복을 입고 시설을 점검하고 있다.</div>
-                                        <div class="text-center">기술&nbsp;&nbsp;반도체&nbsp;&nbsp;개발&nbsp;&nbsp;사업&nbsp;&nbsp;사람&nbsp;&nbsp;평택&nbsp;&nbsp;기지&nbsp;&nbsp;최근&nbsp;&nbsp;삼성&nbsp;&nbsp;미래</div>
-                                    </li>
-                                    <div class="divide">
-                                    <li class="p-3">
-                                        <div class="text-left font-weight-bold wk" style="font-size: 120%;"><i class="fas fa-square" style="margin-left: -20px; margin-right: 20px;"></i>삼성전자, ' 반도체 전초기지' 평택 캠퍼스 첫 공개 평택 3 라인, 7월부터 낸 드플래시 양산 체계 구축</div>
-                                        <div class="text-left wk ml-1 mt-2 mb-4" style="font-size: 110%; color: black;">삼성전자 평택 캠퍼스에 있는 한 생산라인 내부에서 임직원들이 방진복을 입고 시설을 점검하고 있다.</div>
-                                        <div class="text-center">기술&nbsp;&nbsp;반도체&nbsp;&nbsp;개발&nbsp;&nbsp;사업&nbsp;&nbsp;사람&nbsp;&nbsp;평택&nbsp;&nbsp;기지&nbsp;&nbsp;최근&nbsp;&nbsp;삼성&nbsp;&nbsp;미래</div>
-                                    </li>
-                                    <div class="divide">
-                                    <li class="p-3">
-                                        <div class="text-left font-weight-bold wk" style="font-size: 120%;"><i class="fas fa-square" style="margin-left: -20px; margin-right: 20px;"></i>삼성전자, ' 반도체 전초기지' 평택 캠퍼스 첫 공개 평택 3 라인, 7월부터 낸 드플래시 양산 체계 구축</div>
-                                        <div class="text-left wk ml-1 mt-2 mb-4" style="font-size: 110%; color: black;">삼성전자 평택 캠퍼스에 있는 한 생산라인 내부에서 임직원들이 방진복을 입고 시설을 점검하고 있다.</div>
-                                        <div class="text-center">기술&nbsp;&nbsp;반도체&nbsp;&nbsp;개발&nbsp;&nbsp;사업&nbsp;&nbsp;사람&nbsp;&nbsp;평택&nbsp;&nbsp;기지&nbsp;&nbsp;최근&nbsp;&nbsp;삼성&nbsp;&nbsp;미래</div>
-                                    </li>
-                                    <div class="divide">
-                                    <li class="p-3">
-                                        <div class="text-left font-weight-bold wk" style="font-size: 120%;"><i class="fas fa-square" style="margin-left: -20px; margin-right: 20px;"></i>삼성전자, ' 반도체 전초기지' 평택 캠퍼스 첫 공개 평택 3 라인, 7월부터 낸 드플래시 양산 체계 구축</div>
-                                        <div class="text-left wk ml-1 mt-2 mb-4" style="font-size: 110%; color: black;">삼성전자 평택 캠퍼스에 있는 한 생산라인 내부에서 임직원들이 방진복을 입고 시설을 점검하고 있다.</div>
-                                        <div class="text-center">기술&nbsp;&nbsp;반도체&nbsp;&nbsp;개발&nbsp;&nbsp;사업&nbsp;&nbsp;사람&nbsp;&nbsp;평택&nbsp;&nbsp;기지&nbsp;&nbsp;최근&nbsp;&nbsp;삼성&nbsp;&nbsp;미래</div>
-                                    </li>
-                                    <div class="divide">
-                                    <li class="p-3">
-                                        <div class="text-left font-weight-bold wk" style="font-size: 120%;"><i class="fas fa-square" style="margin-left: -20px; margin-right: 20px;"></i>삼성전자, ' 반도체 전초기지' 평택 캠퍼스 첫 공개 평택 3 라인, 7월부터 낸 드플래시 양산 체계 구축</div>
-                                        <div class="text-left wk ml-1 mt-2 mb-4" style="font-size: 110%; color: black;">삼성전자 평택 캠퍼스에 있는 한 생산라인 내부에서 임직원들이 방진복을 입고 시설을 점검하고 있다.</div>
-                                        <div class="text-center">기술&nbsp;&nbsp;반도체&nbsp;&nbsp;개발&nbsp;&nbsp;사업&nbsp;&nbsp;사람&nbsp;&nbsp;평택&nbsp;&nbsp;기지&nbsp;&nbsp;최근&nbsp;&nbsp;삼성&nbsp;&nbsp;미래</div>
-                                    </li>
+                              <div class="card-body" style="overflow:auto; max-height:32rem;;">
+                                <ul id="corp_news_list" class="list-unstyled li-space-lg p-3">
                                 </ul>
                                </div>
                             </div>
@@ -322,8 +299,11 @@
                 <div class="modal-header">
                   <h5 id="jobposting_title" class="modal-title modal_erase"></h5>
                   <div style="float: right;">
-                    <button type="button" class="btn btn-secondary" onclick="scrap()" data-bs-dismiss="modal">채용공고 스크랩</button>
-                    <button type="button" class="btn btn-light btn-close" onclick="close_modal()" data-bs-dismiss="modal">X</button>
+                    {% if not context.user_email %}
+                    {% else %}
+                        <button type="button" class="btn btn-secondary" onclick="scrap()" data-bs-dismiss="modal">채용공고 스크랩</button>
+                    {% endif %}
+                        <button type="button" class="btn btn-light btn-close" onclick="close_modal()" data-bs-dismiss="modal">X</button>
                   </div>
                 </div>
                 <div class="modal-body">
@@ -400,6 +380,7 @@
 
     var corp_list;
 
+
     function search(){
         var search_input = document.getElementById('search_input').value;
         console.log(search_input);
@@ -424,7 +405,7 @@
               document.getElementById("main_1").setAttribute('style', '"visibility: visible;"');
               $('#search_result').remove();
 
-              var $table = $('<table class="table table-hover" id="search_result" style="width:100%"></table>');
+              var $table = $('<table class="table table-hover" id="search_result" style="width:100%; table-layout:fixed;"></table>');
               $('#search_section').append($table);
               var $tr = $('<thead class="table-dark"><tr id="table_ths" class="text-center"></tr></thead>');
               $('#search_result').append($tr);
@@ -460,15 +441,15 @@
                   var address = context.corp_result[i]['address']
                   var regi_code = context.corp_result[i]['regi_code']
 
-                  var $th = $(`<th class="pointer" onclick="corp_detail(${i})">${corp_nm}</th>`);
+                  var $th = $(`<th class="pointer abbr" onclick="corp_detail(${i})" title="${corp_nm}">${corp_nm}</th>`);
                   $tr.append($th);
-                  var $td = $(`<td class="search_td" onclick="corp_detail(${i})">${category}</td>`);
+                  var $td = $(`<td class="search_td abbr" onclick="corp_detail(${i})" title="${category}">${category}</td>`);
                   $tr.append($td);
-                  var $td = $(`<td class="search_td" onclick="corp_detail(${i})">${ceo_nm}</td>`);
+                  var $td = $(`<td class="search_td abbr" onclick="corp_detail(${i})" title="${ceo_nm}">${ceo_nm}</td>`);
                   $tr.append($td);
-                  var $td = $(`<td class="search_td" onclick="corp_detail(${i})">${est_dt}</td>`);
+                  var $td = $(`<td class="search_td abbr" onclick="corp_detail(${i})" title="${est_dt}">${est_dt}</td>`);
                   $tr.append($td);
-                  var $td = $(`<td class="search_td" onclick="corp_detail(${i})">${address}</a></td>`);
+                  var $td = $(`<td class="search_td abbr" onclick="corp_detail(${i})" title="${address}">${address}</td>`);
                   $tr.append($td);
                 }
               }
@@ -490,6 +471,7 @@
 
 
 
+
   function corp_detail(index){
     document.getElementById("main_2").scrollIntoView(true);
     document.getElementById("main_2").setAttribute('style', '"visibility: visible;"');
@@ -500,6 +482,7 @@
     }
 
     var keys = Object.keys(corp_list);
+
     <!-- 기업 기본 정보 -->
     var corp_nm = corp_list[index]['corp_nm']
     var est_dt = corp_list[index]['est_dt']
@@ -551,6 +534,7 @@
           console.log('success')
           console.log(context)
 
+
           <!-- 채용 공고 -->
           $('#recruit_table').empty()
 
@@ -587,6 +571,177 @@
           }
           
           <!-- 자소서 키워드 분석 -->
+          if(context.textcount_code == 0){
+            //해당 기업 자소서 데이터가 부족합니다.
+          } else if(context.texcount_code == 1){
+            //삼성
+          } else {
+            //console.log(context.model_result[0][0]);
+            var keyword_list = new Array();
+            for (i=0; i<50; i++){
+                keyword_list[i] = context.model_result[i][0];
+            };
+            console.log(keyword_list);
+
+            var dirDist50 = "#E8544E",
+            dirDist10 = "#FFD265",
+            dirDistLess10 = "#2AA775";
+
+            Highcharts.chart("network_container", {
+                chart: { type: "networkgraph", marginTop: 80 },
+                title: { text: `${corp_nm} 합격 자소서 단어 빈도`},
+                tooltip: { formatter: function(){var info = ""; return "<b>" + this.key + "</b>: " + info;} },
+                plotOptions: {
+                    networkgraph: {
+                    keys: ["from", "to"],
+                    layoutAlgorithm: { nableSimulation: true, integration: "verlet", linkLength: 100 }
+                    }
+                },
+                series: [
+                    {
+                    marker: {
+                        radius: 13
+                    },
+                    dataLabels: {
+                        enabled: true,
+                        linkFormat: "",
+                        allowOverlap: true,
+                        style: {
+                        textOutline: false
+                        }
+                    },
+                    data: [
+                        ["Seoul ICN", "Daegu"],
+                        ["Seoul ICN", "Busan"],
+                        ["Busan", "Seoul GMP"],
+                        ["Busan", "Yangyang"],
+                        ["Daegu", "Seoul GMP"],
+                        ["Daegu", "Jeju"],
+
+                        ["Seoul GMP", "Gwangju"],
+                        ["Seoul GMP", "Yeosu"],
+                        ["Seoul GMP", "Sacheon"],
+                        ["Seoul GMP", "Ulsan"],
+                        ["Seoul GMP", "Pohang"],
+
+                        ["Jeju", "Gwangju"],
+                        ["Jeju", "Gunsan"],
+                        ["Jeju", "Wonju"],
+                        ["Jeju", "Yangyang"],
+                        ["Jeju", "Daegu"],
+                        ["Jeju", "Yeosu"],
+                        ["Jeju", "Sacheon"],
+                        ["Jeju", "Ulsan"],
+                        ["Jeju", "Busan"],
+                        ["Jeju", "Cheongju"]
+                    ],
+                    nodes: [
+                        {
+                        id: "Seoul ICN",
+                        marker: {
+                            radius: 30
+                        },
+                        color: dirDist50
+                        },
+                        {
+                        id: "Daegu",
+                        marker: {
+                            radius: 10
+                        },
+                        color: dirDistLess10
+                        },
+                        {
+                        id: "Busan",
+                        marker: {
+                            radius: 30
+                        },
+                        color: dirDist50
+                        },
+                        {
+                        id: "Seoul GMP",
+                        marker: {
+                            radius: 20
+                        },
+                        color: dirDist10
+                        },
+                        {
+                        id: "Jeju",
+                        marker: {
+                            radius: 30
+                        },
+                        color: dirDist50
+                        },
+                        {
+                        id: "Gwangju",
+                        marker: {
+                            radius: 10
+                        },
+                        color: dirDistLess10
+                        },
+                        {
+                        id: "Yeosu",
+                        marker: {
+                            radius: 10
+                        },
+                        color: dirDistLess10
+                        },
+                        {
+                        id: "Sacheon",
+                        marker: {
+                            radius: 10
+                        },
+                        color: dirDistLess10
+                        },
+                        {
+                        id: "Ulsan",
+                        marker: {
+                            radius: 10
+                        },
+                        color: dirDistLess10
+                        },
+                        {
+                        id: "Pohang",
+                        marker: {
+                            radius: 20
+                        },
+                        color: dirDist10
+                        },
+                        {
+                        id: "Gunsan",
+                        marker: {
+                            radius: 10
+                        },
+                        color: dirDistLess10
+                        },
+                        {
+                        id: "Wonju",
+                        marker: {
+                            radius: 10
+                        },
+                        color: dirDistLess10
+                        },
+                        {
+                        id: "Yangyang",
+                        marker: {
+                            radius: 10
+                        },
+                        color: dirDistLess10
+                        },
+                        {
+                        id: "Cheongju",
+                        marker: {
+                            radius: 20
+                        },
+                        color: dirDist10
+                        }
+                    ]
+                    }
+                ]
+            });
+
+          }
+          
+          
 
           var data = [{
             type: 'bar',
@@ -604,7 +759,41 @@
 
 
           <!-- 뉴스 키워드 분석 -->
+          $('#corp_news_list').empty();
 
+          var news_num = context.news_num;
+          if (news_num == 0){
+            var $p = $(`<p>해당 기업에 대한 뉴스 데이터가 부족합니다</p>`)
+            $('#corp_news_list').append($p);
+          } else {
+            var keys = Object.keys(context.news_keywords);
+            for (var i=0; i<news_num; i++){
+                var news_title = context.news_keywords[keys[i]]['news_title']
+                var news_sentence = context.news_keywords[keys[i]]['news_sentence']
+                var url = context.news_keywords[keys[i]]['url']
+                var keyword1 = context.news_keywords[keys[i]]['keyword1']
+                var keyword2 = context.news_keywords[keys[i]]['keyword2']
+                var keyword3 = context.news_keywords[keys[i]]['keyword3']
+                var keyword4 = context.news_keywords[keys[i]]['keyword4']
+                var keyword5 = context.news_keywords[keys[i]]['keyword5']
+                var keyword6 = context.news_keywords[keys[i]]['keyword6']
+                var keyword7 = context.news_keywords[keys[i]]['keyword7']
+                var keyword8 = context.news_keywords[keys[i]]['keyword8']
+                var keyword9 = context.news_keywords[keys[i]]['keyword9']
+                var keyword10 = context.news_keywords[keys[i]]['keyword10']
+
+                var $li = $(`<li class="p-3">`);
+                $('#corp_news_list').append($li);
+                var $div = $(`<div class="text-left font-weight-bold wk" style="font-size: 120%;"><i class="fas fa-square" style="margin-left: -20px; margin-right: 20px;"></i>${news_title}<a class="f-c4" style="margin-left:20px;font-size:16px;" href="${url}">원문보기</a></div>`)
+                $li.append($div);
+                {% comment %} var $a = $(`<a href="${url}">뉴스 보러가기</a>`);
+                $li.append($a); {% endcomment %}
+                var $div = $(`<div class="text-left wk ml-1 mt-2 mb-4" style="font-size: 110%; color: black;">${news_sentence}</div>`)
+                $li.append($div);
+                var $div = $(`<div class="text-center">${keyword1}&nbsp;&nbsp;${keyword2}&nbsp;&nbsp;${keyword3}&nbsp;&nbsp;${keyword4}&nbsp;&nbsp;${keyword5}&nbsp;&nbsp;${keyword6}&nbsp;&nbsp;${keyword7}&nbsp;&nbsp;${keyword8}&nbsp;&nbsp;${keyword9}&nbsp;&nbsp;${keyword10}</div>`)
+                $li.append($div);
+            }
+          }
 
         },
         error: function(){
@@ -685,6 +874,7 @@
 
     $('#recruit_modal').modal('show');
   }
+
 
   function apply(url){
     window.open(url);
