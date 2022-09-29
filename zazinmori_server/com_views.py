@@ -162,7 +162,7 @@ def recruits(request):
             context['src'] = src_dict
             context['posting_detail'] = posting_detail
         else:
-            context['posting_detail'] = posting_detail.replace('\\n', '<br>')
+            context['posting_detail'] = posting_detail.replace('\\n', '<br>').replace('\\xa0', '')
             
         context['job_num'] = len(jobposting_jobs)
         jobs_dict = {}       

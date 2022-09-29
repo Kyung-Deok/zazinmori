@@ -144,13 +144,13 @@
 
     <!-- Search Result -->
     <div id="main_1" class="basic-1" style ="visibility: hidden;">
-        <div class="container">
+        <div class="container" style="margin-top:-100px;">
             <div class="row">
-                <div class="col-lg-12" style="border: 1px solid #ccd3df;">
+                <div class="col-lg-12" >
                     <div class="text-container">
                         <br>
                         <h2 class="text-center m-2 p-2">검색결과</h2>
-                        <div style="height: 1px; margin-top: 1.75rem; margin-bottom: 2rem; border: none; background-color: #ccd3df;"></div>
+                        <div style="height: 1px; margin-top: 1.75rem; margin-bottom: 3.5rem; border: none; background-color: #ccd3df;"></div>
                         <div id="search_section">
                             <table id="search_result" style="width:100%"></table>
                         </div>
@@ -165,7 +165,7 @@
 
 
     <!-- Corporation Detail -->
-    <div id="main_2" class="basic-2 mb-5 display-none" style="visibility: hidden;">
+    <div id="main_2" class="basic-2 mb-5 display-none" style="visibility: hidden; margin-top:-100px;">
         <div class="container">
             <div class="row">
                 <div class="col-lg-12" id="detail_section">
@@ -173,7 +173,7 @@
                     <div class="row">
                         <div class="col-5">
                             <div class="card text-bg-light mb-3">
-                              <div class="card-header font-weight-bold">회사 기본 정보</div>
+                              <div class="card-header font-weight-bold f-c0 bg-c4">회사 기본 정보</div>
                               <div class="card-body">
                                 <table class="table table-hover" style="table-layout:fixed;">
                                     <tr>
@@ -206,7 +206,7 @@
                         </div>
                         <div class="col-7">
                             <div class="card text-bg-light mb-3">
-                              <div class="card-header font-weight-bold">회사 재무 정보</div>
+                              <div class="card-header font-weight-bold f-c0 bg-c4">회사 재무 정보</div>
                               <div class="card-body">
                                   <table class="table table-hover" style="table-layout:fixed;">
                                       <tr>
@@ -238,13 +238,18 @@
                             </div>
                         </div>
                     </div><!-- End Row1-->
+                    <br>
 
                     <!-- Row2 -->
                     <div class="row">
                         <div class="col-12">
                             <div class="card text-bg-light mb-3">
-                              <div class="card-header font-weight-bold">합격 자소서 분석을 통한 키워드 추천</div>
+                              <div class="card-header font-weight-bold f-c0 bg-c4">합격 자소서 분석을 통한 키워드 추천</div>
                               <div class="card-body">
+                                <div class="row">
+                                    <div id="cv_head" class="col-12 text-center">
+                                    </div>                                            
+                                </div>
                                 <div id="cv_result" class="row">
                                     <div class="col-6 p-3">
                                         <div id="network_container" style="min-width:320px;max-width:500px;margin:0 auto;height:500px;"></div>
@@ -259,12 +264,13 @@
                             </div>
                         </div>
                     </div><!-- End Row2-->
+                    <br>
 
                     <!-- Row3 -->
                     <div class="row">
                         <div class="col-12">
                             <div class="card text-bg-light mb-3">
-                              <div class="card-header font-weight-bold">최신 뉴스 분석을 통한 키워드 추천</div>
+                              <div class="card-header font-weight-bold f-c0 bg-c4">최신 뉴스 분석을 통한 키워드 추천</div>
                               <div class="card-body" style="overflow:auto; max-height:32rem;;">
                                 <ul id="corp_news_list" class="list-unstyled li-space-lg p-3">
                                 </ul>
@@ -272,12 +278,13 @@
                             </div>
                         </div>
                     </div><!-- End Row3-->
+                    <br>
 
                     <!-- Row4 -->
                     <div class="row">
                         <div class="col-12">
                             <div class="card text-bg-light mb-3">
-                              <div class="card-header font-weight-bold">채용 정보</div>
+                              <div class="card-header font-weight-bold f-c0 bg-c4">채용 정보</div>
                               <div class="card-body">
                                 <table class="table table-hover" id="recruit_table">
                                 </table>
@@ -366,9 +373,9 @@
         window.scrollTo(0, 0);
     }
 
-    {% comment %} window.onbeforeunload=function(){
+    window.onbeforeunload=function(){
         window.scrollTo(0, 0);
-    } {% endcomment %}
+    }
 
     function to_home(){
         document.location = '/';
@@ -413,7 +420,7 @@
 
               var corp_num = context.corp_num;
               if (corp_num == 0){
-                var $th = $('<th style=width:100%>검색 결과가 없습니다.</th>');
+                var $th = $('<th style="width:100%"">검색 결과가 없습니다.</th>');
                 $('#table_ths').append($th);
               } else {
                 var $th = $('<th style="width: 20%;">회사명</th>');
@@ -575,21 +582,20 @@
           <!-- 자소서 키워드 분석 -->
           $('#network_container').empty()
           $('#bar_container').empty()
+          $('#cv_head').empty()
 
           if(context.textcount_code == 0){
-            $('#cv_result').html('<p>해당 기업에 대한 자소서 데이터가 부족합니다</p>')
+            var $p = $(`<p class="text-weight-bold text-center">해당 기업에 대한 자소서 데이터가 부족합니다</p>`);
+            $('#cv_head').append($p);
           } else {
+            var keyword_list = new Array();
+            var frequency_list = new Array();
+            
             if(context.textcount_code == 1){
-                var samsung_list = [('기술', 3630), ('반도체', 3394), ('삼성', 2271), ('경험', 2185), ('기업', 2160), ('개발', 2144), ('제품', 1922), ('시장', 1867), ('공정', 1851), ('문제', 1714), ('노력', 1659), ('도전', 1452), ('세계', 1440), ('성장', 1400), ('목표', 1370), ('산업', 1362), ('필요', 1338), ('발전', 1243), ('결과', 1210), ('과정', 1197), ('진행', 1182), ('생산', 1178), ('사용', 1169), ('고객', 1137), ('사회', 1115), ('해결', 1108), ('프로젝트', 1108), ('최고', 1069), ('공부', 1064), ('업무', 1060), ('설계', 1054), ('사업', 1054), ('메모리', 1001), ('지식', 998), ('시작', 991), ('엔지니어', 982), ('미래', 977), ('전공', 969), ('생활', 965), ('연구', 952), ('활동', 948), ('가능', 924), ('학교', 914), ('친구', 896), ('분석', 883), ('설비', 883), ('상황', 874), ('변화', 872), ('바탕', 870), ('능력', 856), ('시스템', 847), ('관심', 827), ('자동차', 807), ('관련', 789), ('소통', 788), ('이용', 771), ('입사', 756), ('데이터', 756), ('중국', 754), ('역량', 751), ('발생', 716), ('최근', 714), ('이해', 712), ('방법', 682), ('관리', 679), ('학생', 677), ('정보', 669), ('인재', 659), ('이후', 656), ('동아리', 649), ('모습', 648), ('준비', 648), ('직무', 640), ('수업', 635), ('활용', 626), ('공학', 624), ('환경', 623), ('부분', 621), ('인공지능', 619), ('가치', 613), ('스마트', 612), ('인터넷', 610), ('개선', 608), ('팀원', 596), ('서비스', 593), ('효율', 588), ('영향', 587), ('대학', 583), ('가지', 582), ('선택', 578), ('수행', 578), ('이유', 575), ('시절', 572), ('스마트폰', 568), ('열정', 563), ('도움', 552), ('이슈', 548), ('기회', 548), ('혁신', 545), ('제작', 539)];
-                var keyword_list = new Array();
-                var frequency_list = new Array();
-                for (i=0; i<50; i++){
-                    keyword_list[i] = samsung_list[i][0];
-                    frequency_list[i] = samsung_list[i][1];
-                }
+                keyword_list = ['기술', '반도체', '삼성', '경험', '기업', '개발', '제품', '시장', '공정', '문제', '노력', '도전', '세계', '성장', '목표', '산업', '필요', '발전', '결과', '과정', '진행', '생산', '사용', '고객', '사회', '해결', '프로젝트', '최고', '공부', '업무', '설계', '사업', '메모리', '지식', '시작', '엔지니어', '미래', '전공', '생활', '연구', '활동', '가능', '학교', '친구', '분석', '설비', '상황', '변화', '바탕', '능력'];
+                frequency_list = [3630, 3394, 2271, 2185, 2160, 2144, 1922, 1867, 1851, 1714, 1659, 1452, 1440, 1400, 1370, 1362, 1338, 1243, 1210, 1197, 1182, 1178, 1169, 1137, 1115, 1108, 1108, 1069, 1064, 1060, 1054, 1054, 1001, 998, 991, 982, 977, 969, 965, 952, 948, 924, 914, 896, 883, 883, 874, 872, 870, 856];
+                console.log(keyword_list.length, frequency_list.length);
             } else {
-                var keyword_list = new Array();
-                var frequency_list = new Array();
                 for (i=0; i<50; i++){
                     keyword_list[i] = context.model_result[i][0];
                     frequency_list[i] = context.model_result[i][1];
@@ -653,21 +659,10 @@
                     title: { text: null } },
                 yAxis: { min: 0, title: { text: '빈도', align: 'high' }, labels: { overflow: 'justify' } }, 
                 plotOptions: { bar: { dataLabels: { enabled: true } } },
-                legend: {
-                    layout: 'vertical',
-                    align: 'right',
-                    verticalAlign: 'top',
-                    x: -40,
-                    y: 80,
-                    floating: true,
-                    borderWidth: 1,
-                    backgroundColor:
-                        Highcharts.defaultOptions.legend.backgroundColor || '#FFFFFF',
-                    shadow: true
-                },
-                credits: {
-                    enabled: false
-                },
+                legend: { layout: 'vertical', align: 'right',  verticalAlign: 'top', x: -40, y: 250,
+                    floating: true, borderWidth: 1, backgroundColor: Highcharts.defaultOptions.legend.backgroundColor || '#FFFFFF',
+                    shadow: true },
+                credits: { enabled: false },
                 series: [{
                     name: '빈도',
                     data: [frequency_list[0], frequency_list[1], frequency_list[2], frequency_list[3], frequency_list[4], frequency_list[5], frequency_list[6], frequency_list[7], frequency_list[8], frequency_list[9]]
@@ -686,7 +681,7 @@
 
           var news_num = context.news_num;
           if (news_num == 0){
-            var $p = $(`<p>해당 기업에 대한 뉴스 데이터가 부족합니다</p>`)
+            var $p = $(`<p class="text-weight-bold">해당 기업에 대한 뉴스 데이터가 부족합니다</p>`)
             $('#corp_news_list').append($p);
           } else {
             var keys = Object.keys(context.news_keywords);
@@ -719,6 +714,23 @@
         },
         error: function(){
           console.log('fail')
+
+          <!-- 채용 공고 -->
+          $('#recruit_table').empty();
+          var $tr = $(`<tr class="text-center"><td>해당 기업의 채용 정보를 확인할 수 없습니다</td></tr>`)
+          $('#recruit_table').append($tr);
+
+          <!-- 자소서 키워드 분석 -->
+          $('#network_container').empty()
+          $('#bar_container').empty()
+          $('#cv_head').empty()
+          var $p = $(`<p class="text-weight-bold">해당 기업에 대한 분석 결과를 불러올 수 없습니다</p>`)
+          $('#cv_head').append($p)
+
+          <!-- 뉴스 키워드 분석 -->
+          $('#corp_news_list').empty();
+          var $p = $(`<p class="text-weight-bold">해당 기업에 대한 분석 결과를 불러올 수 없습니다</p>`)
+          $('#corp_news_list').append($p);
         }
     }); //ajax끝
   }

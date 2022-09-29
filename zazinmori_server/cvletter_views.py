@@ -68,6 +68,18 @@ def cvletter_write(request, jobs_id):
     
     if request.method == "GET":
         cvletter_items = Cvletter_items.objects.filter(jobs_id=jobs_id)
+        job = Jobposting_jobs.objects.filter(jobs_id=jobs_id)[0].job
+        context['job'] = job
+        jobposting_id = Jobposting_jobs.objects.filter(jobs_id=jobs_id)[0].jobposting_id
+        jobposting = Jobposting.objects.filter(jobposting_id=jobposting_id)[0]
+        corp_nm = jobposting.corp_nm
+        start_time = jobposting.start_time
+        end_time = jobposting.end_time
+        context['corp_nm'] = corp_nm
+        context['start_time'] = start_time[:10]
+        context['end_time'] = end_time[:10]
+        context['regi_code'] = jobposting.regi_code
+                
         items = []
         logging_click(request)
         for i in range(len(cvletter_items)):
@@ -102,9 +114,9 @@ def cvletter_write(request, jobs_id):
         
         return render(request, 'writing.html', {'context': context})
     
-    elif request.method == "POST":
-        user_info = User_info.objects.get(email=user_email)
-        member_id = user_info.member_id
+    else:
+        user_info = User_info.objects.filter(email=user_email)
+        member_id = user_info[0].member_id
         req_data = json.loads(request.body)
         jobs_id = req_data['jobs_id']
         item_num = req_data['item_num']
@@ -152,6 +164,19 @@ def user_cvletter_update(request, cvl_id):
             login_member_id = User_info.objects.filter(email = user_email).first().member_id
             cvletter_member_id = User_cvletter.objects.filter(user_cvletter_id=cvl_id).first().member_id
             jobs_id = User_cvletter.objects.filter(user_cvletter_id=cvl_id).first().jobs_id
+            
+            job = Jobposting_jobs.objects.filter(jobs_id=jobs_id)[0].job
+            context['job'] = job
+            jobposting_id = Jobposting_jobs.objects.filter(jobs_id=jobs_id)[0].jobposting_id
+            jobposting = Jobposting.objects.filter(jobposting_id=jobposting_id)[0]
+            corp_nm = jobposting.corp_nm
+            start_time = jobposting.start_time
+            end_time = jobposting.end_time
+            context['corp_nm'] = corp_nm
+            context['start_time'] = start_time[:10]
+            context['end_time'] = end_time[:10]
+            context['regi_code'] = jobposting.regi_code
+            
             if int(login_member_id) != int(cvletter_member_id) :
                 return redirect('/login/')
             else :                
@@ -197,7 +222,7 @@ def user_cvletter_update(request, cvl_id):
         except Exception as err : 
             return JsonResponse({'err' : err}, status=500)
         
-    elif request.method == "POST":
+    else :
         
         req_data = json.loads(request.body)
         item_num = req_data['item_num']

@@ -103,12 +103,45 @@
                     <h1>자기소개서 작성</h1>
                 </div> <!-- end of col -->
             </div> <!-- end of row -->
+            <div class="row">
+                <div class="col-lg-12 mx-auto" style="margin-top: 40px;">
+                    <div class="row">
+                        <div class="col-12 mx-auto">
+                        <div class="ro-border">{{ context.corp_nm }}</div>
+                        <div class="ro-border" style="margin-left:30px; margin-right:30px;">{{ context.job }}</div>
+                        <div class="ro-border">{{ context.start_time }} ~ {{ context.end_time }}</div>
+                        </div>
+                    </div>
+                    {% if not context.user_email %}
+                    {% else %}
+                    <div id="cv_keyword" class="justify-content-center my-5"></div>
+                    <div id="news_keyword" class="justify-content-center" style="margin-top: -20px; margin-bottom:-100px;"></div>
+                    {% endif %}
+                </div>
+            </div>
         </div> <!-- end of container -->
     </header> <!-- end of ex-header -->
+    <svg class="header-frame" data-name="Layer 1" xmlns="http://www.w3.org/2000/svg" preserveAspectRatio="none" viewBox="0 0 1920 310"><defs><style>.cls-1{fill:#5f4def;}</style></defs><title>header-frame</title><path class="cls-1" d="M0,283.054c22.75,12.98,53.1,15.2,70.635,14.808,92.115-2.077,238.3-79.9,354.895-79.938,59.97-.019,106.17,18.059,141.58,34,47.778,21.511,47.778,21.511,90,38.938,28.418,11.731,85.344,26.169,152.992,17.971,68.127-8.255,115.933-34.963,166.492-67.393,37.467-24.032,148.6-112.008,171.753-127.963,27.951-19.26,87.771-81.155,180.71-89.341,72.016-6.343,105.479,12.388,157.434,35.467,69.73,30.976,168.93,92.28,256.514,89.405,100.992-3.315,140.276-41.7,177-64.9V0.24H0V283.054Z"/></svg>
     <!-- end of header -->
 
 
+    
+    {% if not context.user_email %}
+    <div class="ex-basic-2">
+        <div class="container">
+            <div class="row">
+                <div id="main" class="col-lg-12">
+                    <div class="text-center">
+                        로그인 후에 자소서를 작성할 수 있습니다.
+                    </div>
+                </div> <!-- end of col-->
+            </div> <!-- end of row -->
+        </div> <!-- end of container -->
+    </div> <!-- end of ex-basic-2 -->
+    <!-- end of privacy content -->
+    
 
+    {% else %}
     <!-- Privacy Content -->
     <div class="ex-basic-2">
         <div class="container">
@@ -142,7 +175,7 @@
                     </div>end of text container -->
                     <div class="text-center">
                         <button class="btn-outline-reg mx-2" onclick="back()">BACK</button>
-                        <button class="btn-solid-reg mx-2"style="width: 15rem;" onclick="save_cvletter()">SAVE</button>
+                        <button class="btn-solid-reg mx-2" style="width: 15rem;" onclick="save_cvletter()">SAVE</button>
                     </div>
                 </div> <!-- end of col-->
             </div> <!-- end of row -->
@@ -150,6 +183,7 @@
     </div> <!-- end of ex-basic-2 -->
     <!-- end of privacy content -->
     <p id="jobs_id" style="visibility:hidden;">{{ context.jobs_id }}</p>
+    {% endif %}
 
 
 
@@ -226,7 +260,7 @@
             },
             error: function(){
               console.log('fail');
-              to_login();
+              alert('자소서를 저장할 수 없습니다.');
             }
         }); //ajax끝
         
@@ -248,7 +282,72 @@
             textarea.addEventListener(('input'), ()=>{
                 words_len.innerHTML = `${textarea.value.length}자 작성`
             });
-        } 
+        }
+
+        var regi_code = {{ context.regi_code }}
+        console.log('regicode', regi_code);
+
+        $.ajax({
+            url: '/company/company_detail/',
+            type: 'POST',
+            data: {'regi_code': regi_code},
+            dataType: 'json',
+            success: function(context) {
+              console.log('company_detail success')
+              
+              <!-- 자소서 키워드 분석 -->
+              $('#cv_keyword').empty();
+              if(context.textcount_code == 2){
+                var cv_keyword1 = context.model_result[0][0];
+                var cv_keyword2 = context.model_result[1][0];
+                var cv_keyword3 = context.model_result[2][0];
+                var cv_keyword4 = context.model_result[3][0];
+                var cv_keyword5 = context.model_result[4][0];
+                var cv_keyword6 = context.model_result[5][0];
+                var cv_keyword7 = context.model_result[6][0];
+                var cv_keyword8 = context.model_result[7][0];
+                var cv_keyword9 = context.model_result[8][0];
+                var cv_keyword10 = context.model_result[9][0];
+                $('#cv_keyword').html(`<h4 class="f-c0 text-center">합격자소서&nbsp;키워드&nbsp;:&nbsp;&nbsp;#${cv_keyword1}&nbsp;&nbsp;#${cv_keyword2}&nbsp;&nbsp;#${cv_keyword3}&nbsp;&nbsp;#${cv_keyword4}&nbsp;&nbsp;#${cv_keyword5}&nbsp;&nbsp;#${cv_keyword6}&nbsp;&nbsp;#${cv_keyword7}&nbsp;&nbsp;#${cv_keyword8}&nbsp;&nbsp;#${cv_keyword9}&nbsp;&nbsp;#${cv_keyword10}</h4>`);
+              } else if(context.textcount_code == 1){
+                var cv_keyword1 = '기술';
+                var cv_keyword2 = '반도체';
+                var cv_keyword3 = '삼성';
+                var cv_keyword4 = '경험';
+                var cv_keyword5 = '기업';
+                var cv_keyword6 = '개발';
+                var cv_keyword7 = '제품';
+                var cv_keyword8 = '시장';
+                var cv_keyword9 = '공정';
+                var cv_keyword10 = '문제';
+                $('#cv_keyword').html(`<h4 class="f-c0 text-center">합격자소서 키워드&nbsp;:&nbsp;&nbsp;#${cv_keyword1}&nbsp;&nbsp;#${cv_keyword2}&nbsp;&nbsp;#${cv_keyword3}&nbsp;&nbsp;#${cv_keyword4}&nbsp;&nbsp;#${cv_keyword5}&nbsp;&nbsp;#${cv_keyword6}&nbsp;&nbsp;#${cv_keyword7}&nbsp;&nbsp;#${cv_keyword8}&nbsp;&nbsp;#${cv_keyword9}&nbsp;&nbsp;#${cv_keyword10}</h4>`);
+              }
+                 
+              
+              <!-- 뉴스 키워드 분석 -->
+              $('#news_keyword').empty();
+    
+              if (context.news_num > 0){
+                var news_keyword1 = context.news_keywords[0]['keyword1']
+                var news_keyword2 = context.news_keywords[0]['keyword2']
+                var news_keyword3 = context.news_keywords[0]['keyword3']
+                var news_keyword4 = context.news_keywords[0]['keyword4']
+                var news_keyword5 = context.news_keywords[0]['keyword5']
+                var news_keyword6 = context.news_keywords[0]['keyword6']
+                var news_keyword7 = context.news_keywords[0]['keyword7']
+                var news_keyword8 = context.news_keywords[0]['keyword8']
+                var news_keyword9 = context.news_keywords[0]['keyword9']
+                var news_keyword10 = context.news_keywords[0]['keyword10']
+                $('#news_keyword').html(`<h4 class="f-c0 text-center">최신 뉴스 키워드&nbsp;:&nbsp;&nbsp;#${news_keyword1}&nbsp;&nbsp;#${news_keyword2}&nbsp;&nbsp;#${news_keyword3}&nbsp;&nbsp;#${news_keyword4}&nbsp;&nbsp;#${news_keyword5}&nbsp;&nbsp;#${news_keyword6}&nbsp;&nbsp;#${news_keyword7}&nbsp;&nbsp;#${news_keyword8}&nbsp;&nbsp;#${news_keyword9}&nbsp;&nbsp;#${news_keyword10}</h4>`);
+
+              }    
+            },
+            error: function(){
+              console.log('fail')
+            }
+        }); //ajax끝
+
+
     }
 
 </script>
