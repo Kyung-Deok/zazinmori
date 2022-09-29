@@ -27,6 +27,7 @@ defusedxml==0.7.1
 Django==4.1.1
 elastic-transport==8.4.0
 elasticsearch==8.4.2
+elasticsearch-dsl==7.4.0
 entrypoints @ file:///home/conda/feedstock_root/build_artifacts/entrypoints_1643888246732/work
 executing @ file:///home/conda/feedstock_root/build_artifacts/executing_1664126393503/work
 fastapi==0.85.0

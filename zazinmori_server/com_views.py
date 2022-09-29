@@ -4,45 +4,79 @@ import django
 
 from django.shortcuts import render, redirect
 from django.http import JsonResponse
-from django.db.models import Sum, Avg,Q
-from elasticsearch import Elasticsearch
+from django.db.models import Sum, Avg, Q
+# from elasticsearch import Elasticsearchs
 from .loggers import logging_search, logging_user_target,logging_click
 from .env_settings import ES_ID, ES_URL, ES_PW
 from .models import *
 from datetime import datetime
 import requests
+from elasticsearch_dsl.connections import connections
+from elasticsearch_dsl import Search, Q
 
 
 def search_company(request):
-    context={}
+    context = {}
     if request.method == "GET":
         context['message'] = "search company"
         context['user_email'] = request.session.get('user_email', False)
-        
+
         logging_click(request)
-        return render(request, 'search.html', {'context':context})
+        return render(request, 'search.html', {'context': context})
     elif request.method == "POST":
         req_corp_nm = request.POST.get('corp_nm', False)
         logging_search(request, req_corp_nm)
-        
-        es = Elasticsearch(
-        ES_URL,
-        basic_auth=(ES_ID, ES_PW)
-        )
-        resp = es.search(index="corp_total_info", query={"multi_match": {"query": req_corp_nm, "fields": ["corp_nm", "corp_nm_eng"]}})
-        resp_list = resp['hits']['hits']
+
+        client = connections.create_connection(hosts=['http://220.86.100.9:9200'], http_auth=('elastic', 'votmdnjem'))
+        s = Search(using=client)
+        s = s.index("corp_total_info")
+        q = Q("multi_match", query=req_corp_nm, fields=["corp_nm", "corp_nm_eng"])
+        s = s.query(q)
+
+        t = s.execute()
+
         search_list = []
-        # 기초 가공
-        for i in resp_list:
-            del i['_source']['@timestamp'], i['_source']['@version']
-            search_list.append(i['_source'])
+        for item in t:
+            del item['@timestamp'], item['@version']
+            search_list.append(item.to_dict())
 
         context['corp_result'] = search_list
         context['corp_num'] = len(search_list)
         logging_click(request)
+
+        return JsonResponse(context, status=200)
+
+
+# def search_company(request):
+#     context={}
+#     if request.method == "GET":
+#         context['message'] = "search company"
+#         context['user_email'] = request.session.get('user_email', False)
         
-        return JsonResponse(context,status=200)
-     
+#         logging_click(request)
+#         return render(request, 'search.html', {'context':context})
+#     elif request.method == "POST":
+#         req_corp_nm = request.POST.get('corp_nm', False)
+#         logging_search(request, req_corp_nm)
+        
+#         es = Elasticsearch(
+#         ES_URL,
+#         basic_auth=(ES_ID, ES_PW)
+#         )
+#         resp = es.search(index="corp_total_info", query={"multi_match": {"query": req_corp_nm, "fields": ["corp_nm", "corp_nm_eng"]}})
+#         resp_list = resp['hits']['hits']
+#         search_list = []
+#         # 기초 가공
+#         for i in resp_list:
+#             del i['_source']['@timestamp'], i['_source']['@version']
+#             search_list.append(i['_source'])
+
+#         context['corp_result'] = search_list
+#         context['corp_num'] = len(search_list)
+#         logging_click(request)
+        
+#         return JsonResponse(context,status=200)
+    
 
 def company_detail(request):
     context = {}
@@ -72,6 +106,7 @@ def company_detail(request):
     
     # 자소서 키워드
     corp_nm = com_name.first().corp_nm
+    context['corp_nm'] = corp_nm
     if corp_nm=='삼성전자':
         context['textcount_code'] = 1
     else:
@@ -93,7 +128,7 @@ def company_detail(request):
 
 def textcount(corp_nm) :
     results={}
-    res = requests.post('http://localhost:8988/prediction/cvl_keywords/', json={"corp_nm" : corp_nm})    
+    res = requests.post('http://35.79.77.17:8988/prediction/cvl_keywords/', json={"corp_nm" : corp_nm})    
     results['results'] = res.json()
     return results
 
@@ -115,7 +150,7 @@ def recruits(request):
         posting_detail = jobposting[0].posting_detail
         posting_detail = posting_detail[2:]
         posting_detail = posting_detail[:-2]
-        context['posting_detail'] = posting_detail
+        #context['posting_detail'] = posting_detail
         
         if jobposting[0].posting_type == 'img':
             src_text = jobposting[0].posting_detail
@@ -125,6 +160,9 @@ def recruits(request):
             for j in range(len(src_lst)):
                 src_dict[f'{j}'] = src_lst[j].replace('[', '').replace(']', '').replace('"', '').replace("'", "")
             context['src'] = src_dict
+            context['posting_detail'] = posting_detail
+        else:
+            context['posting_detail'] = posting_detail.replace('\\n', '<br>')
             
         context['job_num'] = len(jobposting_jobs)
         jobs_dict = {}       

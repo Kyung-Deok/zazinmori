@@ -22,11 +22,11 @@ RUN pip install -r requirements_django.txt
 # COPY [현재 로컬에서 가져갈 파일] [컨테이너로 옮길 경로]
 COPY . .
 
-### 이 아래 command들은 docker-compose에 작성할 내용이므로, 확인 후 삭제한다.
-# 포트 설정
-EXPOSE 8902
+# ### 이 아래 command들은 docker-compose에 작성할 내용이므로, 확인 후 삭제한다.
+# # 포트 설정
+# EXPOSE 80
 
-# gunicorn 실행
-# CMD ["gunicorn", "--bind", "0.0.0.0:8901", "zazinmori_server.wsgi:application"]
-# 테스트로 일단 python run으로 ...
-CMD ["python", "manage.py", "runserver", "0.0.0.0:8902"]
+# # gunicorn 실행
+# # CMD ["gunicorn", "--bind", "0.0.0.0:8901", "zazinmori_server.wsgi:application"]
+# # 테스트로 일단 python run으로 ...
+# CMD ["python", "manage.py", "runserver", "0.0.0.0:8902"]

@@ -49,5 +49,6 @@ urlpatterns = [
     ###### 기타 기능 ######
     path('community/', etc_views.community, name='community'),
     path('community/write/', etc_views.write_post, name='writepost'),
-    path('community/post_detail/<int:post_id>', etc_views.post_detail, name='postdetail')
+    path('community/post_detail/<int:post_id>', etc_views.post_detail, name='postdetail'),
+    path('community/delete_post/', etc_views.delete_post, name='deletepost')
 ]
