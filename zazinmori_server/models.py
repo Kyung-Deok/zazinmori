@@ -237,3 +237,26 @@ class Board(models.Model):
     class Meta:
         managed = False
         db_table = 'board'
+        
+        
+class News_result(models.Model):
+    news_result_id = models.AutoField(primary_key=True)
+    regi_code = models.CharField(max_length=45, blank=True, null=True)
+    corp_nm = models.TextField(max_length=45, blank=True, null=True)
+    news_title = models.TextField(blank=True, null=True)
+    news_sentence = models.TextField(blank=True, null=True)
+    url = models.TextField(blank=True, null=True)
+    keyword1 = models.CharField(max_length=45, blank=True, null=True)
+    keyword2 = models.CharField(max_length=45, blank=True, null=True)
+    keyword3 = models.CharField(max_length=45, blank=True, null=True)
+    keyword4 = models.CharField(max_length=45, blank=True, null=True)
+    keyword5 = models.CharField(max_length=45, blank=True, null=True)
+    keyword6 = models.CharField(max_length=45, blank=True, null=True)
+    keyword7 = models.CharField(max_length=45, blank=True, null=True)
+    keyword8 = models.CharField(max_length=45, blank=True, null=True)
+    keyword9 = models.CharField(max_length=45, blank=True, null=True)
+    keyword10 = models.CharField(max_length=45, blank=True, null=True)
+
+    class Meta:
+        managed = False
+        db_table = 'news_result'

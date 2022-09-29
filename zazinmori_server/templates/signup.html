@@ -186,7 +186,7 @@
                             </div>
                             <div class="form-group">
                                 <input type="number" class="form-control-input" id="salary_input" required>
-                                <label class="label-control" for="salary_input"><span style="color:red;">* </span>희망연봉(천 만원)</label>
+                                <label class="label-control" for="salary_input"><span style="color:red;">* </span>희망연봉(만원)</label>
                                 <div class="help-block with-errors"></div>
                             </div>
                             <div class="form-group">
@@ -248,7 +248,8 @@
     var req_birth = document.getElementById('birth_input').value;
     var req_passwd = document.getElementById('passwd_input').value;
     var req_passwd2 = document.getElementById('passwd2_input').value;
-    var req_phone = parseInt(document.getElementById('phone_input').value);
+    var req_phone = document.getElementById('phone_input').value;
+    var req_phone_int = parseInt(document.getElementById('phone_input').value);
     var req_category = document.getElementById('category_input').value;
     var req_area = document.getElementById('area_input').value;
     var req_salary = parseInt(document.getElementById('salary_input').value);
@@ -264,7 +265,7 @@
       alert('비밀번호가 일치하지 않습니다.');
       document.getElementById('passwd_input').value = '';
       document.getElementById('passwd2_input').value = '';
-    } else if (isNaN(req_phone)){
+    } else if (isNaN(req_phone_int)){
         alert('핸드폰번호는 숫자만 입력하세요');
         document.getElementById('phone_input').value = '';
     } else {

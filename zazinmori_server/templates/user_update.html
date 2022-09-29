@@ -133,6 +133,57 @@
                                 <div class="help-block with-errors"></div>
                             </div>
                             <div class="form-group">
+                                <input type="tel" class="form-control-input" pattern="010[0-9]{4}[0-9]{4}" id="phone_input"  value="{{ context.user_phone }}" required>
+                                <label class="label-control" style="top:0.125rem; opacity:1; font-size:0.75rem; font-weight: 700;" for="phone_input">Phone Number(숫자만 입력하세요)</label>
+                                <div class="help-block with-errors"></div>
+                            </div>
+                            <div class="form-group">
+                                <select class="form-control-input category" id="category_input">
+                                    <option selected></option>
+                                    <option value="서비스업">서비스업</option>
+                                    <option value="제조·화학업">제조·화학업</option>
+                                    <option value="IT·웹·통신업">IT·웹·통신업</option>
+                                    <option value="은행·금융업">은행·금융업</option>
+                                    <option value="미디어·디자인업">미디어·디자인업</option>
+                                    <option value="교육업">교육업</option>
+                                    <option value="의료·제약·복지업">의료·제약·복지업</option>
+                                    <option value="판매·유통업">판매·유통업</option>
+                                    <option value="건설업">건설업</option>
+                                    <option value="기관·협회">기관·협회</option>
+                                </select>
+                                <label class="label-control" style="top:0.125rem; opacity:1; font-size:0.75rem; font-weight: 700;" for="category_input">기존 관심업종: {{ context.user_category }}</label>
+                                <div class="help-block with-errors"></div>
+                            </div>
+                            <div class="form-group">
+                                <select class="form-control-input area" id="area_input">
+                                    <option selected></option>
+                                    <option value="서울">서울</option>
+                                    <option value="부산">부산</option>
+                                    <option value="대구">대구</option>
+                                    <option value="인천">인천</option>
+                                    <option value="광주">광주</option>
+                                    <option value="대전">대전</option>
+                                    <option value="울산">울산</option>
+                                    <option value="세종">세종</option>
+                                    <option value="경기">경기</option>
+                                    <option value="강원">강원</option>
+                                    <option value="충북">충북</option>
+                                    <option value="충남">충남</option>
+                                    <option value="전북">전북</option>
+                                    <option value="전남">전남</option>
+                                    <option value="경북">경북</option>
+                                    <option value="경남">경남</option>
+                                    <option value="제주">제주</option>
+                                </select>
+                                <label class="label-control" style="top:0.125rem; opacity:1; font-size:0.75rem; font-weight: 700;" for="area_input">기존 희망근무지: {{ context.user_area }}</label>
+                                <div class="help-block with-errors"></div>
+                            </div>
+                            <div class="form-group">
+                                <input type="number" class="form-control-input" id="salary_input" value={{ context.user_salary }} required>
+                                <label class="label-control" style="top:0.125rem; opacity:1; font-size:0.75rem; font-weight: 700;" for="salary_input">희망연봉(만원)</label>
+                                <div class="help-block with-errors"></div>
+                            </div>
+                            <div class="form-group">
                                 <p></p>
                                 <p style="margin-bottom: 10px; color: #333;">기존 비밀번호를 입력하세요</p>
                                 <div class="form-group">                                    
@@ -197,19 +248,27 @@
     var req_birth = document.getElementById('birth_input').value;
     var new_passwd = document.getElementById('new_passwd_input').value;
     var old_passwd = document.getElementById('old_passwd_input').value;
+    var req_phone = document.getElementById('phone_input').value;
+    var req_phone_int = parseInt(document.getElementById('phone_input').value);
+    var req_category = document.getElementById('category_input').value;
+    var req_area = document.getElementById('area_input').value;
+    var req_salary = parseInt(document.getElementById('salary_input').value);
 
     for (var i=0; i<2; i++){
         if (document.getElementsByName('gender_input')[i].checked){
             var req_gender = document.getElementsByName('gender_input')[i].value;
         }
     }
-    if (req_name==''|req_email==''|req_birth==''|new_passwd==''|old_passwd==''|req_gender==''){
+    if (req_name==''|req_email==''|req_birth==''|new_passwd==''|old_passwd==''|req_gender==''|req_phone==''|req_category==''|req_area==''|req_salary==''){
       alert('모든 입력란을 작성해주세요.')
+    } else if (isNaN(req_phone_int)){
+        alert('핸드폰번호는 숫자만 입력하세요');
+        document.getElementById('phone_input').value = '';
     } else {
       $.ajax({
           url: '/mypage/user_update/',
           type: 'POST',
-          data: {'req_name': req_name, 'req_email': req_email, 'req_birth': req_birth, 'old_passwd': old_passwd, 'new_passwd': new_passwd, 'req_gender':req_gender},
+          data: {'req_name': req_name, 'req_email': req_email, 'req_birth': req_birth, 'old_passwd': old_passwd, 'new_passwd': new_passwd, 'req_gender':req_gender, 'req_phone':req_phone, 'req_category':req_category, 'req_area':req_area, 'req_salary':req_salary},
           dataType: 'json',
           success: function(context) {
             console.log(context)

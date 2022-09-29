@@ -113,36 +113,38 @@
     <div class="ex-basic-2">
         <div class="container">
             <div class="row">
-                <div id="main" class="col-lg-8 mx-auto">
+                <div id="main" class="col-lg-12 mx-auto">
                     <!--<div class="image-container-large">
                         <img class="img-fluid" src="{% static 'img/article-details-large.jpg' %}" alt="alternative">
                     </div> end of image-container-large -->
                     <div class="text-container">
                         <table class="table">
                             <tr>
-                                <th>NAME</th>
-                                <td><textarea cols="60" rows="1" readonly>{{ context.name }}</textarea></td>
+                                <th style="width:20%;">NAME</th>
+                                {% comment %} <td><textarea cols="60" rows="1" readonly>{{ context.name }}</textarea></td> {% endcomment %}
+                                <td><div style="width:80%; padding:5px;">{{ context.name }}</div></td>
                             </tr>
                             <tr>
                                 <th>TITLE</th>
-                                <td><textarea cols="60" rows="1" readonly>{{ context.title }}</textarea></td>
+                                <td><div style="padding:5px;"><pre>{{ context.title }}</pre></div></td>
                             </tr>
                             <tr>
                                 <th>CONTENT</th>
-                                <td><textarea cols="60" rows="10" readonly>{{ context.content }}</textarea></td>
+                                <td><div style="padding:5px;"><pre style="white-space: pre-wrap;">{{ context.content }}</pre></div></td>
                             </tr>
                         </table>                  
                     </div> <!-- end of text-container -->
                     <div class="text-center">
                         <button class="btn-outline-reg mx-2" onclick="document.location='/community/'">목록</button>
-                        <button class="btn-solid-reg mx-2" onclick="alert('작업 중!')">수정</button>
-                        <button class="btn-solid-reg mx-2" onclick="alert('작업 중!')">삭제</button>
+                        {% comment %} <button class="btn-solid-reg mx-2" onclick="alert('작업 중!')">수정</button> {% endcomment %}
+                        <button class="btn-solid-reg mx-2" onclick="delete_post()">삭제</button>
                     </div>
                 </div> <!-- end of col-->
             </div> <!-- end of row -->
         </div> <!-- end of container -->
     </div> <!-- end of ex-basic-2 -->
     <!-- end of privacy content -->
+    <p id="hidden_post_id" style="width:0;height:0;visibility:hidden;">{{ context.post_id }}</p>
 
 
 
@@ -189,6 +191,35 @@
 
     function back(){
         if(confirm("이전 페이지로 돌아가시겠습니까?")) window.history.back();
+    }
+
+    function delete_post(){
+        if(confirm("정말로 해당 게시글을 삭제하시겠습니까?"))
+        
+        var post_id = document.getElementById('hidden_post_id').textContent;
+        $.ajax({
+            url: '/community/delete_post/',
+            type: 'POST',
+            data: {'post_id': post_id},
+            dataType: 'json',
+            success: function(context) {
+              console.log('success')
+              console.log(context)
+              
+              var user_chk = context.user_chk
+              if( user_chk == 0 ){
+                alert('게시글을 삭제할 권한이 없습니다.');
+              } else {
+                alert('게시글이 삭제되었습니다.');
+                document.location = '/community/';
+              }
+
+            },
+            error: function(){
+              console.log('fail')
+              alert('게시글 삭제에 실패했습니다');
+            }
+        }); //ajax끝
     }
 
 

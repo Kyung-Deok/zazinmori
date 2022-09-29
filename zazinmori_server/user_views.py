@@ -24,6 +24,7 @@ def user_info(request):
     
     logging_click(request)
     return render(request, 'mypage.html', {'context': context})
+  
     
 def user_update(request):
     ses_user = request.session.get('user_email', None)
@@ -43,7 +44,12 @@ def user_update(request):
                 context['user_name'] = user_info.first().name
                 context['user_email'] = user_info.first().email
                 # context['user_passwd'] = user_info.first().passwd
-                context['user_birth'] = user_info.first().birth            
+                context['user_birth'] = user_info.first().birth
+                context['user_gender'] = user_info.first().gender
+                context['user_phone'] = user_info.first().phone
+                context['user_category'] = user_info.first().category
+                context['user_area'] = user_info.first().area
+                context['user_salary'] = user_info.first().salary            
             #return JsonResponse(context, status=200)    
             logging_click(request)
             return render(request, 'user_update.html', {"context": context})
@@ -66,6 +72,10 @@ def user_update(request):
             new_name = request.POST.get('req_name', False)
             new_birth = request.POST.get('req_birth', False)
             new_gender = request.POST.get('req_gender', False)
+            new_phone = request.POST.get('req_phone', False)
+            new_category = request.POST.get('req_category', False)
+            new_area = request.POST.get('req_area', False)
+            new_salary = request.POST.get('req_salary', False)
             
             user_info = User_info.objects.filter(email = user_email)
             user_info.update(
@@ -73,6 +83,10 @@ def user_update(request):
                 name = new_name,
                 birth = new_birth,
                 gender = new_gender,
+                phone = new_phone,
+                category = new_category,
+                area = new_area,
+                salary = new_salary,
                 update_date = datetime.now().strftime('%Y-%m-%d %H:%M:%S')
             )
         context['message'] = '회원정보 변경 완료'

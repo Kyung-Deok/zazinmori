@@ -15,8 +15,7 @@ from .models import *
 def doc2vec_call(corp_nm) :
     results={}
     #res = requests.post('http://localhost:8988/prediction/cvl_corp_nm', json={"corp_nm" : request.POST.get("corp_nm", '현대자동차')})
-    res = requests.post('http://localhost:8988/prediction/cvl_corp_nm', json={"corp_nm" : corp_nm})
-    
+    res = requests.post('http://35.79.77.17:8988/prediction/cvl_corp_nm/', json={"corp_nm" : corp_nm})
     results['results'] = res.json()
     return results
 
