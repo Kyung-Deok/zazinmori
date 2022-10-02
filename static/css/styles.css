@@ -2177,6 +2177,7 @@ html {
 .bg-c4 { background-color: #5F4DEE; }
 .bg-c5 { background-color: #3D29E7; }
 .bg-c6 { background-color: #230DDB; }
+.bg-gray { background-color: #ccd3df; }
 
 .border-red {border: 1px solid red;}
 .border-yellow {border: 1px solid yellow;}
@@ -2220,6 +2221,20 @@ html {
 }
 
 
+
+.ro-border {
+	display: inline-block;
+	padding: 1.275rem 1.625rem 1.275rem 1.625rem;
+	border: 0.125rem solid #fff;
+	border-radius: 2rem;
+	background-color: transparent;
+	color: #fff;
+	font: 700 1.125rem/0 "Open Sans", sans-serif;
+	text-decoration: none;
+	transition: all 0.2s;
+}
+
+
 .h0 {
 	height: 0;
 }
@@ -2250,13 +2265,6 @@ html {
 
 
 .recom_box {
-	/* display: block;
-	width: 100%;
-	margin-right: auto;
-	margin-bottom: 0.4rem;
-	margin-left: auto;
-	border: 1px solid #ccd3df;
-	border-radius: 0.375rem; */
 	background: #fff;
     border: 1px solid #ccd3df;
     border-radius: 5px;
@@ -2268,6 +2276,7 @@ html {
     flex-direction: column;
     justify-content: space-between;
     position: relative;
+	box-shadow: 2px 2px 2px 2px gray;
 }
 
 .recom_head {
