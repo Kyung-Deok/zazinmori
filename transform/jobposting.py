@@ -7,16 +7,16 @@ from pyspark.sql.functions import monotonically_increasing_id, expr
 sc = SparkContext()
 spark =SparkSession.builder.getOrCreate()
 
-user="admin"
+user="root"
 password="qwer1234"
 url="jdbc:mysql://35.79.77.17:3306/pjt3"
 driver="com.mysql.cj.jdbc.Driver"
 
 
 
-df = spark.read.format('csv').option('escape', '"').option('header', 'true').option('encoding', 'utf-8').load('/zazinmori/raw_data/jobposting.csv')
+df = spark.read.format('csv').option('escape', '"').option('header', 'true').option('encoding', 'utf-8').load('cvletter_data/jobposting.csv')
 
-##### spark로 처리 안 되는 35행 제거)
+##### spark로 처리 안 되는 35행 제거(split으로 분리가 안 됨... 이유 모름....)
 df = df.coalesce(1).select(monotonically_increasing_id().alias('id'), expr('*'))
 lst = [101, 154, 299, 366, 368, 369, 375, 382, 412, 430, 464, 502, 516, 520, 542, 585, 688, 689, 692, 693, 695, 696, 771, 787, 795, 834, 838, 865, 883, 1021, 1125, 1155, 1179, 1180]
 df = df.filter(~df.id.isin(lst)).drop('id')
@@ -31,41 +31,12 @@ df_id = df.coalesce(1).select(monotonically_increasing_id().alias('jobposting_id
 jobposting_df=df_id.select(col('jobposting_id'), col('corp_nm'), col('period'), col('start_time'), col('end_time'), col('main').alias('posting_detail'), col('img_or_text').alias('posting_type'), col('url'))
 
 ## regi_code
+## mysql db에 저장되어 있는 corporation 테이블 불러오기
+#corp_df = spark.read.format("jdbc").options(user=user, password=password, url=url, driver=driver, dbtable="corporation").load()
+#corp_df = corp_df.select(col('corp_nm'), col('regi_code'))
+## corp 테이블과 조인하여 regi_code 컬럼 추가
+#jobposting_df = jobposting_df.join(corp_df, jobposting_df.corp_nm==corp_df.corp_nm, 'left_outer')
 
-## regi_code
-# mysql db에 저장되어 있는 corp 테이블 불러오기
-corp_df = spark.read.format("jdbc").options(user=user, password=password, url=url, driver=driver, dbtable="corporation").load()
-corp_df = corp_df.select(col('corp_nm'), col('regi_code'))
-corp_df1 = corp_df.withColumn('corp_nm', regexp_replace(col('corp_nm'), '\([\w]*\)', ''))\
-.withColumn('corp_nm', regexp_replace(col('corp_nm'), '주식회사', ''))\
-.withColumn('corp_nm', regexp_replace(col('corp_nm'), '유한회사', ''))\
-.withColumn('corp_nm', regexp_replace(col('corp_nm'), ' ', ''))\
-.withColumn('corp_nm_drop2', upper(col('corp_nm')))\
-.select('corp_nm_drop2', col('regi_code').alias('regi_code_drop'))
-
-# corp 테이블과 조인하여 regi_code 컬럼 추가
-jobposting_df = jobposting_df.withColumn('corp_nm', regexp_replace('corp_nm', '\([\w]*\)', ''))\
-.withColumn('corp_nm', regexp_replace(col('corp_nm'), 'KB국민카드', '케이비국민카드')) \
-.withColumn('corp_nm', regexp_replace(col('corp_nm'), '하나금융투자', '하나금융지주')) \
-.withColumn('corp_nm', regexp_replace(col('corp_nm'), 'KDB산업은행', '한국산업은행')) \
-.withColumn('corp_nm', regexp_replace(col('corp_nm'), 'KCC', '케이씨씨')) \
-.withColumn('corp_nm', regexp_replace(col('corp_nm'), '신한라이프', '신한라이프생명보험')) \
-.withColumn('corp_nm', regexp_replace(col('corp_nm'), '경기주택도시공사', '경기도시공사')) \
-.withColumn('corp_nm', regexp_replace(col('corp_nm'), 'LG상사', 'LX인터내셔널'))\
-.withColumn('corp_nm', regexp_replace(col('corp_nm'), '오렌지라이프', '오렌지라이프생명보험')) \
-.withColumn('corp_nm', regexp_replace(col('corp_nm'), '한진중공업', '한진중공업홀딩스')) \
-.withColumn('corp_nm', regexp_replace(col('corp_nm'), '에스케이트레이딩인터내셔널㈜', '에스케이트레이딩인터내셔널')) \
-.withColumn('corp_nm', trim(col('corp_nm')))\
-.withColumn('corp_nm', regexp_replace(col('corp_nm'), '주식회사', ''))\
-.withColumn('corp_nm', regexp_replace(col('corp_nm'), '유한회사', ''))\
-.withColumn('corp_nm', regexp_replace(col('corp_nm'), ' ', ''))\
-.withColumn('corp_nm_drop1', upper(col('corp_nm')))\
-.drop(col('corp_nm'))
-
-jobposting_df = jobposting_df.join(corp_df1, jobposting_df.corp_nm_drop1==corp_df1.corp_nm_drop2, 'left_outer')
-jobposting_df = jobposting_df.join(corp_df, jobposting_df.regi_code_drop==corp_df.regi_code, 'left_outer')
-jobposting_df = jobposting_df.withColumn('corp_nm', when(jobposting_df.corp_nm.isNull(), jobposting_df.corp_nm_drop1).otherwise(jobposting_df.corp_nm))\
-.drop(col('regi_code_drop')).drop(col('corp_nm_drop1')).drop(col('corp_nm_drop2'))
 
 
 ##########jobposting_jobs table##########

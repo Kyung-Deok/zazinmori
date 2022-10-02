@@ -9,13 +9,13 @@ sc = SparkContext()
 spark =SparkSession.builder.getOrCreate()
 
 user="root"
-password="1234"
-url="jdbc:mysql://localhost:3306/zazinmori"
+password="qwer1234"
+url="jdbc:mysql://35.79.77.17:3306/pjt3"
 driver="com.mysql.cj.jdbc.Driver"
 dbtable="failcvletter"
 
 
-df = spark.read.format('csv').option('escape', '"').option('header', 'true').option('encoding', 'utf-8').load('/zazinmori/raw_data/fail_cvletter.csv')
+df = spark.read.format('csv').option('escape', '"').option('header', 'true').option('encoding', 'utf-8').load('cvletter_data/fail_cvletter.csv')
 
 ###빈행제거, 중복제거
 df = df.dropna().dropDuplicates(['title'])

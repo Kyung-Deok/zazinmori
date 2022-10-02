@@ -9,14 +9,14 @@ sc = SparkContext()
 spark =SparkSession.builder.getOrCreate()
 
 user="root"
-password="1234"
-url="jdbc:mysql://localhost:3306/zazinmori"
+password="qwer1234"
+url="jdbc:mysql://35.79.77.17:3306/pjt3"
 driver="com.mysql.cj.jdbc.Driver"
 dbtable="passcvletter"
 
 
 ########## dokchi ##########
-df = spark.read.format('csv').option('escape', '"').option('header', 'true').option('encoding', 'utf-8').option('multiline', 'true').load('/zazinmori/raw_data/dokchi.csv')
+df = spark.read.format('csv').option('escape', '"').option('header', 'true').option('encoding', 'utf-8').option('multiline', 'true').load('cvletter_data/dokchi.csv')
 
 ###recruit_date 추가
 df=df.withColumn('recruit_date', concat(substring(col('date'), 1, 4), substring(col('date'), 6, 2))).drop(col('date'))
