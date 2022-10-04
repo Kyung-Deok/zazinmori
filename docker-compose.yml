@@ -1,0 +1,90 @@
+#첫 빌드시 : docker-compose up --build
+#이후 : docker-compose up
+# 방화벽 설정으로 실행 안될때 iptables 초기화 
+# sudo iptables -t filter -F && sudo iptables -t filter -X && sudo systemctl restart docker
+version: "3"
+services:
+    nginx:
+        image: nginx:1.14.0
+        container_name : nginx_zzm
+        volumes: 
+            - /home/ubuntu/nginx/nginx.conf:/etc/nginx/nginx.conf
+            # - /home/ubuntu/zazinmori/zazinmori_server/static:/static
+            - /home/ubuntu/zazinmori:/home/ubuntu/zazinmori
+            - /etc/letsencrypt/:/etc/letsencrypt/
+            - /var/www/certbot/:/var/www/letsencrypt/
+        ports:
+            - "80:80"
+            - "443:443"
+        depends_on : 
+            - zzm1
+            - zzm2
+            - zzm3
+        tty: true
+        stdin_open: true
+    # certbot:
+    #     image: certbot/certbot
+    #     # restart: unless-stopped
+    #     volumes:
+    #         - ./data/certbot/conf:/etc/letsencrypt 
+    #         - ./data/certbot/www:/var/www/certbot
+    #     entrypoint: "/bin/sh -c 'trap exit TERM; while :; do certbot renew; sleep 12h & wait $${!}; done;'"
+    zzm1:
+        build : ./zazinmori
+            # dockerfile : ./zazinmori/Dockerfile
+        container_name : zzm1
+        # volumes: 
+            # - /home/ubuntu/zazinmori:/home/ubuntu/zazinmori
+            # - ./config/gunicorn:/etc/systemd/system
+        command: bash -c "python3 manage.py makemigrations zazinmori_server
+            && python3 manage.py migrate   
+            && python3 manage.py collectstatic --noinput
+            && gunicorn zazinmori_server.wsgi -b 0.0.0.0:8902"
+        #      && python3 /home/durumi/manage.py runserver 127.0.0.1:8000 "
+        #      && gunicorn durumi.wsgi -b 0.0.0.0:8000 "
+        ports: 
+            - "8902:80"
+        expose: 
+            - "8902"
+        tty: true
+        stdin_open: true
+
+    zzm2:
+        build : ./zazinmori
+            # dockerfile : ./zazinmori/Dockerfile
+        container_name : zzm2
+        # volumes: 
+            # - /home/ubuntu/zazinmori:/home/ubuntu/zazinmori
+            # - ./config/gunicorn:/etc/systemd/system
+        command: bash -c "python3 manage.py makemigrations zazinmori_server
+            && python3 manage.py migrate   
+            && python3 manage.py collectstatic --noinput
+            && gunicorn zazinmori_server.wsgi -b 0.0.0.0:8903"
+        #      && python3 /home/durumi/manage.py runserver 127.0.0.1:8000 "
+        #      && gunicorn durumi.wsgi -b 0.0.0.0:8000 "
+        ports: 
+            - "8903:80"
+        expose: 
+            - "8903"
+        tty: true
+        stdin_open: true
+
+    zzm3:
+        build : ./zazinmori
+            # dockerfile : ./zazinmori/Dockerfile
+        container_name : zzm3
+        # volumes: 
+            # - /home/ubuntu/zazinmori:/home/ubuntu/zazinmori
+            # - ./config/gunicorn:/etc/systemd/system
+        command: bash -c "python3 manage.py makemigrations zazinmori_server
+            && python3 manage.py migrate   
+            && python3 manage.py collectstatic --noinput
+            && gunicorn zazinmori_server.wsgi -b 0.0.0.0:8904"
+        #      && python3 /home/durumi/manage.py runserver 127.0.0.1:8000 "
+        #      && gunicorn durumi.wsgi -b 0.0.0.0:8000 "
+        ports: 
+            - "8904:80"
+        expose: 
+            - "8904"
+        tty: true
+        stdin_open: true
