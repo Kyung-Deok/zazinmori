@@ -1,0 +1,597 @@
+{% load static %}
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
+
+    <!-- SEO Meta Tags -->
+    <meta name="description" content="Tivo is a HTML landing page template built with Bootstrap to help you crate engaging presentations for SaaS apps and convert visitors into users.">
+    <meta name="author" content="Inovatik">
+
+    <!-- OG Meta Tags to improve the way the post looks when you share the page on LinkedIn, Facebook, Google+ -->
+	<meta property="og:site_name" content="" /> <!-- website name -->
+	<meta property="og:site" content="" /> <!-- website link -->
+	<meta property="og:title" content=""/> <!-- title shown in the actual shared post -->
+	<meta property="og:description" content="" /> <!-- description shown in the actual shared post -->
+	<meta property="og:image" content="" /> <!-- image link, make sure it's jpg -->
+	<meta property="og:url" content="" /> <!-- where do you want your post to link to -->
+	<meta property="og:type" content="article" />
+
+    <!-- Website Title -->
+    <title>zazinmori</title>
+
+    <!-- Styles -->
+    <link href="https://fonts.googleapis.com/css?family=Open+Sans:400,400i,700&display=swap&subset=latin-ext" rel="stylesheet">
+    <link href="{% static 'css/bootstrap.css' %}" rel="stylesheet">
+    <link href="{% static 'css/fontawesome-all.css' %}" rel="stylesheet">
+    <link href="{% static 'css/swiper.css' %}" rel="stylesheet">
+	<link href="{% static 'css/magnific-popup.css' %}" rel="stylesheet">
+	<link href="{% static 'css/styles.css' %}" rel="stylesheet">
+
+	<!-- Favicon  -->
+    <link rel="icon" href="{% static 'img/favicon.png' %}">
+
+    <!-- JQuery-->
+    <script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
+
+</head>
+<body data-spy="scroll" data-target=".fixed-top">
+
+    <!-- Preloader -->
+	<div class="spinner-wrapper">
+        <div class="spinner">
+            <div class="bounce1"></div>
+            <div class="bounce2"></div>
+            <div class="bounce3"></div>
+        </div>
+    </div>
+    <!-- end of preloader -->
+
+
+
+    <!-- Navigation -->
+    <nav class="navbar navbar-expand-lg navbar-dark navbar-custom fixed-top">
+        <div class="container">
+
+            <!-- Text Logo - Use this if you don't have a graphic logo -->
+            <a href="/"><img style="width:30px; height:30px; margin-top: -5px;" src="{% static 'img/logo_w.png' %}"></a>
+            <h3 class="fw-bold text-white pointer" onclick="to_home()">zazinmori</h3>
+
+            <!-- Mobile Menu Toggle Button -->
+            <button class="navbar-toggler" type="button" data-toggle="collapse" data-target="#navbarsExampleDefault" aria-controls="navbarsExampleDefault" aria-expanded="false" aria-label="Toggle navigation">
+                <span class="navbar-toggler-awesome fas fa-bars"></span>
+                <span class="navbar-toggler-awesome fas fa-times"></span>
+            </button>
+            <!-- end of mobile menu toggle button -->
+
+            <div class="collapse navbar-collapse" id="navbarsExampleDefault">
+                <ul class="navbar-nav ml-auto">
+                    {% if not context.user_email %}
+                    {% else %}
+                        <li class="nav-item">
+                            <a class="nav-link page-scroll" href="/">HOME</a>
+                        </li>
+                        <li class="nav-item">
+                            <a class="nav-link page-scroll" href="/company/">SEARCH</a>
+                        </li>
+                        <li class="nav-item">
+                            <a class="nav-link page-scroll" href="/community/">COMMUNITY</a>
+                        </li>
+                        <li class="nav-item">
+                            <a class="nav-link page-scroll" href="/mypage/">MYPAGE</a>
+                        </li>
+                    {% endif %}
+                </ul>
+                <span class="nav-item">
+                    {% if not context.user_email %}
+                        <a class="btn-outline-sm" href="/login/">LOG IN</a>
+                    {% else %}
+                        <a class="btn-outline-sm" href="/logout/">LOG OUT</a>
+                    {% endif %}
+                </span>
+            </div>
+        </div> <!-- end of container -->
+    </nav> <!-- end of navbar -->
+    <!-- end of navigation -->
+
+    <!-- Header -->
+    <header id="header" class="ex-header">
+        <div class="container">
+            <div class="row">
+                <div class="col-lg-12">
+                    <h1>MY PAGE</h1>
+                </div> <!-- end of col -->
+            </div> <!-- end of row -->
+        </div> <!-- end of container -->
+    </header> <!-- end of ex-header -->
+    <!-- end of header -->
+
+
+
+    <!-- Features -->
+    <div id="features" class="tabs">
+        <div class="container">
+            <div class="row">
+                <div class="col-lg-12">
+                    <div class="above-heading">Private Service</div>
+                    <h2 class="h2-heading">{{ context.user_info.name }}님의 마이페이지</h2>
+                    <p class="p-heading wk">스크랩한 채용공고를 확인하고, 작성한 자기소개서를 활용하세요!</p>
+                </div> <!-- end of col -->
+            </div> <!-- end of row -->
+            <div class="row">
+                <div class="col-lg-12">
+
+                    <!-- Tabs Links -->
+                    <ul class="nav nav-tabs" id="argoTabs" role="tablist">
+                        <li class="nav-item">
+                            <a class="nav-link active" id="nav-tab-1" data-toggle="tab" href="#tab-1" role="tab" aria-controls="tab-1" aria-selected="true"><i class="fas fa-list"></i>회원정보</a>
+                        </li>
+                        <li class="nav-item">
+                            <a class="nav-link" id="nav-tab-2" onclick="show_scrap_table()" data-toggle="tab" href="#tab-2" role="tab" aria-controls="tab-2" aria-selected="false"><i class="fas fa-envelope-open-text"></i>채용공고</a>
+                        </li>
+                        <li class="nav-item">
+                            <a class="nav-link" id="nav-tab-3" onclick="show_cvletter_table()" data-toggle="tab" href="#tab-3" role="tab" aria-controls="tab-3" aria-selected="false"><i class="fas fa-chart-bar"></i>자기소개서</a>
+                        </li>
+                    </ul>
+                    <!-- end of tabs links -->
+
+                    <!-- Tabs Content -->
+                    <div class="tab-content" id="argoTabsContent">
+
+                        <!-- 회원정보 -->
+                        <div class="tab-pane fade show active" id="tab-1" role="tabpanel" aria-labelledby="tab-1">
+                            <div class="row">
+                                <div class="col-lg-6">
+                                    <div class="image-container">
+                                        <img class="img-fluid" src="{% static 'img/details.png' %}" alt="alternative">
+                                    </div> <!-- end of image-container -->
+                                </div> <!-- end of col -->
+                                <div class="col-lg-6">
+                                    <div class="text-container">
+                                        <table class="table table-borderless">
+                                            <tbody>
+                                                <tr>
+                                                    <th><h3>Email</h3></th>
+                                                    <td style="font-size: 30px;">{{ context.user_info.email }}</td>
+                                                </tr>
+                                                <tr>
+                                                    <th><h3>Name</h3></th>
+                                                    <td style="font-size: 30px;">{{ context.user_info.name }}</td>
+                                                </tr>
+                                                <tr>
+                                                    <th><h3>Birthday</h3></th>
+                                                    <td style="font-size: 30px;">{{ context.user_info.birth }}</td>
+                                                </tr>
+                                                <tr>
+                                                    <th><h3>Gender</h3></th>
+                                                    <td style="font-size: 30px;">{{ context.user_info.gender }}</td>
+                                                </tr>
+                                            </tbody>
+                                        </table>
+                                        <a class="btn-solid-reg popup-with-move-anim mx-3" onclick="document.location='/mypage/user_update/'" href="#details-lightbox-1">정보 수정</a>
+                                        <a class="btn-outline-reg popup-with-move-anim mx-3" href="#details-lightbox-1">회원 탈퇴</a>
+                                    </div> <!-- end of text-container -->
+                                </div> <!-- end of col -->
+                            </div> <!-- end of row -->
+                        </div> <!-- end of tab-pane -->
+                        <!-- end of 회원정보 -->
+
+                        <!-- 채용공고 -->
+                        <div class="tab-pane fade" id="tab-2" role="tabpanel" aria-labelledby="tab-2">
+                            <div class="row">
+                                <div class="col-lg-10 mx-auto">
+                                    <div class="text-container">
+                                        <table id="scrap_table" class="table">
+                                        </table>
+                                    </div> <!-- end of text-container -->
+                                </div> <!-- end of col -->
+                            </div> <!-- end of row -->
+                        </div> <!-- end of tab-pane -->
+                        <!-- end of 채용공고 -->
+
+                        <!-- 자기소개서 -->
+                        <div class="tab-pane fade" id="tab-3" role="tabpanel" aria-labelledby="tab-3">
+                            <div class="row">
+                                <div class="col-lg-12 mx-auto">
+                                    <div class="text-container">
+                                        <table id="cvletter_table" class="table table-borderless">
+                                        </table>                                        
+                                    </div> <!-- end of text-container -->
+                                </div> <!-- end of col -->
+                            </div> <!-- end of row -->
+                        </div> <!-- end of tab-pane -->
+                        <!-- end of 자기소개서 -->
+
+                    </div> <!-- end of tab content -->
+                    <!-- end of tabs content -->
+
+                </div> <!-- end of col -->
+            </div> <!-- end of row -->
+        </div> <!-- end of container -->
+    </div> <!-- end of tabs -->
+    <!-- end of features -->
+
+
+
+    <!--Modal for Recruiting-->
+    <div class="modal" id="recruit_modal" tabindex="-1">
+        <div class="modal-dialog modal-lg">
+            <div class="modal-content">
+                <div class="modal-header">
+                    <h5 id="jobposting_title" class="modal-title modal_erase"></h5>
+                    <div style="float: right;">
+                    <button type="button" class="btn btn-light btn-close" onclick="close_modal()" data-bs-dismiss="modal">X</button>
+                    </div>
+                </div>
+                <div class="modal-body">
+                    <div class="row mx-auto" style="width:95%">
+                        <table class="table table-hover" id="modal_joblist" style="width:100%;"></table>
+                    </div>
+                    <div class="row mx-auto" style="width:95%">                 
+                        <div id="modal_main" style="white-space: pre-wrap;"></div>
+                    </div>
+                </div>
+                <div class="modal-footer">
+                    <button type="button" class="btn btn-dark" onclick="close_modal()" data-bs-dismiss="modal">Close</button>
+                </div>
+                <div id="hidden_jobposting_id" style="width:0; height:0;"></div>
+                </div>
+        </div>
+    </div>
+
+
+
+    <br><br><br>
+    <div id="hidden_user_email" style="visibility: hidden;">{{ context.user_email }}</div>
+
+
+
+    <!-- Footer -->
+    <svg class="footer-frame" data-name="Layer 2" xmlns="http://www.w3.org/2000/svg" preserveAspectRatio="none" viewBox="0 0 1920 79"><defs><style>.cls-2{fill:#5f4def;}</style></defs><title>footer-frame</title><path class="cls-2" d="M0,72.427C143,12.138,255.5,4.577,328.644,7.943c147.721,6.8,183.881,60.242,320.83,53.737,143-6.793,167.826-68.128,293-60.9,109.095,6.3,115.68,54.364,225.251,57.319,113.58,3.064,138.8-47.711,251.189-41.8,104.012,5.474,109.713,50.4,197.369,46.572,89.549-3.91,124.375-52.563,227.622-50.155A338.646,338.646,0,0,1,1920,23.467V79.75H0V72.427Z" transform="translate(0 -0.188)"/></svg>
+    <!-- end of footer -->
+
+
+    <!-- Copyright -->
+    <div class="copyright">
+        <div class="container">
+            <div class="row">
+                <div class="col-lg-12">
+                    <p class="p-small">
+                        Copyright © 2022<br>Team Ikuzo
+                    </p>
+                </div> <!-- end of col -->
+            </div> <!-- enf of row -->
+        </div> <!-- end of container -->
+    </div> <!-- end of copyright -->
+    <!-- end of copyright -->
+
+
+    <!-- Scripts -->
+    <script src="{% static 'js/jquery.min.js' %}"></script> <!-- jQuery for Bootstrap's JavaScript plugins -->
+    <script src="{% static 'js/popper.min.js' %}"></script> <!-- Popper tooltip library for Bootstrap -->
+    <script src="{% static 'js/bootstrap.min.js' %}"></script> <!-- Bootstrap framework -->
+    <script src="{% static 'js/jquery.easing.min.js' %}"></script> <!-- jQuery Easing for smooth scrolling between anchors -->
+    <script src="{% static 'js/swiper.min.js' %}"></script> <!-- Swiper for image and text sliders -->
+    <script src="{% static 'js/jquery.magnific-popup.js' %}"></script> <!-- Magnific Popup for lightboxes -->
+    <script src="{% static 'js/validator.min.js' %}"></script> <!-- Validator.js - Bootstrap plugin that validates forms -->
+    <script src="{% static 'js/scripts.js' %}"></script> <!-- Custom scripts -->
+</body>
+
+<script>
+
+    window.onload=function(){
+
+        var user_email = document.getElementById('hidden_user_email').textContent;
+        if( user_email == 'False' ){
+            alert("마이페이지는 로그인 후에 이용 가능합니다.");
+            document.location = '/login/';
+        }
+    }
+
+    function to_home(){
+        document.location = '/';
+    }
+
+    function to_login(){
+        if(confirm("로그인 후에 서비스를 이용할 수 있습니다.")) document.location = '/login/';
+    }
+
+
+    function user_edit(){
+        if(confirm("회원정보를 수정하시겠습니까?")) document.location = '/mypage/user_update/';
+    }
+    
+
+    function user_delete(){
+        alert('현재 기능 구현 중입니다');
+    }
+
+
+    function show_scrap_table(){
+        $.ajax({
+            url: '/mypage/scrap/',
+            type: 'POST',
+            dataType: 'json',
+            success: function(context) {
+              console.log('success');
+              console.log(context);
+
+              $('#scrap_table').empty()
+              var $thead = $('<thead>');
+              $('#scrap_table').append($thead);
+              var $tr = $('<tr class="text-center" style="border-bottom: 1px solid #777;">');
+              $thead.append($tr);
+              var $th = $(`<th>회사</th>`);
+              $tr.append($th);
+              var $th = $(`<th>채용기간</th>`);
+              $tr.append($th);
+              var $th = $(`<th>채용내용</th>`);
+              $tr.append($th);
+              var $th = $(`<th>삭제</th>`);
+              $tr.append($th);
+
+              var scrap_num = context.scrap_num;
+              if(scrap_num == 0){
+                var $thead = $('<thead>');
+                $('#scrap_table').append($thead);
+                var $tr = $('<tr class="text-center">');
+                $thead.append($tr);
+                var $th = $('<th colspan="4">스크랩한 채용공고가 없습니다.</th>');
+                $tr.append($th);
+              } else{
+                for (var i=0; i<scrap_num; i++){
+                    var $tr = $('<tr class="text-center">');
+                    $('#scrap_table').append($tr);
+                    var keys = Object.keys(context.scraps);
+                    var start_time = context.scraps[keys[i]]['start_time']
+                    var end_time = context.scraps[keys[i]]['end_time']
+                    var url = context.scraps[keys[i]]['url']
+                    var jobposting_id = context.scraps[keys[i]]['jobposting_id']
+                    var corp_nm = context.scraps[keys[i]]['corp_nm']
+
+                    var $th = $(`<th class="wk">${corp_nm}</th>`);
+                    $tr.append($th);
+                    if(start_time==null|start_time=='null'){
+                        var $td = $(`<td>수시 채용</td>`);
+                    } else{
+                        var $td = $(`<td>채용기간: ${start_time} ~ ${end_time}</td>`);
+                    }
+                    $tr.append($td);
+                    var $td = $(`<td><button type="button" onclick="show_jobposting(${jobposting_id});" class="btn btn-outline-dark wk mx-3">채용공고 확인</button><button type="button" onclick="apply('${url}');" class="btn btn-dark wk">채용지원</button></td>`)
+                    $tr.append($td);
+                    var $td = $(`<td class="pointer" onclick="delete_scrap(${jobposting_id})" href="#"><p>X</p></td>`)
+                    $tr.append($td);
+                    }
+              }
+
+            },
+            error: function(){
+              console.log('fail');
+            }
+        }); //ajax끝
+    }
+
+
+    function show_jobposting(jobposting_id){
+
+        $.ajax({
+        url: '/company/recruits/',
+        type: 'POST',
+        data: {'jobposting_id': jobposting_id},
+        dataType: 'json',
+        success: function(context) {
+          console.log('success')
+          console.log(context)
+
+          var modal_erase = document.getElementsByClassName("modal_erase")
+          for (var i=modal_erase.length; i--;){
+              modal_erase[i].textContent='';
+          }
+
+          $('#modal_joblist').empty()
+
+          var jobposting_id = context.jobposting_id;
+          var corp_nm = context.corp_nm;
+          var posting_type = context.posting_type;
+          var posting_detail = context.posting_detail;
+          var job_num = context.job_num;
+
+          $('#jobposting_title').text(`${corp_nm} 채용공고`)
+
+          for (var i=0; i<job_num; i++){
+            var $tr = $('<tr class="text-center">');
+            $('#joblist_table').append($tr);
+
+            var keys = Object.keys(context.jobs);
+            var new_or_exp = context.jobs[keys[i]]['new_or_exp'];
+            var job = context.jobs[keys[i]]['job'];
+            var jobs_id = context.jobs[keys[i]]['jobs_id'];
+
+            var $td = $(`<td style="width: 20%">${new_or_exp}</td>`);
+            $tr.append($td);
+            var $th = $(`<th class="text-left" style="width: 60%;">${job}</th>`);
+            $tr.append($th);
+            var $td = $(`<td class="bg-c4 pointer f-c0" style="width: 20%;" onclick="write_cvletter(${jobs_id})">자기소개서 쓰기</td>`);
+            $tr.append($td);
+
+            $('#modal_joblist').append($tr);
+          }
+          
+          $('#modal_main').empty()
+
+          if (posting_type == 'text'){
+            var posting_detail_ue = unescapeHtml(posting_detail);
+            $('#modal_main').html(posting_detail);
+          } else{
+            var src_num = context.src_num;
+            var keys = Object.keys(context.src);
+            for (var i=0; i<src_num; i++){
+                var src = context.src[keys[i]];
+                var $img = $(`<img src=${src} style="width:100%;">`);
+                $('#modal_main').append($img);
+            }
+          }
+ 
+        $('#recruit_modal').modal('show');
+
+        },
+        error: function(){
+          console.log('fail')
+        }
+      }); //ajax끝
+    }
+
+
+    function write_cvletter(jobs_id){
+        document.location = `/cvletter/write/${jobs_id}`;
+      }
+
+
+    function delete_scrap(jobposting_id){
+        if(confirm("스크랩한 채용공고를 삭제하시겠습니까?")) 
+        $.ajax({
+            url: '/mypage/delete_scrap/',
+            type: 'POST',
+            data: {'jobposting_id': jobposting_id},
+            dataType: 'json',
+            success: function(context) {
+              console.log('success');
+              console.log(context);
+              var err = context.err;
+              if ( err ){
+                alert(err)
+                alert('해당 채용공고를 삭제할 수 없습니다.')
+              } else{
+                alert('해당 채용공고가 삭제되었습니다.')
+                show_scrap_table();
+              }              
+            },
+            error: function(){
+              console.log('fail');
+            }
+        }); //ajax끝
+    }
+
+    function apply(url){
+        window.open(url);
+      }
+    
+    function close_modal(){
+    $('#recruit_modal').modal('hide');
+    }
+
+    
+
+    function show_cvletter_table(){
+        $.ajax({
+            url: '/mypage/cvletter/',
+            type: 'POST',
+            dataType: 'json',
+            success: function(context) {
+              console.log('success');
+              //console.log(context);
+
+              $('#cvletter_table').empty()
+              var $thead = $('<thead>');
+              $('#cvletter_table').append($thead);
+              var $tr = $('<tr class="text-center" style="border-bottom: 1px solid #777;">');
+              $thead.append($tr);
+              var $th = $(`<th>회사</th>`);
+              $tr.append($th);
+              var $th = $(`<th>직무</th>`);
+              $tr.append($th);
+              var $th = $(`<th>채용기간</th>`);
+              $tr.append($th);
+              var $th = $(`<th>작성일</th>`);
+              $tr.append($th);
+              var $th = $(`<th>작성 내역</th>`);
+              $tr.append($th);
+              var $th = $(`<th>삭제</th>`);
+              $tr.append($th);
+
+              var cvletter_num = context.cvletter_num;
+              if(cvletter_num == 0){
+                var $tr = $('<tr class="text-center">');
+                $thead.append($tr);
+                var $th = $('<th colspan="6">작성한 자기소개서가 없습니다.</th>');
+                $tr.append($th);
+              } else{
+                for (var i=0; i<cvletter_num; i++){
+                    var $tr = $('<tr class="text-center">');
+                    $('#cvletter_table').append($tr);
+                    var keys = Object.keys(context.cvletters);
+                    var corp_nm = context.cvletters[keys[i]]['corp_nm'];
+                    var job = context.cvletters[keys[i]]['job'];
+                    var start_time = context.cvletters[keys[i]]['start_time'];
+                    var end_time = context.cvletters[keys[i]]['end_time'];
+                    var written_date = context.cvletters[keys[i]]['written_date'].substr(0, 10);
+                    var user_cvletter_id = context.cvletters[keys[i]]['user_cvletter_id'];
+                    console.log(corp_nm, job, start_time, end_time, written_date, user_cvletter_id);
+
+                    var $th = $(`<th class="wk font-bold">${corp_nm}</th>`);
+                    $tr.append($th);
+                    var $th = $(`<th class="wk">${job}</th>`);
+                    $tr.append($th);
+                    if(start_time=='null'){
+                        var $td = $(`<td class="wk">수시 채용</td>`);
+                    } else{
+                        var $td = $(`<td class="wk">${start_time} ~ ${end_time}</td>`);
+                    }
+                    $tr.append($td);
+                    var $th = $(`<th class="wk">${written_date}</th>`);
+                    $tr.append($th);
+                    var $td = $(`<td><button type="button" onclick="show_cvletter(${user_cvletter_id});" class="btn btn-outline-dark wk" style="margin-top: -5px;">보기</button>`)
+                    $tr.append($td);
+                    var $td = $(`<td class="pointer" onclick="delete_cvletter(${user_cvletter_id})" href="#"><p>X</p></td>`)
+                    $tr.append($td);
+                    }
+              }
+
+            },
+            error: function(){
+              console.log('fail');
+            }
+        }); //ajax끝
+    }
+
+
+    function show_cvletter(user_cvletter_id){
+        if(confirm("작성한 자소서를 확인 및 수정하시겠습니까?")) document.location = `/cvletter/update/${user_cvletter_id}`;
+    }
+
+
+    function delete_cvletter(user_cvletter_id){
+        if(confirm("작성한 자소서를 삭제하시겠습니까?"))
+        $.ajax({
+            url: '/mypage/delete_cvletter/',
+            type: 'POST',
+            data: {'user_cvletter_id': user_cvletter_id},
+            dataType: 'json',
+            success: function(context) {
+              console.log('success');
+              //console.log(context);
+              var err = context.err;
+              if ( err ){
+                alert(err);
+                alert('해당 자소서를 삭제할 수 없습니다.');
+              } else{
+                alert('해당 자소서가 삭제되었습니다.');
+                show_cvletter_table();
+              }              
+            },
+            error: function(){
+              alert('fail');
+            }
+        }); //ajax끝
+    }
+
+
+    function unescapeHtml( text ) {
+        var doc = new DOMParser().parseFromString(text, "text/html");
+        return doc.documentElement.textContent;
+    }
+
+</script>
+
+</html>

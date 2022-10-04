@@ -2,5 +2,6 @@ zazinmori_server/__pycache__/
 zazinmori_server/env_settings.py
 zazinmori_server/migrations/
 zazinmori_server/migrations2.old/
+zzm_modelserver/models/__pycache__
 
 db.sqlite3

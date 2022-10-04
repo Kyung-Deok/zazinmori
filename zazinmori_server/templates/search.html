@@ -30,10 +30,20 @@
 	<link href="{% static 'css/styles.css' %}" rel="stylesheet">
 
 	<!-- Favicon  -->
-    <link rel="icon" href="{% static 'images/favicon.png' %}">
+    <link rel="icon" href="{% static 'img/favicon.png' %}">
 
-    <!-- JQuery-->
+    <!-- JQuery -->
     <script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
+
+    <!-- Plotly -->
+    <script src="https://cdn.plot.ly/plotly-latest.min.js"></script>
+
+    <!-- Hicharts -->
+    <script src="https://code.highcharts.com/highcharts.js"></script>
+    <script src="https://code.highcharts.com/modules/networkgraph.js"></script>
+    <script src="https://code.highcharts.com/modules/accessibility.js"></script>
+    <script src="https://code.highcharts.com/modules/exporting.js"></script>
+    <script src="https://code.highcharts.com/modules/export-data.js"></script>
 
 </head>
 <body data-spy="scroll" data-target=".fixed-top">
@@ -55,7 +65,7 @@
 
             <!-- Text Logo - Use this if you don't have a graphic logo -->
             <a href="/"><img style="width:30px; height:30px; margin-top: -5px;" src="{% static 'img/logo_w.png' %}"></a>
-            <h3 class="fw-bold text-white" onclick="to_home()">zazinmori</h3>
+            <h3 class="fw-bold text-white pointer" onclick="to_home()">zazinmori</h3>
 
             <!-- Mobile Menu Toggle Button -->
             <button class="navbar-toggler" type="button" data-toggle="collapse" data-target="#navbarsExampleDefault" aria-controls="navbarsExampleDefault" aria-expanded="false" aria-label="Toggle navigation">
@@ -66,7 +76,7 @@
 
             <div class="collapse navbar-collapse" id="navbarsExampleDefault">
                 <ul class="navbar-nav ml-auto">
-                    {% if context.user_email == '' %}
+                    {% if not context.user_email %}
                     {% else %}
                         <li class="nav-item">
                             <a class="nav-link page-scroll" href="/">HOME</a>
@@ -75,7 +85,7 @@
                             <a class="nav-link page-scroll" href="/company/">SEARCH</a>
                         </li>
                         <li class="nav-item">
-                            <a class="nav-link page-scroll" href="#">JOBPOSTING</a>
+                            <a class="nav-link page-scroll" href="/community/">COMMUNITY</a>
                         </li>
                         <li class="nav-item">
                             <a class="nav-link page-scroll" href="/mypage/">MYPAGE</a>
@@ -83,7 +93,7 @@
                     {% endif %}
                 </ul>
                 <span class="nav-item">
-                    {% if context.user_email == '' %}
+                    {% if not context.user_email %}
                         <a class="btn-outline-sm" href="/login/">LOG IN</a>
                     {% else %}
                         <a class="btn-outline-sm" href="/logout/">LOG OUT</a>
@@ -114,11 +124,7 @@
                                         <div class="help-block with-errors"></div>
                                     </div>
                                     <div class="form-group">
-                                        {% if context.user_email == '' %}
-                                            <button type="button" onclick="to_login()" class="form-control-submit-button">검색하기</button>
-                                        {% else%}
-                                            <button type="button" onclick="search()" class="form-control-submit-button">검색하기</button>
-                                        {% endif %}
+                                        <button type="button" onclick="search()" class="form-control-submit-button">검색하기</button>
                                     </div>
                                     <div class="form-message">
                                         <div id="nmsgSubmit" class="h3 text-center hidden"></div>
@@ -137,14 +143,14 @@
 
 
     <!-- Search Result -->
-    <div id="main_1" class="basic-1">
-        <div class="container">
+    <div id="main_1" class="basic-1" style ="visibility: hidden;">
+        <div class="container" style="margin-top:-100px;">
             <div class="row">
-                <div class="col-lg-12" style="border: 1px solid #ccd3df;">
+                <div class="col-lg-12" >
                     <div class="text-container">
                         <br>
                         <h2 class="text-center m-2 p-2">검색결과</h2>
-                        <div style="height: 1px; margin-top: 1.75rem; margin-bottom: 2rem; border: none; background-color: #ccd3df;"></div>
+                        <div style="height: 1px; margin-top: 1.75rem; margin-bottom: 3.5rem; border: none; background-color: #ccd3df;"></div>
                         <div id="search_section">
                             <table id="search_result" style="width:100%"></table>
                         </div>
@@ -159,123 +165,129 @@
 
 
     <!-- Corporation Detail -->
-    <div id="main_2" class="basic-2 mb-5">
+    <div id="main_2" class="basic-2 mb-5 display-none" style="visibility: hidden; margin-top:-100px;">
         <div class="container">
             <div class="row">
-                <div class="col-lg-12" id="detail_section" style="visibility: hidden;">
+                <div class="col-lg-12" id="detail_section">
                     <!-- Row1 -->
                     <div class="row">
                         <div class="col-5">
                             <div class="card text-bg-light mb-3">
-                              <div class="card-header">회사 기본 정보</div>
+                              <div class="card-header font-weight-bold f-c0 bg-c4">회사 기본 정보</div>
                               <div class="card-body">
-                                  <table class="table table-hover">
-                                      <tr>
-                                          <th>회사명</th>
-                                          <td class="detail_td" id="corp_nm_td"></td>
-                                      </tr>
-                                      <tr>
-                                          <th>설립일</th>
-                                          <td class="detail_td" id="est_dt_td"></td>
-                                      </tr>
-                                      <tr>
-                                          <th>업종</th>
-                                          <td class="detail_td" id="category_td"></td>
-                                      </tr>
-                                      <tr>
-                                          <th>대표자</th>
-                                          <td class="detail_td" id="ceo_nm_td"></td>
-                                      </tr>
-                                      <tr>
-                                          <th>소재지</th>
-                                          <td class="detail_td" id="address_td"></td>
-                                      </tr>
-                                      <tr>
-                                          <th>전화</th>
-                                          <td class="detail_td" id="phn_no_td"></td>
-                                      </tr>
-                                  </table>
+                                <table class="table table-hover" style="table-layout:fixed;">
+                                    <tr>
+                                        <th class="abbr" style="width: 25%;" title="회사명">회사명</th>
+                                        <td class="detail_td abbr" id="corp_nm_td"></td>
+                                    </tr>
+                                    <tr>
+                                        <th class="abbr" style="width: 25%;" tilte="설립일">설립일</th>
+                                        <td class="detail_td abbr" id="est_dt_td"></td>
+                                    </tr>
+                                    <tr>
+                                        <th class="abbr" style="width: 25%;" title="업종">업종</th>
+                                        <td class="detail_td abbr" id="category_td"></td>
+                                    </tr>
+                                    <tr>
+                                        <th class="abbr" style="width: 25%;" title="대표자">대표자</th>
+                                        <td class="detail_td abbr" id="ceo_nm_td"></td>
+                                    </tr>
+                                    <tr>
+                                        <th class="abbr" style="width: 25%;" title="소재지">소재지</th>
+                                        <td class="detail_td abbr" id="address_td"></td>
+                                    </tr>
+                                    <tr>
+                                        <th class="abbr" style="width: 25%;" title="전화">전화</th>
+                                        <td class="detail_td abbr" id="phn_no_td"></td>
+                                    </tr>
+                                </table>
                               </div>
                             </div>
                         </div>
                         <div class="col-7">
                             <div class="card text-bg-light mb-3">
-                              <div class="card-header">회사 재무 정보</div>
+                              <div class="card-header font-weight-bold f-c0 bg-c4">회사 재무 정보</div>
                               <div class="card-body">
-                                  <table class="table table-hover">
+                                  <table class="table table-hover" style="table-layout:fixed;">
                                       <tr>
                                           <th>기준연도</th>
-                                          <td class="detail_td" id="year_td"></td>
+                                          <td class="detail_td abbr" id="year_td"></td>
                                       </tr>
                                       <tr>
                                           <th>매출액</th>
-                                          <td class="detail_td" id="total_sales_td"></td>
+                                          <td class="detail_td abbr" id="total_sales_td"></td>
                                       </tr>
                                       <tr>
                                           <th>자산총계</th>
-                                          <td class="detail_td" id="total_assets_td"></td>
+                                          <td class="detail_td abbr" id="total_assets_td"></td>
                                       </tr>
                                       <tr>
                                           <th>자본총계</th>
-                                          <td class="detail_td" id="total_capital_td"></td>
+                                          <td class="detail_td abbr" id="total_capital_td"></td>
                                       </tr>
                                       <tr>
                                           <th>부채총계</th>
-                                          <td class="detail_td" id="total_debt_td"></td>
+                                          <td class="detail_td abbr" id="total_debt_td"></td>
                                       </tr>
                                       <tr>
                                           <th>영업이익</th>
-                                          <td class="detail_td" id="operating_income_td"></td>
+                                          <td class="detail_td abbr" id="operating_income_td"></td>
                                       </tr>
                                   </table>
                               </div>
                             </div>
                         </div>
                     </div><!-- End Row1-->
+                    <br>
 
                     <!-- Row2 -->
                     <div class="row">
                         <div class="col-12">
                             <div class="card text-bg-light mb-3">
-                              <div class="card-header">최신 뉴스를 통한 키워드 분석</div>
+                              <div class="card-header font-weight-bold f-c0 bg-c4">합격 자소서 분석을 통한 키워드 추천</div>
                               <div class="card-body">
-                                <h5 class="card-title">Light card title</h5>
-                                <p class="card-text">Some quick example text to build on the card title and make up the bulk of the card's content.</p>
+                                <div class="row">
+                                    <div id="cv_head" class="col-12 text-center">
+                                    </div>                                            
+                                </div>
+                                <div id="cv_result" class="row">
+                                    <div class="col-6 p-3">
+                                        <div id="network_container" style="min-width:320px;max-width:500px;margin:0 auto;height:500px;"></div>
+                                    </div>
+                                    <div class="col-6 overflow-hidden my-auto">
+                                        <figure class="highcharts-figure">
+                                            <div id="bar_container"></div>
+                                        </figure>
+                                    </div>
+                                </div>
                               </div>
                             </div>
                         </div>
                     </div><!-- End Row2-->
+                    <br>
 
                     <!-- Row3 -->
                     <div class="row">
-                        <div class="col-6">
+                        <div class="col-12">
                             <div class="card text-bg-light mb-3">
-                              <div class="card-header">합격자소서 분석을 통한 키워드 분석</div>
-                              <div class="card-body">
-                                <h5 class="card-title">Light card title</h5>
-                                <p class="card-text">Some quick example text to build on the card title and make up the bulk of the card's content.</p>
-                              </div>
-                            </div>
-                        </div>
-                        <div class="col-6">
-                            <div class="card text-bg-light mb-3">
-                              <div class="card-header">유사한 스타일의 기업 추천</div>
-                              <div class="card-body">
-                                <h5 class="card-title">Light card title</h5>
-                                <p class="card-text">Some quick example text to build on the card title and make up the bulk of the card's content.</p>
-                              </div>
+                              <div class="card-header font-weight-bold f-c0 bg-c4">최신 뉴스 분석을 통한 키워드 추천</div>
+                              <div class="card-body" style="overflow:auto; max-height:32rem;;">
+                                <ul id="corp_news_list" class="list-unstyled li-space-lg p-3">
+                                </ul>
+                               </div>
                             </div>
                         </div>
                     </div><!-- End Row3-->
+                    <br>
 
                     <!-- Row4 -->
                     <div class="row">
                         <div class="col-12">
                             <div class="card text-bg-light mb-3">
-                              <div class="card-header">현재 진행 중인 채용</div>
+                              <div class="card-header font-weight-bold f-c0 bg-c4">채용 정보</div>
                               <div class="card-body">
-                                <h5 class="card-title">Light card title</h5>
-                                <p class="card-text">Some quick example text to build on the card title and make up the bulk of the card's content.</p>
+                                <table class="table table-hover" id="recruit_table">
+                                </table>
                               </div>
                             </div>
                         </div>
@@ -286,6 +298,38 @@
         </div> <!-- end of container -->
     </div> <!-- end of basic-2 -->
     <!-- end of Corporation Detail -->
+
+
+    <!--Modal for Recruiting-->
+    <div class="modal" id="recruit_modal" tabindex="-1">
+        <div class="modal-dialog modal-lg">
+            <div class="modal-content">
+                <div class="modal-header">
+                  <h5 id="jobposting_title" class="modal-title modal_erase"></h5>
+                  <div style="float: right;">
+                    {% if not context.user_email %}
+                    {% else %}
+                        <button type="button" class="btn btn-secondary" onclick="scrap()" data-bs-dismiss="modal">채용공고 스크랩</button>
+                    {% endif %}
+                        <button type="button" class="btn btn-light btn-close" onclick="close_modal()" data-bs-dismiss="modal">X</button>
+                  </div>
+                </div>
+                <div class="modal-body">
+                  <div class="row mx-auto" style="width:95%">
+                    <table class="table table-hover" id="modal_joblist" style="width:100%;"></table>
+                  </div>
+                  <div class="row mx-auto" style="width:95%">                 
+                    <div id="modal_main"></div>
+                  </div>
+                </div>
+                <div class="modal-footer">
+                  <button type="button" class="btn btn-dark" onclick="close_modal()" data-bs-dismiss="modal">Close</button>
+                </div>
+                <div id="hidden_jobposting_id" style="width:0; height:0;"></div>
+              </div>
+        </div>
+    </div>
+    <!-- end of Modal -->
 
 
     <!-- Footer -->
@@ -319,7 +363,19 @@
     <script src="{% static 'js/scripts.js' %}"></script> <!-- Custom scripts -->
 </body>
 
+<!--***********************************************-->
+<!--********************script*********************-->
+<!--***********************************************-->
+
 <script>
+
+    window.onload=function(){
+        window.scrollTo(0, 0);
+    }
+
+    window.onbeforeunload=function(){
+        window.scrollTo(0, 0);
+    }
 
     function to_home(){
         document.location = '/';
@@ -328,6 +384,10 @@
     function to_login(){
       if(confirm("로그인 후에 서비스를 이용할 수 있습니다.")) document.location = '/login/';
     }
+
+
+    var corp_list;
+
 
     function search(){
         var search_input = document.getElementById('search_input').value;
@@ -345,19 +405,22 @@
             dataType: 'json',
             success: function(context) {
               console.log('success')
-              console.log(context)
+              //console.log(context)
+
+              corp_list = context['corp_result']
 
               document.getElementById("main_1").scrollIntoView(true);
+              document.getElementById("main_1").setAttribute('style', '"visibility: visible;"');
               $('#search_result').remove();
 
-              var $table = $('<table id="search_result" style="width:100%"></table>');
+              var $table = $('<table class="table table-hover" id="search_result" style="width:100%; table-layout:fixed;"></table>');
               $('#search_section').append($table);
-              var $tr = $('<tr id="table_ths" class="text-center" style="border-bottom: 2px solid #A69CF7;"></tr>');
+              var $tr = $('<thead class="table-dark"><tr id="table_ths" class="text-center"></tr></thead>');
               $('#search_result').append($tr);
 
               var corp_num = context.corp_num;
               if (corp_num == 0){
-                var $th = $('<th style=width:100%>검색 결과가 없습니다.</th>');
+                var $th = $('<th style="width:100%"">검색 결과가 없습니다.</th>');
                 $('#table_ths').append($th);
               } else {
                 var $th = $('<th style="width: 20%;">회사명</th>');
@@ -371,30 +434,42 @@
                 var $th = $('<th style="width: 35%;">소재지</th>');
                 $('#table_ths').append($th);
 
+                var $tbody = $('<tbody></tbody>');
+                $('#search_result').append($tbody)
+
                 for (var i=0; i<corp_num; i++) {
-                  var $tr = $('<tr class="text-center" style="border-bottom: 1px solid #A69CF7;">');
-                  $('#search_result').append($tr);
+                  var $tr = $('<tr class="text-center">');
+                  $('#search_result > tbody').append($tr);
 
-                  var keys = Object.keys(context.corps);
-                  var corp_nm = context.corps[keys[i]]['corp_nm']
-                  var category = context.corps[keys[i]]['category']
-                  var ceo_nm = context.corps[keys[i]]['ceo_nm']
-                  var est_dt = context.corps[keys[i]]['est_dt']
-                  var address = context.corps[keys[i]]['address']
-                  var regi_code = context.corps[keys[i]]['regi_code']
+                  //var keys = Object.keys(context.corps);
+                  var corp_nm = context.corp_result[i]['corp_nm']
+                  var category = context.corp_result[i]['category']
+                  var ceo_nm = context.corp_result[i]['ceo_nm']
+                  var est_dt = context.corp_result[i]['est_dt']
+                  var address = context.corp_result[i]['address']
+                  var regi_code = context.corp_result[i]['regi_code']
 
-                  var $th = $(`<th onclick="corp_detail(${regi_code})">${corp_nm}</th>`);
+                  var $th = $(`<th class="pointer abbr" onclick="corp_detail(${i})" title="${corp_nm}">${corp_nm}</th>`);
                   $tr.append($th);
-                  var $td = $(`<td onclick="corp_detail(${regi_code})">${category}</td>`);
+                  var $td = $(`<td class="search_td abbr" onclick="corp_detail(${i})" title="${category}">${category}</td>`);
                   $tr.append($td);
-                  var $td = $(`<td onclick="corp_detail(${regi_code})">${ceo_nm}</td>`);
+                  var $td = $(`<td class="search_td abbr" onclick="corp_detail(${i})" title="${ceo_nm}">${ceo_nm}</td>`);
                   $tr.append($td);
-                  var $td = $(`<td onclick="corp_detail(${regi_code})">${est_dt}</td>`);
+                  var $td = $(`<td class="search_td abbr" onclick="corp_detail(${i})" title="${est_dt}">${est_dt}</td>`);
                   $tr.append($td);
-                  var $td = $(`<td onclick="corp_detail(${regi_code})">${address}</a></td>`);
+                  var $td = $(`<td class="search_td abbr" onclick="corp_detail(${i})" title="${address}">${address}</td>`);
                   $tr.append($td);
                 }
               }
+
+              var search_tds = document.getElementsByClassName("search_td");
+              for (var i=search_tds.length; i--;){
+                if (search_tds[i].textContent == 'null'){
+                    search_tds[i].textContent = '-';
+                }
+              }
+
+
             },
             error: function(){
               console.log('fail')
@@ -403,86 +478,379 @@
   }
 
 
-  function corp_detail(regi_code){
-    //document.getElementById("main_2").scrollIntoView(true);
-    //document.getElementById("detail_section").setAttribute('style', '"visibility: visible;"');
+
+
+  function corp_detail(index){
+    document.getElementById("main_2").classList.remove('display-none');
+    document.getElementById("main_2").setAttribute('style', '"visibility: visible;"');
+    document.getElementById("main_2").scrollIntoView(true);
+
+    var detail_tds = document.getElementsByClassName("detail_td")
+    for (var i=detail_tds.length; i--;){
+        detail_tds[i].textContent='';
+    }
+
+    var keys = Object.keys(corp_list);
+
+    <!-- 기업 기본 정보 -->
+    var corp_nm = corp_list[index]['corp_nm']
+    var est_dt = corp_list[index]['est_dt']
+    var category = corp_list[index]['category']
+    var ceo_nm = corp_list[index]['ceo_nm']
+    var address = corp_list[index]['address']
+    var phn_no = corp_list[index]['phn_no']
+    var regi_code = corp_list[index]['regi_code']
+
+    $('#corp_nm_td').text(corp_nm)
+    $('#est_dt_td').text(est_dt)
+    $('#category_td').text(category)
+    $('#ceo_nm_td').text(ceo_nm)
+    $('#address_td').text(address)
+    $('#phn_no_td').text(phn_no)
+
+
+    <!-- 기업 재무 정보 -->s
+    var year = corp_list[index]['year']
+    var total_sales = corp_list[index]['total_sales']
+    var total_assets = corp_list[index]['total_assets']
+    var total_capital = corp_list[index]['total_capital']
+    var total_debt = corp_list[index]['total_debt']
+    var operating_income = corp_list[index]['operating_income']
+    //당기순이익 var net_income = context['com_finance']['net_income'] /
+
+    if( !year ){
+        $('#year_td').text('해당 기업의 정보가 없습니다.')
+        $('#total_sales_td').text('해당 기업의 정보가 없습니다.')
+        $('#total_assets_td').text('해당 기업의 정보가 없습니다.')
+        $('#total_capital_td').text('해당 기업의 정보가 없습니다.')
+        $('#total_debt_td').text('해당 기업의 정보가 없습니다.')
+        $('#operating_income_td').text('해당 기업의 정보가 없습니다.')
+    } else{
+        $('#year_td').text(year)
+        $('#total_sales_td').text(`${total_sales}원`)
+        $('#total_assets_td').text(`${total_assets}원`)
+        $('#total_capital_td').text(`${total_capital}원`)
+        $('#total_debt_td').text(`${total_debt}원`)
+        $('#operating_income_td').text(`${operating_income}원`)
+    }
 
     $.ajax({
-            url: 'company_detail/',
-            type: 'POST',
-            data: {'regi_code': regi_code, 'csrfmiddlewaretoken':  csrftoken},
-            dataType: 'json',
-            success: function(context) {
-              console.log('success')
-              console.log(context)
+        url: 'company_detail/',
+        type: 'POST',
+        data: {'regi_code': regi_code, 'csrfmiddlewaretoken':  csrftoken},
+        dataType: 'json',
+        success: function(context) {
+          console.log('company_detail success')
+          //console.log(context)
+          var corp_nm = context.corp_nm
 
-              document.getElementById("main_2").scrollIntoView(true);
-              document.getElementById("detail_section").setAttribute('style', '"visibility: visible;"');
+          <!-- 채용 공고 -->
+          $('#recruit_table').empty()
 
-              var detail_tds = document.getElementsByClassName("detail_td")
-              for (var i=detail_tds.length; i--;){
-                  detail_tds[i].textContent='';
-              }
+          var recruit_num = context.recruit_num;
+          if(!recruit_num){
+            var $thead = $('<thead>');
+            $('#recruit_table').append($thead);
+            var $tr = $('<tr class="text-center">');
+            $thead.append($tr);
+            var $th = $('<th>현재 진행 중인 채용이 없습니다.</th>');
+            $tr.append($th);
+          } else{
+          for (var i=0; i<recruit_num; i++){
+            var $tr = $('<tr class="text-center">');
+            $('#recruit_table').append($tr);
+            var keys = Object.keys(context.com_recruits);
+            var start_time = context.com_recruits[keys[i]]['start_time']
+            var end_time = context.com_recruits[keys[i]]['end_time']
+            var url = context.com_recruits[keys[i]]['url']
+            var jobposting_id = context.com_recruits[keys[i]]['jobposting_id']
+            //var corp_nm = context.com_recruits[keys[i]]['corp_nm']
 
-              <!-- 기업 기본 정보 -->
-              var corp_nm = context['com_info']['corp_nm']
-              var est_dt = context['com_info']['est_dt']
-              var category = context['com_info']['category']
-              var ceo_nm = context['com_info']['ceo_nm']
-              var address = context['com_info']['address']
-              var phn_no = context['com_info']['phn_no']
-
-              $('#corp_nm_td').text(corp_nm)
-              $('#est_dt_td').text(est_dt)
-              $('#category_td').text(category)
-              $('#ceo_nm_td').text(ceo_nm)
-              $('#address_td').text(address)
-              $('#phn_no_td').text(phn_no)
-
-
-              <!-- 기업 재무 정보 -->
-              var year = context['com_finance']['year']
-              var total_sales = context['com_finance']['total_sales']
-              var total_assets = context['com_finance']['total_assets']
-              var total_capital = context['com_finance']['total_capital']
-              var total_debt = context['com_finance']['total_debt']
-              var operating_income = context['com_finance']['operating_income']
-              //당기순이익 var net_income = context['com_finance']['net_income'] /
-
-              if(context['com_finance'] == ''){
-                  $('#year_td').text('해당 기업의 정보가 없습니다.')
-                  $('#total_sales_td').text('해당 기업의 정보가 없습니다.')
-                  $('#total_assets_td').text('해당 기업의 정보가 없습니다.')
-                  $('#total_capital_td').text('해당 기업의 정보가 없습니다.')
-                  $('#total_debt_td').text('해당 기업의 정보가 없습니다.')
-                  $('#operating_income_td').text('해당 기업의 정보가 없습니다.')
-              } else{
-                  $('#year_td').text(year)
-                  $('#total_sales_td').text(total_sales)
-                  $('#total_assets_td').text(total_assets)
-                  $('#total_capital_td').text(total_capital)
-                  $('#total_debt_td').text(total_debt)
-                  $('#operating_income_td').text(operating_income)
-              }
-
-
-              <!-- 뉴스 키워드 분석 -->
-
-              <!-- 자소서 키워드 분석 -->
-
-              <!-- 유사 기업 분석 -->
-
-              <!-- 채용 공고 -->
-
-
-            },
-            error: function(){
-              console.log('fail')
+            var $th = $(`<th>${corp_nm}</th>`);
+            $tr.append($th);
+            if(start_time==null|start_time=='null'){
+                var $th = $(`<th>수시 채용 중입니다</th>`);
+            } else{
+                var $th = $(`<td>채용기간: ${start_time} ~ ${end_time}</td>`);
             }
-        }); //ajax끝
+            $tr.append($th);
+            var $td = $(`<td><button type="button" onclick="posting(${jobposting_id});" class="btn btn-outline-dark mx-3">채용공고 확인</button><button type="button" onclick="apply('${url}');" class="btn btn-dark">채용지원</button></td>`)
+            $tr.append($td);
+            }
+          }
+          
+          <!-- 자소서 키워드 분석 -->
+          $('#network_container').empty()
+          $('#bar_container').empty()
+          $('#cv_head').empty()
+
+          if(context.textcount_code == 0){
+            var $p = $(`<p class="text-weight-bold text-center">해당 기업에 대한 자소서 데이터가 부족합니다</p>`);
+            $('#cv_head').append($p);
+          } else {
+            var keyword_list = new Array();
+            var frequency_list = new Array();
+            
+            if(context.textcount_code == 1){
+                keyword_list = ['기술', '반도체', '삼성', '경험', '기업', '개발', '제품', '시장', '공정', '문제', '노력', '도전', '세계', '성장', '목표', '산업', '필요', '발전', '결과', '과정', '진행', '생산', '사용', '고객', '사회', '해결', '프로젝트', '최고', '공부', '업무', '설계', '사업', '메모리', '지식', '시작', '엔지니어', '미래', '전공', '생활', '연구', '활동', '가능', '학교', '친구', '분석', '설비', '상황', '변화', '바탕', '능력'];
+                frequency_list = [3630, 3394, 2271, 2185, 2160, 2144, 1922, 1867, 1851, 1714, 1659, 1452, 1440, 1400, 1370, 1362, 1338, 1243, 1210, 1197, 1182, 1178, 1169, 1137, 1115, 1108, 1108, 1069, 1064, 1060, 1054, 1054, 1001, 998, 991, 982, 977, 969, 965, 952, 948, 924, 914, 896, 883, 883, 874, 872, 870, 856];
+                console.log(keyword_list.length, frequency_list.length);
+            } else {
+                for (i=0; i<50; i++){
+                    keyword_list[i] = context.model_result[i][0];
+                    frequency_list[i] = context.model_result[i][1];
+                };
+            }
+
+            var network_data = new Array();
+            for (i=0; i<50; i++){
+                var ith_link = new Array();
+                ith_link[0] = corp_nm;
+                ith_link[1] = keyword_list[i];
+                network_data[i] = ith_link;
+            };
+
+            var network_nodes = new Array();
+            var min = Math.min.apply(null, frequency_list);
+            var max = Math.max.apply(null, frequency_list);
+            var over17 = "#E8544E", over13 = "#FFD265", under13 = "#2AA775";
+            for (i=0; i<50; i++){
+                var ith_node = {};
+                ith_node['id'] = keyword_list[i];
+                var marker_size = 10*((parseInt(frequency_list[i]) - min)/(max - min)+1);
+                var marker = {};
+                marker['radius'] = marker_size;
+                ith_node['marker'] = marker;
+                if (marker_size>17){
+                    ith_node['color'] = over17;
+                } else if (marker_size>13){
+                    ith_node['color'] = over13;
+                } else {
+                    ith_node['color'] = under13;
+                }
+                network_nodes[i] = ith_node;
+            }
+            network_nodes[50] = {'id': corp_nm, 'marker':{'radius': 30} }
+
+
+            Highcharts.chart("network_container", {
+                chart: { type: "networkgraph", marginTop: 80 },
+                title: { text: `${corp_nm} 합격 자소서 단어 빈도`},
+                tooltip: { formatter: function(){var info = ""; return "<b>" + this.key + "</b>: " + info;} },
+                plotOptions: {
+                    networkgraph: {
+                    keys: ["from", "to"],
+                    layoutAlgorithm: { nableSimulation: true, integration: "verlet", linkLength: 100 }
+                    }
+                },
+                series: [
+                    { marker: { radius: 13 },
+                    dataLabels: { enabled: true, linkFormat: "", allowOverlap: true, style: { textOutline: false } },
+                    data: network_data,
+                    nodes: network_nodes
+                    }
+                ]
+            });
+
+            Highcharts.chart('bar_container', {
+                chart: { type: 'bar' },
+                title: { text: `${corp_nm} 빈도 Top10 키워드` },
+                xAxis: { categories: [keyword_list[0], keyword_list[1], keyword_list[2], keyword_list[3], keyword_list[4], keyword_list[5], keyword_list[6], keyword_list[7], keyword_list[8], keyword_list[9]],
+                    title: { text: null } },
+                yAxis: { min: 0, title: { text: '빈도', align: 'high' }, labels: { overflow: 'justify' } }, 
+                plotOptions: { bar: { dataLabels: { enabled: true } } },
+                legend: { layout: 'vertical', align: 'right',  verticalAlign: 'top', x: -40, y: 250,
+                    floating: true, borderWidth: 1, backgroundColor: Highcharts.defaultOptions.legend.backgroundColor || '#FFFFFF',
+                    shadow: true },
+                credits: { enabled: false },
+                series: [{
+                    name: '빈도',
+                    data: [frequency_list[0], frequency_list[1], frequency_list[2], frequency_list[3], frequency_list[4], frequency_list[5], frequency_list[6], frequency_list[7], frequency_list[8], frequency_list[9]]
+    
+                }]
+              });
+    
+              $('#graph_desc').text(`${corp_nm} 합격 자소서에서 가장 자주 사용되는 키워드입니다`)
+
+          }      
+          
+
+          
+          <!-- 뉴스 키워드 분석 -->
+          $('#corp_news_list').empty();
+
+          var news_num = context.news_num;
+          if (news_num == 0){
+            var $p = $(`<p class="text-weight-bold">해당 기업에 대한 뉴스 데이터가 부족합니다</p>`)
+            $('#corp_news_list').append($p);
+          } else {
+            var keys = Object.keys(context.news_keywords);
+            for (var i=0; i<news_num; i++){
+                var news_title = context.news_keywords[keys[i]]['news_title']
+                var news_sentence = context.news_keywords[keys[i]]['news_sentence']
+                var url = context.news_keywords[keys[i]]['url']
+                var keyword1 = context.news_keywords[keys[i]]['keyword1']
+                var keyword2 = context.news_keywords[keys[i]]['keyword2']
+                var keyword3 = context.news_keywords[keys[i]]['keyword3']
+                var keyword4 = context.news_keywords[keys[i]]['keyword4']
+                var keyword5 = context.news_keywords[keys[i]]['keyword5']
+                var keyword6 = context.news_keywords[keys[i]]['keyword6']
+                var keyword7 = context.news_keywords[keys[i]]['keyword7']
+                var keyword8 = context.news_keywords[keys[i]]['keyword8']
+                var keyword9 = context.news_keywords[keys[i]]['keyword9']
+                var keyword10 = context.news_keywords[keys[i]]['keyword10']
+
+                var $li = $(`<li class="p-3">`);
+                $('#corp_news_list').append($li);
+                var $div = $(`<div class="text-left font-weight-bold wk" style="font-size: 100%;"><i class="fas fa-square" style="margin-left: -20px; margin-right: 20px;"></i>${news_title}<a class="f-c4" style="margin-left:20px;font-size:13px;" href="${url}">원문보기</a></div>`)
+                $li.append($div);
+                var $div = $(`<div class="text-left wk ml-1 mt-2 mb-4" style="font-size: 90%; color: black;">${news_sentence}</div>`)
+                $li.append($div);
+                var $span = $(`<span class="r-border mx-1">${keyword1}</span><span class="r-border mx-1">${keyword2}</span><span class="r-border mx-1">${keyword3}</span><span class="r-border mx-1">${keyword4}</span><span class="r-border mx-1">${keyword5}</span><span class="r-border mx-1">${keyword6}</span><span class="r-border mx-1">${keyword7}</span><span class="r-border mx-1">${keyword8}</span><span class="r-border mx-1">${keyword9}</span><span class="r-border mx-1">${keyword10}</span>`)
+                $li.append($span);
+            }
+          }
+
+        },
+        error: function(){
+          console.log('fail')
+
+          <!-- 채용 공고 -->
+          $('#recruit_table').empty();
+          var $tr = $(`<tr class="text-center"><td>해당 기업의 채용 정보를 확인할 수 없습니다</td></tr>`)
+          $('#recruit_table').append($tr);
+
+          <!-- 자소서 키워드 분석 -->
+          $('#network_container').empty()
+          $('#bar_container').empty()
+          $('#cv_head').empty()
+          var $p = $(`<p class="text-weight-bold">해당 기업에 대한 분석 결과를 불러올 수 없습니다</p>`)
+          $('#cv_head').append($p)
+
+          <!-- 뉴스 키워드 분석 -->
+          $('#corp_news_list').empty();
+          var $p = $(`<p class="text-weight-bold">해당 기업에 대한 분석 결과를 불러올 수 없습니다</p>`)
+          $('#corp_news_list').append($p);
+        }
+    }); //ajax끝
   }
 
 
+
+  function posting(jobposting_id){
+    $('#hidden_jobposting_id').text(jobposting_id);
+    $.ajax({
+        url: '/company/recruits/',
+        type: 'POST',
+        data: {'jobposting_id': jobposting_id, 'csrfmiddlewaretoken':  csrftoken},
+        dataType: 'json',
+        success: function(context) {
+          console.log('success')
+          console.log(context)
+
+          var modal_erase = document.getElementsByClassName("modal_erase")
+          for (var i=modal_erase.length; i--;){
+              modal_erase[i].textContent='';
+          }
+
+          $('#modal_joblist').empty()
+
+          var jobposting_id = context.jobposting_id;
+          var corp_nm = context.corp_nm;
+          var posting_type = context.posting_type;
+          var posting_detail = context.posting_detail;
+          var job_num = context.job_num;
+
+          $('#jobposting_title').text(`${corp_nm} 채용공고`)
+
+          for (var i=0; i<job_num; i++){
+            var $tr = $('<tr class="text-center">');
+            $('#joblist_table').append($tr);
+
+            var keys = Object.keys(context.jobs);
+            var new_or_exp = context.jobs[keys[i]]['new_or_exp'];
+            var job = context.jobs[keys[i]]['job'];
+            var jobs_id = context.jobs[keys[i]]['jobs_id'];
+
+            var $td = $(`<td style="width: 20%">${new_or_exp}</td>`);
+            $tr.append($td);
+            var $th = $(`<th class="text-left" style="width: 60%;">${job}</th>`);
+            $tr.append($th);
+            var $td = $(`<td class="bg-c4 pointer f-c0" style="width: 20%;" onclick="write_cvletter(${jobs_id})">자기소개서 쓰기</td>`);
+            $tr.append($td);
+
+            $('#modal_joblist').append($tr);
+          }
+          
+          $('#modal_main').empty()
+
+          if (posting_type == 'text'){
+            $('#modal_main').html(`${posting_detail}`);
+          } else{
+            var src_num = context.src_num;
+            var keys = Object.keys(context.src);
+            for (var i=0; i<src_num; i++){
+                var src = context.src[keys[i]];
+                var $img = $(`<img src=${src} style="width:100%;">`);
+                $('#modal_main').append($img);
+            }
+          }
+ 
+        $('#recruit_modal').modal('show');
+
+        },
+        error: function(){
+          console.log('fail')
+        }
+    }); //ajax끝
+
+
+    $('#recruit_modal').modal('show');
+  }
+
+
+  function apply(url){
+    window.open(url);
+  }
+
+
+  function close_modal(){
+    $('#recruit_modal').modal('hide');
+  }
+
+  function write_cvletter(jobs_id){
+    document.location = `/cvletter/write/${jobs_id}`;
+  }
+
+  
+  function scrap(){
+    var jobposting_id = $('#hidden_jobposting_id').text();
+    console.log(jobposting_id);
+    $.ajax({
+        url: '/company/scrap/',
+        type: 'POST',
+        data: {'jobposting_id': jobposting_id, 'csrfmiddlewaretoken':  csrftoken},
+        dataType: 'json',
+        success: function(context) {
+          console.log('scrap success');
+
+          var scrap_chk = context.scrap_chk;
+          if (scrap_chk == 1){
+            alert('이미 스크랩한 채용공고입니다.');
+          } else if( scrap_chk == 0){
+            alert('해당 채용공고가 스크랩 되었습니다.');
+          } else {
+            alert(context);
+          }
+
+        },
+        error: function(){
+          alert('해당 채용공고를 스크랩 할 수 없습니다.')
+          console.log('scrap fail');
+        }
+    }); //ajax끝
+
+  }
 
 
 

@@ -1,30 +1,31 @@
-import email
-from email.policy import default
 from django.shortcuts import render
 import bcrypt
 import django
 from django.shortcuts import render, redirect
 from django.views.decorators.csrf import csrf_exempt
 from datetime import datetime
-from django.http import JsonResponse, HttpResponse
-
+from django.http import JsonResponse 
+from .loggers import logging_login, logging_click
 from .models import User_info
 from .env_settings import SALT
-from django.contrib import messages
 
  
 def index(request):
     context = {}
     # m_id 세션변수 값이 없다면 '' 을 넣어라
     context['hello'] = 'hello'
-    context['user_email'] = request.session.get('user_email', '')
-    #context['user_age'] = request.session.get('user_age', '')
+    context['user_email'] = request.session.get('user_email', False)
+    context['user_birth'] = request.session.get('user_birth', False)
+    context['user_gender'] = request.session.get('user_gender',False)
     return render(request, 'index.html', {'context': context})
  
 def register(request):
     context = {}
     if request.method == "GET":
-        context['user_email'] = request.session.get('user_email', '')
+        context['user_email'] = request.session.get('user_email', False)
+        if context['user_email'] :
+            return redirect("/")
+        logging_click(request)
         return render(request, 'signup.html', {'context': context})
     elif request.method == "POST":
         try :
@@ -34,6 +35,10 @@ def register(request):
             req_birth = request.POST['req_birth']
             req_passwd = request.POST['req_passwd']
             req_gender = request.POST['req_gender']
+            req_phone = request.POST['req_phone']
+            req_category = request.POST['req_category']
+            req_area = request.POST['req_area']
+            req_salary = request.POST['req_salary']
 
             # 회원가입 중복 체크
             user_exist_id = User_info.objects.filter(email=req_email)
@@ -48,10 +53,14 @@ def register(request):
                     email=req_email,
                     birth=req_birth,
                     gender=req_gender,
+                    phone=req_phone,
+                    category=req_category,
+                    area=req_area,
+                    salary=req_salary,
                     reg_date = datetime.now().strftime('%Y-%m-%d %H:%M:%S'),
                     update_date = datetime.now().strftime('%Y-%m-%d %H:%M:%S')
                 )
-                #context['regi_time'] = datetime.now().strftime('%Y-%m-%d %H:%M:%S')
+                logging_click(request)
                 context['message'] = req_name + "님 회원가입 되었습니다."
             return JsonResponse(context, status=200,safe=True) # 로그인 화면으로 이동
         
@@ -65,6 +74,9 @@ def register(request):
 def login(request):
     context = {}
     if request.method == "GET":
+        context['user_email'] = request.session.get('user_email', False)
+        if context['user_email'] :
+            return redirect("/")
         return render(request, 'login.html')
     elif request.method == "POST":
         #try :
@@ -72,7 +84,6 @@ def login(request):
         req_passwd = request.POST['passwd']
         # 로그인 체크하기
         user_email = User_info.objects.filter(email=req_email).first()
-        print(user_email)
         if user_email is None : # 비밀번호 검증 추가해야 댐
             context['err'] = "해당 회원 정보가 없습니다."
             return JsonResponse(context)
@@ -84,8 +95,13 @@ def login(request):
                 return JsonResponse(context)
             else :
                 # OK - 로그인
+                request.session['member_id'] = user_email.member_id
                 request.session['user_email'] = user_email.email
-                #request.session['user_age'] = user_email.birth
+                request.session['user_birth'] = user_email.birth
+                request.session['user_gender'] = user_email.gender
+                request.session['login_time'] = datetime.now().strftime('%Y-%m-%d %H:%M:%S')
+                logging_login(request, user_email)
+                
                 #json 형식으로 저장 불가한 타입
                 context['user_email'] = user_email.email
                 #context['user_name'] = [user_email.email, request.session['user_age']]
@@ -103,5 +119,10 @@ def login(request):
 
         
 def logout(request):
+    user = User_info.objects.filter(email=request.session.get("user_email")).first()
+    logging_login(request,user)
     request.session.flush()
     return redirect('/')
+
+
+

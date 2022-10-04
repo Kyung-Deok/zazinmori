@@ -1,0 +1,315 @@
+{% load static %}
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
+
+    <!-- SEO Meta Tags -->
+    <meta name="description" content="Tivo is a HTML landing page template built with Bootstrap to help you crate engaging presentations for SaaS apps and convert visitors into users.">
+    <meta name="author" content="Inovatik">
+
+    <!-- OG Meta Tags to improve the way the post looks when you share the page on LinkedIn, Facebook, Google+ -->
+	<meta property="og:site_name" content="" /> <!-- website name -->
+	<meta property="og:site" content="" /> <!-- website link -->
+	<meta property="og:title" content=""/> <!-- title shown in the actual shared post -->
+	<meta property="og:description" content="" /> <!-- description shown in the actual shared post -->
+	<meta property="og:image" content="" /> <!-- image link, make sure it's jpg -->
+	<meta property="og:url" content="" /> <!-- where do you want your post to link to -->
+	<meta property="og:type" content="article" />
+
+    <!-- Website Title -->
+    <title>zazinmori</title>
+
+    <!-- Styles -->
+    <link href="https://fonts.googleapis.com/css?family=Open+Sans:400,400i,700&display=swap&subset=latin-ext" rel="stylesheet">
+    <link href="{% static 'css/bootstrap.css' %}" rel="stylesheet">
+    <link href="{% static 'css/fontawesome-all.css' %}" rel="stylesheet">
+    <link href="{% static 'css/swiper.css' %}" rel="stylesheet">
+	<link href="{% static 'css/magnific-popup.css' %}" rel="stylesheet">
+	<link href="{% static 'css/styles.css' %}" rel="stylesheet">
+
+	<!-- Favicon  -->
+    <link rel="icon" href="{% static 'img/favicon.png' %}">
+
+    <!-- JQuery-->
+    <script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
+
+</head>
+<body data-spy="scroll" data-target=".fixed-top">
+
+    <!-- Preloader -->
+	<div class="spinner-wrapper">
+        <div class="spinner">
+            <div class="bounce1"></div>
+            <div class="bounce2"></div>
+            <div class="bounce3"></div>
+        </div>
+    </div>
+    <!-- end of preloader -->
+
+
+    <!-- Navigation -->
+    <nav class="navbar navbar-expand-lg navbar-dark navbar-custom fixed-top">
+        <div class="container">
+
+            <!-- Text Logo - Use this if you don't have a graphic logo -->
+            <a href="/"><img style="width:30px; height:30px; margin-top: -5px;" src="{% static 'img/logo_w.png' %}"></a>
+            <h3 class="fw-bold text-white pointer" onclick="to_home()">zazinmori</h3>
+
+            <!-- Mobile Menu Toggle Button -->
+            <button class="navbar-toggler" type="button" data-toggle="collapse" data-target="#navbarsExampleDefault" aria-controls="navbarsExampleDefault" aria-expanded="false" aria-label="Toggle navigation">
+                <span class="navbar-toggler-awesome fas fa-bars"></span>
+                <span class="navbar-toggler-awesome fas fa-times"></span>
+            </button>
+            <!-- end of mobile menu toggle button -->
+
+            <div class="collapse navbar-collapse" id="navbarsExampleDefault">
+                <ul class="navbar-nav ml-auto">
+                    {% if not context.user_email %}
+                    {% else %}
+                        <li class="nav-item">
+                            <a class="nav-link page-scroll" href="/">HOME</a>
+                        </li>
+                        <li class="nav-item">
+                            <a class="nav-link page-scroll" href="/company/">SEARCH</a>
+                        </li>
+                        <li class="nav-item">
+                            <a class="nav-link page-scroll" href="/community/">COMMUNITY</a>
+                        </li>
+                        <li class="nav-item">
+                            <a class="nav-link page-scroll" href="/mypage/">MYPAGE</a>
+                        </li>
+                    {% endif %}
+                </ul>
+                <span class="nav-item">
+                    {% if not context.user_email %}
+                        <a class="btn-outline-sm" href="/login/">LOG IN</a>
+                    {% else %}
+                        <a class="btn-outline-sm" href="/logout/">LOG OUT</a>
+                    {% endif %}
+                </span>
+            </div>
+        </div> <!-- end of container -->
+    </nav> <!-- end of navbar -->
+    <!-- end of navigation -->
+
+
+    <!-- Header -->
+    <header id="header" class="ex-2-header">
+        <div class="container">
+            <div class="row">
+                <div class="col-lg-12">
+                    <h1>회원정보 수정</h1>
+                    <p></p>
+                    <!-- Sign Up Form -->
+                    <div class="form-container">
+                        <form id="signUpForm" data-toggle="validator" data-focus="false">
+                            <div class="form-group">
+                                <input type="text" class="form-control-input" id="email_input" value={{ context.user_email}} disabled>
+                                <label class="label-control" style="top:0.125rem; opacity:1; font-size:0.75rem; font-weight: 700;" for="email_input">email</label>
+                                <div class="help-block with-errors"></div>
+                            </div>
+                            <div class="form-group">
+                                <input type="password" class="form-control-input" id="new_passwd_input" required>
+                                <label class="label-control" for="new_passwd_input">password</label>
+                                <div class="help-block with-errors"></div>
+                            </div>
+                            <div class="form-group">
+                                <input type="text" class="form-control-input" id="name_input" value={{ context.user_name }} required>
+                                <label class="label-control" style="top:0.125rem; opacity:1; font-size:0.75rem; font-weight: 700;" for="name_input">name</label>
+                                <div class="help-block with-errors"></div>
+                            </div>
+                            <div class="form-group">
+                                <input type="date" class="form-control-input" id="birth_input" value={{ context.user_birth }} required>
+                                <label class="label-control" style="top:0.125rem; opacity:1; font-size:0.75rem; font-weight: 700;" for="birth_input">Birthday</label>
+                                <div class="help-block with-errors"></div>
+                            </div>
+                            <div class="form-group">
+                                <input type="radio" class="btn-check" name="gender_input" id="option1" value="m" autocomplete="off">
+                                <label class="btn btn-dark mx-3 mt-1" for="option1">Male</label>
+                                <input type="radio" class="btn-check mx-3 mt-1" name="gender_input" id="option2" value="f" autocomplete="off">
+                                <label class="btn btn-dark" for="option2">Female</label>
+                                <div class="help-block with-errors"></div>
+                            </div>
+                            <div class="form-group">
+                                <input type="tel" class="form-control-input" pattern="010[0-9]{4}[0-9]{4}" id="phone_input"  value="{{ context.user_phone }}" required>
+                                <label class="label-control" style="top:0.125rem; opacity:1; font-size:0.75rem; font-weight: 700;" for="phone_input">Phone Number(숫자만 입력하세요)</label>
+                                <div class="help-block with-errors"></div>
+                            </div>
+                            <div class="form-group">
+                                <select class="form-control-input category" id="category_input">
+                                    <option selected></option>
+                                    <option value="서비스업">서비스업</option>
+                                    <option value="제조·화학업">제조·화학업</option>
+                                    <option value="IT·웹·통신업">IT·웹·통신업</option>
+                                    <option value="은행·금융업">은행·금융업</option>
+                                    <option value="미디어·디자인업">미디어·디자인업</option>
+                                    <option value="교육업">교육업</option>
+                                    <option value="의료·제약·복지업">의료·제약·복지업</option>
+                                    <option value="판매·유통업">판매·유통업</option>
+                                    <option value="건설업">건설업</option>
+                                    <option value="기관·협회">기관·협회</option>
+                                </select>
+                                <label class="label-control" style="top:0.125rem; opacity:1; font-size:0.75rem; font-weight: 700;" for="category_input">기존 관심업종: {{ context.user_category }}</label>
+                                <div class="help-block with-errors"></div>
+                            </div>
+                            <div class="form-group">
+                                <select class="form-control-input area" id="area_input">
+                                    <option selected></option>
+                                    <option value="서울">서울</option>
+                                    <option value="부산">부산</option>
+                                    <option value="대구">대구</option>
+                                    <option value="인천">인천</option>
+                                    <option value="광주">광주</option>
+                                    <option value="대전">대전</option>
+                                    <option value="울산">울산</option>
+                                    <option value="세종">세종</option>
+                                    <option value="경기">경기</option>
+                                    <option value="강원">강원</option>
+                                    <option value="충북">충북</option>
+                                    <option value="충남">충남</option>
+                                    <option value="전북">전북</option>
+                                    <option value="전남">전남</option>
+                                    <option value="경북">경북</option>
+                                    <option value="경남">경남</option>
+                                    <option value="제주">제주</option>
+                                </select>
+                                <label class="label-control" style="top:0.125rem; opacity:1; font-size:0.75rem; font-weight: 700;" for="area_input">기존 희망근무지: {{ context.user_area }}</label>
+                                <div class="help-block with-errors"></div>
+                            </div>
+                            <div class="form-group">
+                                <input type="number" class="form-control-input" id="salary_input" value={{ context.user_salary }} required>
+                                <label class="label-control" style="top:0.125rem; opacity:1; font-size:0.75rem; font-weight: 700;" for="salary_input">희망연봉(만원)</label>
+                                <div class="help-block with-errors"></div>
+                            </div>
+                            <div class="form-group">
+                                <p></p>
+                                <p style="margin-bottom: 10px; color: #333;">기존 비밀번호를 입력하세요</p>
+                                <div class="form-group">                                    
+                                    <input type="password" class="form-control-input" id="old_passwd_input" required>
+                                    <label class="label-control" for="old_passwd_input">Password</label>
+                                    <div class="help-block with-errors"></div>
+                                </div>
+                            </div>
+                            <div class="form-group">
+                                <button type="button" onclick="update()" class="form-control-submit-button">UPDATE</button>
+                            </div>
+                            <div class="form-message">
+                                <div id="smsgSubmit" class="h3 text-center hidden"></div>
+                            </div>
+                        </form>
+                    </div> <!-- end of form container -->
+                    <!-- end of sign up form -->
+                </div> <!-- end of col -->
+            </div> <!-- end of row -->
+        </div> <!-- end of container -->
+        <br><br><br>
+    </header> <!-- end of ex-header -->
+    <!-- end of header -->
+
+
+    <!-- Copyright -->
+    <div class="copyright">
+        <div class="container">
+            <div class="row">
+                <div class="col-lg-12">
+                    <p class="p-small">
+                        Copyright © 2022<br>Team Ikuzo
+                    </p>
+                </div> <!-- end of col -->
+            </div> <!-- enf of row -->
+        </div> <!-- end of container -->
+    </div> <!-- end of copyright -->
+    <!-- end of copyright -->
+
+
+    <!-- Scripts -->
+    <script src="{% static 'js/jquery.min.js' %}"></script> <!-- jQuery for Bootstrap's JavaScript plugins -->
+    <script src="{% static 'js/popper.min.js' %}"></script> <!-- Popper tooltip library for Bootstrap -->
+    <script src="{% static 'js/bootstrap.min.js' %}"></script> <!-- Bootstrap framework -->
+    <script src="{% static 'js/jquery.easing.min.js' %}"></script> <!-- jQuery Easing for smooth scrolling between anchors -->
+    <script src="{% static 'js/swiper.min.js' %}"></script> <!-- Swiper for image and text sliders -->
+    <script src="{% static 'js/jquery.magnific-popup.js' %}"></script> <!-- Magnific Popup for lightboxes -->
+    <script src="{% static 'js/validator.min.js' %}"></script> <!-- Validator.js - Bootstrap plugin that validates forms -->
+    <script src="{% static 'js/scripts.js' %}"></script> <!-- Custom scripts -->
+</body>
+
+<script>
+
+    function to_home(){
+        document.location = '/';
+    }
+
+
+  function update(){
+    var req_name = document.getElementById('name_input').value;
+    var req_email = document.getElementById('email_input').value;
+    var req_birth = document.getElementById('birth_input').value;
+    var new_passwd = document.getElementById('new_passwd_input').value;
+    var old_passwd = document.getElementById('old_passwd_input').value;
+    var req_phone = document.getElementById('phone_input').value;
+    var req_phone_int = parseInt(document.getElementById('phone_input').value);
+    var req_category = document.getElementById('category_input').value;
+    var req_area = document.getElementById('area_input').value;
+    var req_salary = parseInt(document.getElementById('salary_input').value);
+
+    for (var i=0; i<2; i++){
+        if (document.getElementsByName('gender_input')[i].checked){
+            var req_gender = document.getElementsByName('gender_input')[i].value;
+        }
+    }
+    if (req_name==''|req_email==''|req_birth==''|new_passwd==''|old_passwd==''|req_gender==''|req_phone==''|req_category==''|req_area==''|req_salary==''){
+      alert('모든 입력란을 작성해주세요.')
+    } else if (isNaN(req_phone_int)){
+        alert('핸드폰번호는 숫자만 입력하세요');
+        document.getElementById('phone_input').value = '';
+    } else {
+      $.ajax({
+          url: '/mypage/user_update/',
+          type: 'POST',
+          data: {'req_name': req_name, 'req_email': req_email, 'req_birth': req_birth, 'old_passwd': old_passwd, 'new_passwd': new_passwd, 'req_gender':req_gender, 'req_phone':req_phone, 'req_category':req_category, 'req_area':req_area, 'req_salary':req_salary},
+          dataType: 'json',
+          success: function(context) {
+            console.log(context)
+
+            var err = context.err
+            if ( !err ){
+                alert('회원정보가 업데이트 되었습니다.');
+                document.location = '/login/';
+            } else{
+                alert(context.err);
+            }
+            //document.location = '/';
+          },
+          error: function(){
+            console.log('fail')
+          }
+      }); //ajax끝
+    } //else끝
+  }
+
+
+
+
+  function getCookie(name) {
+      var cookieValue = null;
+      if (document.cookie && document.cookie !== '') {
+          var cookies = document.cookie.split(';');
+          for (var i = 0; i < cookies.length; i++) {
+              var cookie = cookies[i].trim();
+              // Does this cookie string begin with the name we want?
+              if (cookie.substring(0, name.length + 1) === (name + '=')) {
+                  cookieValue = decodeURIComponent(cookie.substring(name.length + 1));
+                  break;
+              }
+          }
+      }
+      return cookieValue;
+  }
+
+  var csrftoken = getCookie('csrftoken');
+
+</script>
+
+</html>

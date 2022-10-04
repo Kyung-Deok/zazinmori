@@ -1,0 +1,332 @@
+{% load static %}
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
+    
+    <!-- SEO Meta Tags -->
+    <meta name="description" content="Tivo is a HTML landing page template built with Bootstrap to help you crate engaging presentations for SaaS apps and convert visitors into users.">
+    <meta name="author" content="Inovatik">
+
+    <!-- OG Meta Tags to improve the way the post looks when you share the page on LinkedIn, Facebook, Google+ -->
+	<meta property="og:site_name" content="" /> <!-- website name -->
+	<meta property="og:site" content="" /> <!-- website link -->
+	<meta property="og:title" content=""/> <!-- title shown in the actual shared post -->
+	<meta property="og:description" content="" /> <!-- description shown in the actual shared post -->
+	<meta property="og:image" content="" /> <!-- image link, make sure it's jpg -->
+	<meta property="og:url" content="" /> <!-- where do you want your post to link to -->
+	<meta property="og:type" content="article" />
+
+    <!-- Website Title -->
+    <title>zazinmori</title>
+    
+    <!-- Styles -->
+    <link href="https://fonts.googleapis.com/css?family=Open+Sans:400,400i,700&display=swap&subset=latin-ext" rel="stylesheet">
+    <link href="{% static 'css/bootstrap.css' %}" rel="stylesheet">
+    <link href="{% static 'css/fontawesome-all.css' %}" rel="stylesheet">
+    <link href="{% static 'css/swiper.css' %}" rel="stylesheet">
+	<link href="{% static 'css/magnific-popup.css' %}" rel="stylesheet">
+	<link href="{% static 'css/styles.css' %}" rel="stylesheet">
+	
+	<!-- Favicon  -->
+    <link rel="icon" href="{% static 'images/favicon.png' %}">
+
+    <!-- JQuery-->
+    <script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
+
+</head>
+<body data-spy="scroll" data-target=".fixed-top">
+    
+    <!-- Preloader -->
+	<div class="spinner-wrapper">
+        <div class="spinner">
+            <div class="bounce1"></div>
+            <div class="bounce2"></div>
+            <div class="bounce3"></div>
+        </div>
+    </div>
+    <!-- end of preloader -->
+
+    
+
+    <!-- Navigation -->
+    <nav class="navbar navbar-expand-lg navbar-dark navbar-custom fixed-top">
+        <div class="container">
+
+            <!-- Text Logo - Use this if you don't have a graphic logo -->
+            <a href="/"><img style="width:30px; height:30px; margin-top: -5px;" src="{% static 'img/logo_w.png' %}"></a>
+            <h3 class="fw-bold text-white pointer" onclick="to_home()">zazinmori</h3>
+
+            <!-- Mobile Menu Toggle Button -->
+            <button class="navbar-toggler" type="button" data-toggle="collapse" data-target="#navbarsExampleDefault" aria-controls="navbarsExampleDefault" aria-expanded="false" aria-label="Toggle navigation">
+                <span class="navbar-toggler-awesome fas fa-bars"></span>
+                <span class="navbar-toggler-awesome fas fa-times"></span>
+            </button>
+            <!-- end of mobile menu toggle button -->
+
+            <div class="collapse navbar-collapse" id="navbarsExampleDefault">
+                <ul class="navbar-nav ml-auto">
+                    {% if not context.user_email %}
+                    {% else %}
+                        <li class="nav-item">
+                            <a class="nav-link page-scroll" href="/">HOME</a>
+                        </li>
+                        <li class="nav-item">
+                            <a class="nav-link page-scroll" href="/company/">SEARCH</a>
+                        </li>
+                        <li class="nav-item">
+                            <a class="nav-link page-scroll" href="/community/">COMMUNITY</a>
+                        </li>
+                        <li class="nav-item">
+                            <a class="nav-link page-scroll" href="/mypage/">MYPAGE</a>
+                        </li>
+                    {% endif %}
+                </ul>
+                <span class="nav-item">
+                    {% if not context.user_email %}
+                        <a class="btn-outline-sm" href="/login/">LOG IN</a>
+                    {% else %}
+                        <a class="btn-outline-sm" href="/logout/">LOG OUT</a>
+                    {% endif %}
+                </span>
+            </div>
+        </div> <!-- end of container -->
+    </nav> <!-- end of navbar -->
+    <!-- end of navigation -->
+
+    <!-- Header -->
+    <header id="header" class="ex-header">
+        <div class="container">
+            <div class="row">
+                <div class="col-lg-12">
+                    <h1>자기소개서 작성</h1>
+                </div> <!-- end of col -->
+            </div> <!-- end of row -->
+            <div class="row">
+                <div class="col-lg-12 mx-auto" style="margin-top: 40px;">
+                    <div class="row">
+                        <div class="col-12 mx-auto">
+                        <div class="ro-border">{{ context.corp_nm }}</div>
+                        <div class="ro-border" style="margin-left:30px; margin-right:30px;">{{ context.job }}</div>
+                        <div class="ro-border">{{ context.start_time }} ~ {{ context.end_time }}</div>
+                        </div>
+                    </div>
+                    {% if not context.user_email %}
+                    {% else %}
+                    <div id="cv_keyword" class="justify-content-center my-5"></div>
+                    <div id="news_keyword" class="justify-content-center" style="margin-top: -20px; margin-bottom:-100px;"></div>
+                    {% endif %}
+                </div>
+            </div>
+        </div> <!-- end of container -->
+    </header> <!-- end of ex-header -->
+    <svg class="header-frame" data-name="Layer 1" xmlns="http://www.w3.org/2000/svg" preserveAspectRatio="none" viewBox="0 0 1920 310"><defs><style>.cls-1{fill:#5f4def;}</style></defs><title>header-frame</title><path class="cls-1" d="M0,283.054c22.75,12.98,53.1,15.2,70.635,14.808,92.115-2.077,238.3-79.9,354.895-79.938,59.97-.019,106.17,18.059,141.58,34,47.778,21.511,47.778,21.511,90,38.938,28.418,11.731,85.344,26.169,152.992,17.971,68.127-8.255,115.933-34.963,166.492-67.393,37.467-24.032,148.6-112.008,171.753-127.963,27.951-19.26,87.771-81.155,180.71-89.341,72.016-6.343,105.479,12.388,157.434,35.467,69.73,30.976,168.93,92.28,256.514,89.405,100.992-3.315,140.276-41.7,177-64.9V0.24H0V283.054Z"/></svg>
+    <!-- end of header -->
+
+
+
+    <!-- Privacy Content -->
+    <div class="ex-basic-2">
+        <div class="container">
+            <div class="row">
+                <div id="main" class="col-lg-12">
+                    <!--<div class="image-container-large">
+                        <img class="img-fluid" src="{% static 'img/article-details-large.jpg' %}" alt="alternative">
+                    </div> end of image-container-large -->
+                    {% for item in context.items %}
+                    <div class="text-container">
+                        <p class='hidden_cvitem_id' style="width:0; height:0; visibility:hidden;">{{ item.user_cvitems_id }}</p>
+                        <h3 class='question_section'>{{ item.question }}</h3>
+                        <h5 class='word_section'>{{ item.word }}</h5>
+                        <div>
+                            <p class='words_len' style="float: right;">0자 작성</p>
+                            <textarea class="textarea" style="width:100%;" cols = "100" rows = "6" placeholder="내용을 입력해주세요.">{{ item.answer }}</textarea>
+                        </div>
+                        <h4 class="mt-3 pl-2 f-g4">! 여기도 지원해보시는 건 어때요?</h4>
+                        <p class="pl-3 f-g3" style="font-weight:600;"><span class="f-c4">{{ item.qtype_text }}</span> 유형의 질문에 대해 비슷한 자소서로 합격 가능성이 높은 기업들입니다</p>                         
+                        <div class="row mx-auto">
+                            <div class="wk mx-3">#{{ item.corp1 }}</div>
+                            <div class="wk mx-3">#{{ item.corp2 }}</div>
+                            <div class="wk mx-3">#{{ item.corp3 }}</div>
+                            <div class="wk mx-3">#{{ item.corp4 }}</div>
+                            <div class="wk mx-3">#{{ item.corp5 }}</div>
+                        </div>                          
+                    </div> <!-- end of text-container -->
+                    {% endfor %}
+
+                    <!--<div class="text-container dark">
+                        <p class="testimonial-text">Tivo is a HTML landing page template tool. By its nature, Services enable our customers to promote their products and services integrate with hundreds of business applications that they already use, all in one place. Services help our customers promote their products and services, marketing and advertising; engaging audiences; scheduling and publishing messages; and analyze the results.</p>
+                    </div>end of text container -->
+                    <div class="text-center">
+                        <button class="btn-outline-reg mx-2" onclick="back()">BACK</button>
+                        <button class="btn-solid-reg mx-2"style="width: 15rem;" onclick="update_cvletter()">SAVE</button>
+                    </div>
+                </div> <!-- end of col-->
+            </div> <!-- end of row -->
+        </div> <!-- end of container -->
+    </div> <!-- end of ex-basic-2 -->
+    <!-- end of privacy content -->
+
+
+
+    <!-- Footer -->
+    <svg class="footer-frame" data-name="Layer 2" xmlns="http://www.w3.org/2000/svg" preserveAspectRatio="none" viewBox="0 0 1920 79"><defs><style>.cls-2{fill:#5f4def;}</style></defs><title>footer-frame</title><path class="cls-2" d="M0,72.427C143,12.138,255.5,4.577,328.644,7.943c147.721,6.8,183.881,60.242,320.83,53.737,143-6.793,167.826-68.128,293-60.9,109.095,6.3,115.68,54.364,225.251,57.319,113.58,3.064,138.8-47.711,251.189-41.8,104.012,5.474,109.713,50.4,197.369,46.572,89.549-3.91,124.375-52.563,227.622-50.155A338.646,338.646,0,0,1,1920,23.467V79.75H0V72.427Z" transform="translate(0 -0.188)"/></svg>
+    <!-- end of footer -->
+
+
+    <!-- Copyright -->
+    <div class="copyright">
+        <div class="container">
+            <div class="row">
+                <div class="col-lg-12">
+                    <p class="p-small">
+                        Copyright © 2022<br>Team Ikuzo
+                    </p>
+                </div> <!-- end of col -->
+            </div> <!-- enf of row -->
+        </div> <!-- end of container -->
+    </div> <!-- end of copyright --> 
+    <!-- end of copyright -->
+    
+    	
+    <!-- Scripts -->
+    <script src="{% static 'js/jquery.min.js' %}"></script> <!-- jQuery for Bootstrap's JavaScript plugins -->
+    <script src="{% static 'js/popper.min.js' %}"></script> <!-- Popper tooltip library for Bootstrap -->
+    <script src="{% static 'js/bootstrap.min.js' %}"></script> <!-- Bootstrap framework -->
+    <script src="{% static 'js/jquery.easing.min.js' %}"></script> <!-- jQuery Easing for smooth scrolling between anchors -->
+    <script src="{% static 'js/swiper.min.js' %}"></script> <!-- Swiper for image and text sliders -->
+    <script src="{% static 'js/jquery.magnific-popup.js' %}"></script> <!-- Magnific Popup for lightboxes -->
+    <script src="{% static 'js/validator.min.js' %}"></script> <!-- Validator.js - Bootstrap plugin that validates forms -->
+    <script src="{% static 'js/scripts.js' %}"></script> <!-- Custom scripts -->
+</body>
+
+<script>
+
+    function to_home(){
+        document.location = '/';
+    }
+
+    function to_login(){
+      if(confirm("로그인 후에 서비스를 이용할 수 있습니다.")) document.location = '/login/';
+    }
+
+    function back(){
+        if(confirm("이전 페이지로 돌아가시겠습니까? 작성 중인 자소서는 저장되지 않습니다.")) window.history.back();
+    }
+
+
+    function update_cvletter(){
+        
+        var item_num = $('.question_section').length;
+        var id_dict = {};
+        var a_dict = {};
+
+        for (var i=0; i<item_num; i++){
+            id_dict[`${i}`] = $('.hidden_cvitem_id')[i].textContent;
+            a_dict[`${i}`] = $('.textarea')[i].value;
+        }
+
+        $.ajax({
+            url: '/cvletter/update/0',
+            type: 'POST',
+            data: JSON.stringify({'item_num': item_num, 'id_dict': id_dict, 'a_dict': a_dict}),
+            dataType: 'json',
+            success: function(context){
+              console.log('success')
+              //console.log(context);
+              if(confirm("자소서가 수정되었습니다. 마이페이지로 이동하시겠습니까?")) document.location = '/mypage/';
+            },
+            error: function(){
+              console.log('fail');
+              alert("오류 발생");
+            }
+        }); //ajax끝
+        
+    }
+
+
+    window.onload = function(){
+
+        var num = 0;
+
+        const textarea_lst = document.getElementsByClassName('textarea');
+        const words_len_lst = document.getElementsByClassName('words_len');
+
+        for (var i=textarea_lst.length; i--;){
+
+            const textarea = textarea_lst[i];
+            const words_len = words_len_lst[i];
+
+            textarea.addEventListener(('input'), ()=>{
+                words_len.innerHTML = `${textarea.value.length}자 작성`
+            });
+        }
+        
+        var regi_code = {{ context.regi_code }}
+        console.log('regicode', regi_code);
+
+        $.ajax({
+            url: '/company/company_detail/',
+            type: 'POST',
+            data: {'regi_code': regi_code},
+            dataType: 'json',
+            success: function(context) {
+              console.log('company_detail success')
+              
+              <!-- 자소서 키워드 분석 -->
+              $('#cv_keyword').empty();
+              if(context.textcount_code == 2){
+                var cv_keyword1 = context.model_result[0][0];
+                var cv_keyword2 = context.model_result[1][0];
+                var cv_keyword3 = context.model_result[2][0];
+                var cv_keyword4 = context.model_result[3][0];
+                var cv_keyword5 = context.model_result[4][0];
+                var cv_keyword6 = context.model_result[5][0];
+                var cv_keyword7 = context.model_result[6][0];
+                var cv_keyword8 = context.model_result[7][0];
+                var cv_keyword9 = context.model_result[8][0];
+                var cv_keyword10 = context.model_result[9][0];
+                $('#cv_keyword').html(`<h4 class="f-c0 text-center">합격자소서&nbsp;키워드&nbsp;:&nbsp;&nbsp;#${cv_keyword1}&nbsp;&nbsp;#${cv_keyword2}&nbsp;&nbsp;#${cv_keyword3}&nbsp;&nbsp;#${cv_keyword4}&nbsp;&nbsp;#${cv_keyword5}&nbsp;&nbsp;#${cv_keyword6}&nbsp;&nbsp;#${cv_keyword7}&nbsp;&nbsp;#${cv_keyword8}&nbsp;&nbsp;#${cv_keyword9}&nbsp;&nbsp;#${cv_keyword10}</h4>`);
+              } else if(context.textcount_code == 1){
+                var cv_keyword1 = '기술';
+                var cv_keyword2 = '반도체';
+                var cv_keyword3 = '삼성';
+                var cv_keyword4 = '경험';
+                var cv_keyword5 = '기업';
+                var cv_keyword6 = '개발';
+                var cv_keyword7 = '제품';
+                var cv_keyword8 = '시장';
+                var cv_keyword9 = '공정';
+                var cv_keyword10 = '문제';
+                $('#cv_keyword').html(`<h4 class="f-c0 text-center">합격자소서 키워드&nbsp;:&nbsp;&nbsp;#${cv_keyword1}&nbsp;&nbsp;#${cv_keyword2}&nbsp;&nbsp;#${cv_keyword3}&nbsp;&nbsp;#${cv_keyword4}&nbsp;&nbsp;#${cv_keyword5}&nbsp;&nbsp;#${cv_keyword6}&nbsp;&nbsp;#${cv_keyword7}&nbsp;&nbsp;#${cv_keyword8}&nbsp;&nbsp;#${cv_keyword9}&nbsp;&nbsp;#${cv_keyword10}</h4>`);
+              }
+                 
+              
+              <!-- 뉴스 키워드 분석 -->
+              $('#news_keyword').empty();
+    
+              if (context.news_num > 0){
+                var news_keyword1 = context.news_keywords[0]['keyword1']
+                var news_keyword2 = context.news_keywords[0]['keyword2']
+                var news_keyword3 = context.news_keywords[0]['keyword3']
+                var news_keyword4 = context.news_keywords[0]['keyword4']
+                var news_keyword5 = context.news_keywords[0]['keyword5']
+                var news_keyword6 = context.news_keywords[0]['keyword6']
+                var news_keyword7 = context.news_keywords[0]['keyword7']
+                var news_keyword8 = context.news_keywords[0]['keyword8']
+                var news_keyword9 = context.news_keywords[0]['keyword9']
+                var news_keyword10 = context.news_keywords[0]['keyword10']
+                $('#news_keyword').html(`<h4 class="f-c0 text-center">최신 뉴스 키워드&nbsp;:&nbsp;&nbsp;#${news_keyword1}&nbsp;&nbsp;#${news_keyword2}&nbsp;&nbsp;#${news_keyword3}&nbsp;&nbsp;#${news_keyword4}&nbsp;&nbsp;#${news_keyword5}&nbsp;&nbsp;#${news_keyword6}&nbsp;&nbsp;#${news_keyword7}&nbsp;&nbsp;#${news_keyword8}&nbsp;&nbsp;#${news_keyword9}&nbsp;&nbsp;#${news_keyword10}</h4>`);
+
+              }    
+            },
+            error: function(){
+              console.log('fail')
+            }
+        }); //ajax끝
+        
+    }
+
+</script>
+</html>

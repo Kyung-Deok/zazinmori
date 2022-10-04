@@ -11,10 +11,14 @@ https://docs.djangoproject.com/en/4.1/ref/settings/
 """
 import os
 from pathlib import Path
-from .env_settings import SECRET_KEY,DATABASES
+from .env_settings import SECRET_KEY,DATABASES, LOGGING
 
 # Build paths inside the project like this: BASE_DIR / 'subdir'.
 BASE_DIR = Path(__file__).resolve().parent.parent
+# ROOT_DIR = os.path.dirname(BASE_DIR)
+
+# BASE_DIR = os.path.dirname(os.path.dirname(os.path.abspath(__file__)))
+ROOT_DIR = os.path.dirname(BASE_DIR)
 
 
 # Quick-start development settings - unsuitable for production
@@ -25,7 +29,12 @@ SECRET_KEY = SECRET_KEY
 # SECURITY WARNING: don't run with debug turned on in production!
 DEBUG = True
 
-#ALLOWED_HOSTS = ['.35.79.77.17']
+ALLOWED_HOSTS = ['*']
+ELASTICSEARCH_DSL={
+    'default':{
+        'hosts': '220.86.100.9:9200'
+        },
+}
 
 
 # Application definition
@@ -74,21 +83,8 @@ WSGI_APPLICATION = 'zazinmori_server.wsgi.application'
 # Database
 # https://docs.djangoproject.com/en/4.1/ref/settings/#databases
 
-DATABASES = {
-     'default': {
-         'ENGINE': 'django.db.backends.mysql',
-         'NAME': 'pjt3',
-         #'NAME': 'zazinmori',
-         'USER' : 'admin',
-         #'USER' : 'root',
-         'PASSWORD' : 'qwer1234',
-         #'PASSWORD' : '1234',
-         'HOST' : '35.79.77.17',
-         #'HOST' : 'localhost',
-         'PORT': '3306'
-     }
- }
 DATABASES = DATABASES
+# DATABASES = DATABASES
 
 # Password validation
 # https://docs.djangoproject.com/en/4.1/ref/settings/#auth-password-validators
@@ -112,7 +108,7 @@ AUTH_PASSWORD_VALIDATORS = [
 # Internationalization
 # https://docs.djangoproject.com/en/4.1/topics/i18n/
 
-LANGUAGE_CODE = 'en-us'
+LANGUAGE_CODE = 'ko-kr'
 
 TIME_ZONE = 'Asia/Seoul'
 
@@ -124,8 +120,16 @@ USE_TZ = True
 # Static files (CSS, JavaScript, Images)
 # https://docs.djangoproject.com/en/4.1/howto/static-files/
 
-STATIC_URL = 'static/'
-STATICFILES_DIRS = [os.path.join(BASE_DIR, 'static')]  # BASE_DIR  이 프로젝트 폴더를 의미, 프로젝트 폴더의 static 폴더
+# STATIC_URL = '/static/'
+# STATICFILES_DIRS = [os.path.join(f'{BASE_DIR}/zazinmori_server/', 'static')]  # BASE_DIR  이 프로젝트 폴더를 의미, 프로젝트 폴더의 static 폴더
+# STATIC_ROOT = os.path.join(BASE_DIR, 'zazinmori_server/static')
+
+STATIC_URL = '/static/'
+STATIC_DIR = os.path.join(BASE_DIR,'static')
+STATICFILES_DIRS = [STATIC_DIR]
+
+STATIC_ROOT = os.path.join(ROOT_DIR,'.static_root')
+
 
 # Default primary key field type
 # https://docs.djangoproject.com/en/4.1/ref/settings/#default-auto-field
@@ -133,6 +137,8 @@ STATICFILES_DIRS = [os.path.join(BASE_DIR, 'static')]  # BASE_DIR  이 프로젝
 DEFAULT_AUTO_FIELD = 'django.db.models.BigAutoField'
 
 CORS_ALLOW_CREDENTIALS =True
+
+SECURE_CROSS_ORIGIN_OPENER_POLICY = None
 
 CORS_ALLOW_METHODS = (
     'DELETE',
@@ -164,3 +170,7 @@ ACCOUNT_SESSION_REMEMBER = True
 SESSION_COOKIE_AGE = 3600
 SESSION_SAVE_EVERY_REQUEST = True
 APPEND_SLASH=False
+
+
+
+LOGGING = LOGGING
