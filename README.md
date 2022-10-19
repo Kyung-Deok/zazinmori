@@ -86,6 +86,7 @@
 * coolData MongoDB 적재 : 추후 분석을 위해 과거 로그 데이터 적재
 * HTTPS : 서비스 보안 향상
 <br><br>
+* 
 
 ## 서비스 화면
 <img src="./zazinmori_server/static/img/favicon.png" alt="-" width="25">&nbsp;인덱스 페이지<br>
