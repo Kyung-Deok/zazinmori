@@ -6,6 +6,7 @@
 취업을 종합적으로 지원하는 서비스입니다.
 
 프로젝트 기간 : 2022.08.18 ~ 2022.09.30
+<br><br>
 
 ## 서비스 주요 기능
 <img src="./zazinmori_server/static/img/favicon.png" alt="-" width="25">&nbsp;기업별 세부 정보 검색 기능<br>
@@ -13,7 +14,7 @@
 <img src="./zazinmori_server/static/img/favicon.png" alt="-" width="25">&nbsp;기업별, 자소서 항목별 추천 키워드 제공 기능<br>
 <img src="./zazinmori_server/static/img/favicon.png" alt="-" width="25">&nbsp;사용자 활동 기반의 유저 맞춤형 기업 추천 기능<br>
 <img src="./zazinmori_server/static/img/favicon.png" alt="-" width="25">&nbsp;커뮤니티 및 기타 유저 편의 기능
-
+<br><br>
 
 ## 활용 데이터
 |  no  |       내용        |          출처           |    형식/방식     |
@@ -30,7 +31,7 @@
 |  10  |    독취사 합격자소서    |  [독취사(네이버 카페)][독취사]   | CSV/CRAWLING |
 |  11  | 자소설 채용공고/자소서 항목 |      [자소설][자소설]       | CSV/CRAWLING |
 |  12  | 빅카인즈 기업별 주요 뉴스  |     [빅카인즈][빅카인즈]      | CSV/CRAWLING |
-
+<br><br>
 
 ## 아키텍처 및 기술 스택
 #### 아키텍처 정의서
@@ -59,7 +60,7 @@
 * jenkins
 * gitlab
 * github
-
+<br><br>
 
 ## 데이터 파이프라인 세부 기술
 ### 확장성
@@ -84,7 +85,7 @@
 * Jenkins-GitLab : 배포과정을 자동화하여 개발 속도 향상
 * coolData MongoDB 적재 : 추후 분석을 위해 과거 로그 데이터 적재
 * HTTPS : 서비스 보안 향상
-
+<br><br>
 
 ## 서비스 화면
 <img src="./zazinmori_server/static/img/favicon.png" alt="-" width="25">&nbsp;인덱스 페이지<br>
