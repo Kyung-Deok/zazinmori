@@ -6,9 +6,13 @@
 취업을 종합적으로 지원하는 서비스입니다.
 
 
-@nijes
-
-
+- 김세진 [nijes](https://github.com/nijes) : 데이터 엔지니어, 데이터 파이프라인 구축 & 웹 서비스 구현
+- 송원혁 [won21yuk](https://github.com/won1hyuk) : 데이터 엔지니어, 데이터 파이프라인 구축 & 웹 서비스 배포
+- 이경덕 [Kyung-Deok](https://github.com/Kyung-Deok) : 데이터 엔지니어, 데이터 파이프라인 구축 & 검색엔진 구현
+- 장혁준 [ouyaaa](https://github.com/ouyaaa) : 데이터 사이언스, 데이터 분석 & 모델링
+- 이준영 [zeous22](https://github.com/zeous22) : 데이터 사이언스, 데이터 분석 & 모델링
+- 김우준 [cjdma90](https://github.com/cjdma90) : 데이터 사이언스, 데이터 분석 & 모델링
+7&
 프로젝트 기간 : 2022.08.18 ~ 2022.09.30
 <br><br>
 
