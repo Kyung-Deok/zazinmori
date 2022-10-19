@@ -12,7 +12,7 @@
 - 장혁준 [ouyaaa](https://github.com/ouyaaa) : 데이터 사이언스, 데이터 분석 & 모델링
 - 이준영 [zeous22](https://github.com/zeous22) : 데이터 사이언스, 데이터 분석 & 모델링
 - 김우준 [cjdma90](https://github.com/cjdma90) : 데이터 사이언스, 데이터 분석 & 모델링
-7&
+
 프로젝트 기간 : 2022.08.18 ~ 2022.09.30
 <br><br>
 
