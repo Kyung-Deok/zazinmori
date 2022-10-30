@@ -46,7 +46,9 @@
 <img src="https://img1.daumcdn.net/thumb/R1280x0/?scode=mtistory2&fname=https%3A%2F%2Fblog.kakaocdn.net%2Fdn%2F5PWjI%2FbtrODPjpnPt%2Fc7fzBmj5fjICOxVCwytwi0%2Fimg.png">
 
 #### 클러스터
-<img src="https://drive.google.com/file/d/1xgkVTJXjTLOAf_9ZyJ6zPHmuroY4ODo7/view?usp=sharing">
+<img src="https://user-images.githubusercontent.com/89121313/198907007-a13e777e-4020-4103-b263-1fd2e180b8a8.png">
+
+
 
 * AWS EC2
 * Ubuntu [18.04]
