@@ -46,7 +46,7 @@
 <img src="https://img1.daumcdn.net/thumb/R1280x0/?scode=mtistory2&fname=https%3A%2F%2Fblog.kakaocdn.net%2Fdn%2F5PWjI%2FbtrODPjpnPt%2Fc7fzBmj5fjICOxVCwytwi0%2Fimg.png">
 
 #### 클러스터
-<img src="!https://s3-us-west-2.amazonaws.com/secure.notion-static.com/12b4f721-6d2f-4c98-823f-22ace3fcf0ed/%ED%81%B4%EB%9F%AC%EC%8A%A4%ED%84%B0.png">
+<img src="https://s3-us-west-2.amazonaws.com/secure.notion-static.com/12b4f721-6d2f-4c98-823f-22ace3fcf0ed/%ED%81%B4%EB%9F%AC%EC%8A%A4%ED%84%B0.png">
 
 * AWS EC2
 * Ubuntu [18.04]
